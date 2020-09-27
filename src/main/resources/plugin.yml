@@ -1,0 +1,3 @@
+name: L2x9core
+version: ${project.version}
+main: org.l2x9.l2x9core.Main
