@@ -16,70 +16,68 @@ public class CrashCommand implements CommandExecutor {
                 Utils.sendMessage(sender,
                         "&4Error:&r&c please include atleast one argument /crash <player|nearby number|everyone|elytra>");
             } else {
-                if (args.length > 0) {
-                    if (args[0].equalsIgnoreCase("elytra")) {
+                if (args[0].equalsIgnoreCase("elytra")) {
+                    for (Player online : Bukkit.getOnlinePlayers()) {
+                        if (!online.isOp()) {
+                            if (online.isGliding()) {
+                                Utils.crashPlayer(online);
+                                Utils.sendMessage(sender, "&6You have just crashed&r&c " + online.getName() + "");
+
+                            }
+                        }
+                    }
+                } else {
+                    if (args[0].equalsIgnoreCase("everyone")) {
                         for (Player online : Bukkit.getOnlinePlayers()) {
                             if (!online.isOp()) {
-                                if (online.isGliding()) {
-                                    Utils.crashPlayer(online);
-                                    Utils.sendMessage(sender, "&6You have just crashed&r&c " + online.getName() + "");
-
-                                }
+                                Utils.crashPlayer(online);
+                                Utils.sendMessage(sender, "&6You have just crashed&r&c " + online.getName() + "");
                             }
                         }
                     } else {
-                        if (args[0].equalsIgnoreCase("everyone")) {
-                            for (Player online : Bukkit.getOnlinePlayers()) {
-                                if (!online.isOp()) {
-                                    Utils.crashPlayer(online);
-                                    Utils.sendMessage(sender, "&6You have just crashed&r&c " + online.getName() + "");
-                                }
+                        Player target = Bukkit.getPlayer(args[0]);
+                        if (Bukkit.getOnlinePlayers().contains(target)) {
+                            if (!target.hasPermission("l2x9core.crash")) {
+                                Utils.crashPlayer(target);
+                                Utils.sendMessage(sender, "&6You have just crashed&r&c " + target.getName() + "");
+                            } else {
+                                Utils.sendMessage(sender, "&4Error: &r&cYou cannot crash that player");
                             }
                         } else {
-                            Player target = Bukkit.getPlayer(args[0]);
-                            if (Bukkit.getOnlinePlayers().contains(target)) {
-                                if (!target.hasPermission("l2x9core.crash")) {
-                                    Utils.crashPlayer(target);
-                                    Utils.sendMessage(sender, "&6You have just crashed&r&c " + target.getName() + "");
+                            if (!args[0].equalsIgnoreCase("nearby") || args[0].equalsIgnoreCase("taco")
+                                    || args[0].equalsIgnoreCase("everyone") || args[0].equalsIgnoreCase("elytra")) {
+                                Utils.sendMessage(sender, "&4Error: &r&cTarget not online");
+                            }
+                        }
+                        try {
+                            if (args[0].equalsIgnoreCase("nearby")) {
+                                if (sender instanceof Player) {
+                                    Player cmdSender = (Player) sender;
+                                    for (Player nearby : cmdSender.getLocation().getNearbyPlayers(Integer.parseInt(args[1]))) {
+                                        if (!nearby.hasPermission("l2x9Core.crash")) {
+                                            Utils.crashPlayer(nearby);
+                                            Utils.sendMessage(cmdSender,
+                                                    "&6You have just crashed&r&c " + nearby.getName());
+                                        }
+                                    }
+
                                 } else {
-                                    Utils.sendMessage(sender, "&4Error: &r&cYou cannot crash that player");
+                                    Utils.sendMessage(sender,
+                                            "&4Error:&r&c You must be a player to use /crash nearby");
                                 }
                             } else {
-                                if (!args[0].equalsIgnoreCase("nearby") || args[0].equalsIgnoreCase("taco")
-                                        || args[0].equalsIgnoreCase("everyone") || args[0].equalsIgnoreCase("elytra")) {
-                                    Utils.sendMessage(sender, "&4Error: &r&cTarget not online");
-                                }
-                            }
-                            try {
-                                if (args[0].equalsIgnoreCase("nearby")) {
-                                    if (sender instanceof Player) {
-                                        Player cmdSender = (Player) sender;
-                                        for (Player nearby : cmdSender.getLocation().getNearbyPlayers(Integer.parseInt(args[1]))) {
-                                            if (!nearby.hasPermission("l2x9Core.crash")) {
-                                                Utils.crashPlayer(nearby);
-                                                Utils.sendMessage(cmdSender,
-                                                        "&6You have just crashed&r&c " + nearby.getName());
-                                            }
-                                        }
-
-                                    } else {
-                                        Utils.sendMessage(sender,
-                                                "&4Error:&r&c You must be a player to use /crash nearby");
-                                    }
-                                } else {
-                                    if (args[0].equalsIgnoreCase("taco")) {
-                                        for (Player online : Bukkit.getOnlinePlayers()) {
-                                            if (online.getLocale().toLowerCase().contains("es")) {
-                                                Utils.crashPlayer(online);
-                                                Utils.sendMessage(sender,
-                                                        "&6You have just crashed&r&c " + online.getName());
-                                            }
+                                if (args[0].equalsIgnoreCase("taco")) {
+                                    for (Player online : Bukkit.getOnlinePlayers()) {
+                                        if (online.getLocale().toLowerCase().contains("es")) {
+                                            Utils.crashPlayer(online);
+                                            Utils.sendMessage(sender,
+                                                    "&6You have just crashed&r&c " + online.getName());
                                         }
                                     }
                                 }
-                            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                                Utils.sendMessage(sender, "&4Error: &r&cThe second argument must be a number");
                             }
+                        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                            Utils.sendMessage(sender, "&4Error: &r&cThe second argument must be a number");
                         }
                     }
                 }
