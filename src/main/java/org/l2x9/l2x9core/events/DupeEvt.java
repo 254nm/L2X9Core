@@ -28,7 +28,6 @@ public class DupeEvt implements Listener {
             }
         }
     }
-
     @EventHandler
     public void onHopper(InventoryMoveItemEvent event) {
         if (Utils.getTps() < 17) {

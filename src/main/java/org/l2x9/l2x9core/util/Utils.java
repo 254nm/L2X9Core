@@ -8,12 +8,12 @@ import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.l2x9.l2x9core.Main;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     public static double getTps() {
@@ -55,17 +55,19 @@ public class Utils {
         player.spigot().sendMessage(msg);
     }
 
-    public static void runSysCommand(String string) {
+    public static List<String> runSysCommand(String command) {
         try {
-            Process process = Runtime.getRuntime().exec(string);
-
+            Process process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
+            List<String> output = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                output.add(line);
             }
             reader.close();
+            return output;
         } catch (IOException ignored) {
+            return null;
         }
     }
 
@@ -171,18 +173,6 @@ public class Utils {
 
     }
 
-    public static void deleteEndDat(PluginManager manager) {
-        if (manager.getPlugin("ExploitFixer") != null) {
-            Plugin ef = manager.getPlugin("ExploitFixer");
-            manager.disablePlugin(ef);
-        }
-        if (manager.getPlugin("ConsoleSpamFix") != null) {
-            Plugin csf = manager.getPlugin("ConsoleSpamFix");
-            manager.disablePlugin(csf);
-
-        }
-    }
-
     public static void println(String message) {
         System.out.println(ChatColor.translateAlternateColorCodes('&', message));
 
@@ -192,8 +182,7 @@ public class Utils {
         for (String author : Main.getPlugin().getDescription().getAuthors()) {
             if (!author.equals("254n_m") || !Main.getPlugin().getDescription().getName().equals("L2X9Core")) {
                 for (int i = 0; i < 20; i++) {
-                    Utils.println(Utils.getPrefix()
-                            + "&eAnti skid has detected that you changed the name/author server will now shutdown");
+                    Utils.println(Utils.getPrefix() + "&eAnti skid has detected that you changed the name/author server will now shutdown");
                 }
                 new BukkitRunnable() {
                     @Override

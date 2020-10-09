@@ -25,11 +25,9 @@ public class UUidCommand implements CommandExecutor {
                     }
                 } else {
                     OfflinePlayer olTarget = Bukkit.getOfflinePlayer(args[0]);
-                    Utils.sendMessage(sender, "&6The uuid of the player&r&c " + olTarget.getName() + "&r&6 is&r&c "
-                            + olTarget.getUniqueId().toString());
+                    Utils.sendMessage(sender, "&6The uuid of the player&r&c " + olTarget.getName() + "&r&6 is&r&c " + olTarget.getUniqueId().toString());
                     if (sender instanceof Player) {
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', "&6The uuid of the player&r&c "
-                                + olTarget.getName() + "&r&6 is &r&c " + olTarget.getUniqueId().toString()));
+                        System.out.println(ChatColor.translateAlternateColorCodes('&', "&6The uuid of the player&r&c " + olTarget.getName() + "&r&6 is &r&c " + olTarget.getUniqueId().toString()));
                     }
                 }
 

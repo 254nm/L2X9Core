@@ -21,7 +21,6 @@ import java.io.InputStreamReader;
 public class Main extends JavaPlugin {
 
     public static long startTime;
-
     public static Main getPlugin() {
         return getPlugin(Main.class);
     }
@@ -46,7 +45,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BucketEvent(), this);
         getServer().getPluginManager().registerEvents(new MinecartLag(), this);
         getServer().getPluginManager().registerEvents(new PlayerChat(), this);
-        getServer().getPluginManager().registerEvents(new EntityPerChunk(), this);
+        //getServer().getPluginManager().registerEvents(new EntityPerChunk(), this);
         // AntiIllegal events
         getServer().getPluginManager().registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new HopperTansfer(), this);
@@ -70,7 +69,6 @@ public class Main extends JavaPlugin {
         getCommand("discord").setExecutor(new DiscordCommand());
         getCommand("world").setExecutor(new WorldSwitcher());
         getCommand("help").setExecutor(new HelpCommand());
-        getCommand("github").setExecutor(new GithubStatsCommand());
         //Server specific events
         if (getServer().getPluginManager().getPlugin("SalC1Dupe") != null) {
             if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {

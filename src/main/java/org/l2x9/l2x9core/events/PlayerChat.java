@@ -21,9 +21,7 @@ public class PlayerChat implements Listener {
                 cm.setCooldown(player, Main.getPlugin().getConfig().getInt("Chat.Cooldown"));
             } else {
                 event.setCancelled(true);
-
             }
-
         }
         if (!player.isOp()) {
             if (Main.getPlugin().getConfig().getStringList("Chat.Blocked-words") != null) {
@@ -31,13 +29,13 @@ public class PlayerChat implements Listener {
                 boolean hasBlackListedWord = false;
                 for (String word : list) {
                     if (event.getMessage().toLowerCase().contains(word)) {
-                        event.setCancelled(true);
                         hasBlackListedWord = true;
-
+                        break;
                     }
                 }
                 if (hasBlackListedWord) {
                     Utils.println(Utils.getPrefix() + "&6Prevented &r&c" + player.getName() + " &r&6from advertising");
+                    event.setCancelled(true);
                     if (!event.getMessage().startsWith(">")) {
                         if (!event.getMessage().startsWith("#")) {
                             Utils.sendMessage(event.getPlayer(), "<" + player.getName() + "> " + event.getMessage());
