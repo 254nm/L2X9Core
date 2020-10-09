@@ -13,7 +13,9 @@ import org.l2x9.l2x9core.Main;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Utils {
     public static double getTps() {
@@ -231,6 +233,13 @@ public class Utils {
                     }
                 }
             }
+        }
+    }
+
+    public static void secondPass(HashMap<Player, Integer> hashMap) {
+        for (Map.Entry<Player, Integer> violationEntry : hashMap.entrySet()) {
+            if (violationEntry.getValue() > 0)
+                violationEntry.setValue(violationEntry.getValue() - 1);
         }
     }
 }

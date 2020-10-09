@@ -129,13 +129,7 @@ public class ItemUtils {
                     if (item.hasItemMeta()) {
                         ItemMeta meta = item.getItemMeta();
                         if (meta.getDisplayName() != null) {
-                            String name = ChatColor.stripColor(meta.getDisplayName());
-                            meta.setDisplayName(ChatColor.stripColor(meta.getDisplayName()));
-                            if (name.toCharArray().length > 35) {
-                                String newName = name.substring(0, 35);
-                                meta.setDisplayName(newName);
-                            }
-                            item.setItemMeta(meta);
+                            BlockPlace.removeColours(item, meta);
                         }
                         if (utils.isEnchantedBlock(item)) {
                             Iterator<Entry<Enchantment, Integer>> enchants = item.getEnchantments().entrySet()

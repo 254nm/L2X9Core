@@ -18,6 +18,16 @@ import java.util.Map.Entry;
 public class BlockPlace implements Listener {
     ItemUtils itemUtils = new ItemUtils();
 
+    public static void removeColours(ItemStack item, ItemMeta meta) {
+        String name = ChatColor.stripColor(meta.getDisplayName());
+        meta.setDisplayName(ChatColor.stripColor(meta.getDisplayName()));
+        if (name.toCharArray().length > 35) {
+            String newName = name.substring(0, 35);
+            meta.setDisplayName(newName);
+        }
+        item.setItemMeta(meta);
+    }
+
     @EventHandler
     @AntiIllegal(EventName = "BlockPlaceEvent")
     public void onPlace(BlockPlaceEvent event) {
@@ -74,13 +84,7 @@ public class BlockPlace implements Listener {
                             if (item.hasItemMeta()) {
                                 ItemMeta meta = item.getItemMeta();
                                 if (meta.getDisplayName() != null) {
-                                    String name = ChatColor.stripColor(meta.getDisplayName());
-                                    meta.setDisplayName(ChatColor.stripColor(meta.getDisplayName()));
-                                    if (name.toCharArray().length > 35) {
-                                        String newName = name.substring(0, 35);
-                                        meta.setDisplayName(newName);
-                                    }
-                                    item.setItemMeta(meta);
+                                    removeColours(item, meta);
                                     blockStateMeta.setBlockState(shulkerBox);
                                     itemStack.setItemMeta(blockStateMeta);
                                 }

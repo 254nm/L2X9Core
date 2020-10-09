@@ -1,9 +1,9 @@
 package org.l2x9.l2x9core;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.l2x9.l2x9core.antiillegal.*;
 import org.l2x9.l2x9core.antilag.*;
@@ -11,16 +11,24 @@ import org.l2x9.l2x9core.commands.*;
 import org.l2x9.l2x9core.events.BlockPlace;
 import org.l2x9.l2x9core.events.*;
 import org.l2x9.l2x9core.patches.*;
+import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Main extends JavaPlugin {
 
     public static long startTime;
+    private final PluginManager pluginManager = getServer().getPluginManager();
+    SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
+    ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+
     public static Main getPlugin() {
         return getPlugin(Main.class);
     }
@@ -28,33 +36,34 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         startTime = System.currentTimeMillis();
-        getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3[L2X9Core]&r&a enabled"));
-        getServer().getPluginManager().registerEvents(new BlockPlace(), this);
-        getServer().getPluginManager().registerEvents(new Offhand(), this);
-        getServer().getPluginManager().registerEvents(new GateWay(), this);
-        getServer().getPluginManager().registerEvents(new BookBan(), this);
-        getServer().getPluginManager().registerEvents(new ChinkBan(), this);
-        getServer().getPluginManager().registerEvents(new MoveEvent(), this);
-        getServer().getPluginManager().registerEvents(new CommandEvent(), this);
-        getServer().getPluginManager().registerEvents(new JoinEvent(), this);
-        getServer().getPluginManager().registerEvents(new Elytra(), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageEvent(), this);
-        getServer().getPluginManager().registerEvents(new BlockRedstone(), this);
-        getServer().getPluginManager().registerEvents(new WitherSpawn(), this);
-        getServer().getPluginManager().registerEvents(new BlockPhysics(), this);
-        getServer().getPluginManager().registerEvents(new BucketEvent(), this);
-        getServer().getPluginManager().registerEvents(new MinecartLag(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChat(), this);
-        //getServer().getPluginManager().registerEvents(new EntityPerChunk(), this);
+        getLogger().info("by 254n_m enabled");
+        pluginManager.registerEvents(new BlockPlace(), this);
+        pluginManager.registerEvents(new Offhand(), this);
+        pluginManager.registerEvents(new GateWay(), this);
+        pluginManager.registerEvents(new BookBan(), this);
+        pluginManager.registerEvents(new ChinkBan(), this);
+        pluginManager.registerEvents(new MoveEvent(), this);
+        pluginManager.registerEvents(new CommandEvent(), this);
+        pluginManager.registerEvents(new JoinEvent(), this);
+        pluginManager.registerEvents(new Elytra(), this);
+        pluginManager.registerEvents(new EntityDamageEvent(), this);
+        pluginManager.registerEvents(new BlockRedstone(), this);
+        pluginManager.registerEvents(new WitherSpawn(), this);
+        pluginManager.registerEvents(new BlockPhysics(), this);
+        pluginManager.registerEvents(new BucketEvent(), this);
+        pluginManager.registerEvents(new MinecartLag(), this);
+        pluginManager.registerEvents(new PlayerChat(), this);
+        pluginManager.registerEvents(new ChestLagFix(), this);
+        //pluginManager.registerEvents(new EntityPerChunk(), this);
         // AntiIllegal events
-        getServer().getPluginManager().registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
-        getServer().getPluginManager().registerEvents(new HopperTansfer(), this);
-        getServer().getPluginManager().registerEvents(new InventoryClose(), this);
-        getServer().getPluginManager().registerEvents(new InventoryOpen(), this);
-        getServer().getPluginManager().registerEvents(new ItemPickup(), this);
-        getServer().getPluginManager().registerEvents(new PlayerScroll(), this);
+        pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
+        pluginManager.registerEvents(new HopperTansfer(), this);
+        pluginManager.registerEvents(new InventoryClose(), this);
+        pluginManager.registerEvents(new InventoryOpen(), this);
+        pluginManager.registerEvents(new ItemPickup(), this);
+        pluginManager.registerEvents(new PlayerScroll(), this);
         if (getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
-            getServer().getPluginManager().registerEvents(new ChunkLoad(), this);
+            pluginManager.registerEvents(new ChunkLoad(), this);
         }
         // other stuff
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -70,15 +79,16 @@ public class Main extends JavaPlugin {
         getCommand("world").setExecutor(new WorldSwitcher());
         getCommand("help").setExecutor(new HelpCommand());
         //Server specific events
-        if (getServer().getPluginManager().getPlugin("SalC1Dupe") != null) {
+        if (pluginManager.getPlugin("SalC1Dupe") != null) {
             if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {
-                getServer().getPluginManager().registerEvents(new DupeEvt(), this);
+                pluginManager.registerEvents(new DupeEvt(), this);
             } else {
                 Utils.println(Utils.getPrefix() + "&cThis version of SalC1Dupe is outdated Current version of SalC1Dupe on the server " + getSalDupeVersion() + " Most recent version 1.0-SNAPSHOT");
             }
         } else {
             Utils.println(Utils.getPrefix() + "&eCould not find SalC1Dupe installed on the server");
         }
+        service.scheduleAtFixedRate(() -> pluginManager.callEvent(secondPassEvent), 1, 1, TimeUnit.SECONDS);
     }
 
     public void onDisable() {
@@ -87,7 +97,7 @@ public class Main extends JavaPlugin {
     }
 
     private String getSalDupeVersion() {
-        InputStream inputStream = getServer().getPluginManager().getPlugin("SalC1Dupe").getResource("plugin.yml");
+        InputStream inputStream = pluginManager.getPlugin("SalC1Dupe").getResource("plugin.yml");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         FileConfiguration pluginYml = new YamlConfiguration();
         try {
