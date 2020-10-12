@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.mute.ChatEvent;
 import org.l2x9.l2x9core.util.Cooldown;
 import org.l2x9.l2x9core.util.Utils;
 
@@ -35,16 +36,7 @@ public class PlayerChat implements Listener {
                 }
                 if (hasBlackListedWord) {
                     Utils.println(Utils.getPrefix() + "&6Prevented &r&c" + player.getName() + " &r&6from advertising");
-                    event.setCancelled(true);
-                    if (!event.getMessage().startsWith(">")) {
-                        if (!event.getMessage().startsWith("#")) {
-                            Utils.sendMessage(event.getPlayer(), "<" + player.getName() + "> " + event.getMessage());
-                        } else {
-                            Utils.sendMessage(event.getPlayer(), "<" + player.getName() + "> " + "&e" + event.getMessage());
-                        }
-                    } else {
-                        Utils.sendMessage(event.getPlayer(), "<" + player.getName() + "> " + "&a" + event.getMessage());
-                    }
+                    ChatEvent.sendFakeMessage(event, player);
                 }
             }
         }

@@ -101,7 +101,7 @@ public class Utils {
     }
 
     public static String getPrefix() {
-        return "[&b&lL2X9&r&3&lCore&r] ";
+        return "[&b&l6B6T&r&3&lCore&r] ";
     }
 
     public static YamlConfiguration loadCustomConfig(String name, File out) {
@@ -133,30 +133,17 @@ public class Utils {
         String end = worldName.concat("_the_end");
         File fortress = new File(nether + "/data/Fortress.dat");
         File villagesNether = new File(nether + "/data/villages_nether.dat");
-        if (fortress.delete()) {
-            Utils.println(Utils.getPrefix() + "&eDeleted file " + fortress.getName());
-        } else {
-            Utils.println(Utils.getPrefix() + "&cCould not find file " + fortress.getPath());
-        }
-        if (villagesNether.delete()) {
-            Utils.println(Utils.getPrefix() + "&eDeleted file " + villagesNether.getName());
-        } else {
-            Utils.println(Utils.getPrefix() + "&cCould not find file " + villagesNether.getPath());
-        }
+        deleteFileAndSendOutput(fortress, villagesNether);
         File endCity = new File(end + "/data/EndCity.dat");
         File villagesEnd = new File(end + "/data/villages_end.dat");
-        if (endCity.delete()) {
-            Utils.println(Utils.getPrefix() + "&eDeleted file " + endCity.getName());
-        } else {
-            Utils.println(Utils.getPrefix() + "&cCould not find file " + endCity.getPath());
-        }
-        if (villagesEnd.delete()) {
-            Utils.println(Utils.getPrefix() + "&eDeleted file " + villagesEnd.getName());
-        } else {
-            Utils.println(Utils.getPrefix() + "&cCould not find file " + villagesEnd.getPath());
-        }
+        deleteFileAndSendOutput(endCity, villagesEnd);
         File village = new File(worldName + "/data/Village.dat");
         File villages = new File(worldName + "/data/villages.dat");
+        deleteFileAndSendOutput(village, villages);
+        Utils.println(Utils.getPrefix() + "&aDeletion process complete!");
+    }
+
+    public static void deleteFileAndSendOutput(File village, File villages) {
         if (village.delete()) {
             Utils.println(Utils.getPrefix() + "&eDeleted file " + village.getName());
         } else {
@@ -167,7 +154,6 @@ public class Utils {
         } else {
             Utils.println(Utils.getPrefix() + "&cCould not find file " + villages.getPath());
         }
-        Utils.println(Utils.getPrefix() + "&aDeletion process complete!");
     }
 
     public static void cockRunMcCommand(String cmd) {
@@ -182,7 +168,7 @@ public class Utils {
 
     public static void antiSkid() {
         for (String author : Main.getPlugin().getDescription().getAuthors()) {
-            if (!author.equals("254n_m") || !Main.getPlugin().getDescription().getName().equals("L2X9Core")) {
+            if (!author.equals("254n_m") || !Main.getPlugin().getDescription().getName().equals("6B6TCore")) {
                 for (int i = 0; i < 20; i++) {
                     Utils.println(Utils.getPrefix() + "&eAnti skid has detected that you changed the name/author server will now shutdown");
                 }

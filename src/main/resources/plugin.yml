@@ -1,4 +1,4 @@
-name: L2X9Core
+name: 6B6TCore
 version: ${project.version}
 main: org.l2x9.l2x9core.Main
 authors: [ 254n_m ]
@@ -27,6 +27,6 @@ commands:
     description: Switch worlds
   help:
     description: Displays a coustom help menu
-  github:
-    description: shows info about a given users github
+  mute:
+    description: Guess what it dose retard
 

@@ -1,3 +1,14 @@
+/*
+ * ******************************************************
+ *  * Copyright (C) 2010-2020 Mason Smith <l2x9.help@gmail.com>
+ *  *
+ *  * This file is part of L2X9Core.
+ *  *
+ *  * L2X9Core can not be copied and/or distributed without the express
+ *  * permission of Mason Smith
+ *  ******************************************************
+ */
+
 package org.l2x9.l2x9core;
 
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,6 +21,9 @@ import org.l2x9.l2x9core.antilag.*;
 import org.l2x9.l2x9core.commands.*;
 import org.l2x9.l2x9core.events.BlockPlace;
 import org.l2x9.l2x9core.events.*;
+import org.l2x9.l2x9core.mute.ChatEvent;
+import org.l2x9.l2x9core.mute.DataHandler;
+import org.l2x9.l2x9core.mute.MuteCommand;
 import org.l2x9.l2x9core.patches.*;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
@@ -28,6 +42,7 @@ public class Main extends JavaPlugin {
     private final PluginManager pluginManager = getServer().getPluginManager();
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+    public DataHandler dh = new DataHandler();
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
@@ -54,6 +69,7 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new MinecartLag(), this);
         pluginManager.registerEvents(new PlayerChat(), this);
         pluginManager.registerEvents(new ChestLagFix(), this);
+        pluginManager.registerEvents(new ChatEvent(this), this);
         //pluginManager.registerEvents(new EntityPerChunk(), this);
         // AntiIllegal events
         pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
@@ -78,6 +94,7 @@ public class Main extends JavaPlugin {
         getCommand("discord").setExecutor(new DiscordCommand());
         getCommand("world").setExecutor(new WorldSwitcher());
         getCommand("help").setExecutor(new HelpCommand());
+        getCommand("mute").setExecutor(new MuteCommand(this));
         //Server specific events
         if (pluginManager.getPlugin("SalC1Dupe") != null) {
             if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {
@@ -89,6 +106,8 @@ public class Main extends JavaPlugin {
             Utils.println(Utils.getPrefix() + "&eCould not find SalC1Dupe installed on the server");
         }
         service.scheduleAtFixedRate(() -> pluginManager.callEvent(secondPassEvent), 1, 1, TimeUnit.SECONDS);
+        dh.createMutedYml();
+
     }
 
     public void onDisable() {

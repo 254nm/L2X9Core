@@ -6,10 +6,10 @@
 
     <groupId>org.l2x9</groupId>
     <artifactId>l2x9core</artifactId>
-    <version>1.7-RELEASE</version>
+    <version>1.8-RELEASE</version>
     <packaging>jar</packaging>
 
-    <name>L2X9Core</name>
+    <name>6B6TCore</name>
 
     <description>Patches and fixes for most anarchy servers</description>
     <properties>
