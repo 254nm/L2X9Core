@@ -54,7 +54,7 @@ public class BlockPlace implements Listener {
     private void alertDiscord(Player player, Block block) {
         if (Main.getPlugin().discordWebhook.alertsEnabled()) {
             if (Main.getPlugin().getConfigBoolean("AlertSystem.IllegalBlockPlace")) {
-                Main.getPlugin().discordWebhook.setContent("[IllegalBlockPlaceAttempt] block type " + block.getType() + " by " + player.getName());
+                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + "[IllegalBlockPlaceAttempt] block type " + block.getType() + " by " + player.getName());
                 Main.getPlugin().discordWebhook.execute();
             }
         }
