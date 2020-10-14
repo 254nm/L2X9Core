@@ -5,12 +5,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.l2x9.l2x9core.alerts.GamemodeChange;
 import org.l2x9.l2x9core.antiillegal.*;
 import org.l2x9.l2x9core.antilag.*;
 import org.l2x9.l2x9core.commands.*;
 import org.l2x9.l2x9core.events.BlockPlace;
 import org.l2x9.l2x9core.events.*;
 import org.l2x9.l2x9core.patches.*;
+import org.l2x9.l2x9core.util.DiscordWebhook;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
@@ -28,6 +30,7 @@ public class Main extends JavaPlugin {
     private final PluginManager pluginManager = getServer().getPluginManager();
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+    public DiscordWebhook discordWebhook = new DiscordWebhook(getConfig().getString("AlertSystem.WebhookURL"));
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
@@ -65,6 +68,11 @@ public class Main extends JavaPlugin {
         if (getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
             pluginManager.registerEvents(new ChunkLoad(), this);
         }
+        //Alert system events
+        if (discordWebhook.alertsEnabled()) {
+            pluginManager.registerEvents(new GamemodeChange(), this);
+        }
+
         // other stuff
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Utils.antiSkid();
@@ -106,5 +114,13 @@ public class Main extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException ignored) {
         }
         return pluginYml.getString("version");
+    }
+
+    public boolean getConfigBoolean(String path) {
+        return getConfig().getBoolean(path);
+    }
+
+    public String getPingRole() {
+        return getConfig().getString("AlertSystem.PingRole");
     }
 }

@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.util.Utils;
 
 public class BucketEvent implements Listener {
 
@@ -33,6 +35,12 @@ public class BucketEvent implements Listener {
                 || event.getBlockClicked().getLocation().getWorld().getBlockAt(xPos, y, z)
                 .getType() == Material.ENDER_PORTAL) {
             event.setCancelled(true);
+            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                if (Main.getPlugin().getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
+                    Main.getPlugin().discordWebhook.setContent("[EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
+                    Main.getPlugin().discordWebhook.execute();
+                }
+            }
         }
     }
 
@@ -56,7 +64,12 @@ public class BucketEvent implements Listener {
                 || event.getBlock().getLocation().getWorld().getBlockAt(xPos, y, z)
                 .getType() == Material.ENDER_PORTAL) {
             event.setCancelled(true);
-
+            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                if (Main.getPlugin().getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
+                    Main.getPlugin().discordWebhook.setContent("[EndPortalDestroyAttempt] by " + Utils.getNearbyPlayer(20, event.getBlock().getLocation()).getName() + " at " + x + " " + y + " " + z);
+                    Main.getPlugin().discordWebhook.execute();
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 public class BlockRedstone implements Listener {
     private final HashMap<Player, Integer> leverHashMap = new HashMap<>();
+    int alertAmount = 0;
 
     @EventHandler
     public void onRedstoneTick(BlockRedstoneEvent event) {
@@ -34,7 +35,18 @@ public class BlockRedstone implements Listener {
                         + block.getLocation().getWorld().getName() + "";
                 event.setNewCurrent(0);
                 event.getBlock().setType(Material.AIR);
-                sendOpMessage("[&b&lL2X9&r&3&lCore&r] &6Removed a lag machine at &r&1" + block.getLocation().getBlockX() + " " + block.getLocation().getBlockY() + " " + block.getLocation().getBlockZ() + "&r&6 owned by &r&1 " + Utils.getNearbyPlayers(50, block.getLocation()).getName(), "&aClick to telepot to the player", "/tp " + Utils.getNearbyPlayers(50, block.getLocation()).getName(), ClickEvent.Action.RUN_COMMAND);
+                sendOpMessage("[&b&lL2X9&r&3&lCore&r] &6Removed a lag machine at &r&1" + block.getLocation().getBlockX() + " " + block.getLocation().getBlockY() + " " + block.getLocation().getBlockZ() + "&r&6 owned by &r&1 " + Utils.getNearbyPlayer(50, block.getLocation()).getName(), "&aClick to telepot to the player", "/tp " + Utils.getNearbyPlayer(50, block.getLocation()).getName(), ClickEvent.Action.RUN_COMMAND);
+                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                    if (!(alertAmount > 10)) {
+                        if (Main.getPlugin().getConfigBoolean("AlertSystem.LagMachineRemoval")) {
+                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE LAG MACHINE] " + fagMachine + " Owned by " + Utils.getNearbyPlayer(50, block.getLocation()).getName());
+                            Main.getPlugin().discordWebhook.execute();
+                            //Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole());
+                        }
+                    } else {
+                        alertAmount = 0;
+                    }
+                }
                 //event.getBlock().getLocation().getWorld().strikeLightning(block.getLocation());
                 System.out.println(ChatColor.translateAlternateColorCodes('&', "&a" + fagMachine));
                 boolean alreadySent = false;

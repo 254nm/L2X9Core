@@ -20,13 +20,13 @@ import org.l2x9.l2x9core.util.Utils;
 public class GateWay implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCrashAttempt(EntityTeleportEndGatewayEvent event) {
-        double randomx = (Math.random() * ((50) + 1)) + 0;
-        double randomy = (Math.random() * ((50) + 1)) + 0;
-        double randomz = (Math.random() * ((50) + 1)) + 0;
+        double randomX = (Math.random() * ((50) + 1)) + 0;
+        double randomY = (Math.random() * ((50) + 1)) + 0;
+        double randomZ = (Math.random() * ((50) + 1)) + 0;
         int x = event.getFrom().getBlockX();
         int y = event.getGateway().getLocation().getBlockY();
         int z = event.getFrom().getBlockZ();
-        Vector vector = new Vector(-randomx, randomy, randomz);
+        Vector vector = new Vector(-randomX, randomY, randomZ);
         Entity entity = event.getEntity();
         if (entity instanceof Boat || entity instanceof Minecart || entity instanceof Pig || entity instanceof Mule
                 || entity instanceof Horse) {

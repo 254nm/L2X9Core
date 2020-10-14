@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
+import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
@@ -26,6 +27,12 @@ public class Offhand implements Listener {
             }
             if (offhandMap.get(player) > 10) {
                 player.kickPlayer("Packet Exploit Detected");
+                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                    if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
+                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
+                        Main.getPlugin().discordWebhook.execute();
+                    }
+                }
             }
         }
     }

@@ -202,6 +202,12 @@ public class ItemUtils {
         }
         if (illegalsFound) {
             Utils.println(Utils.getPrefix() + "&6Deleted illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
+            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                if (Main.getPlugin().getConfigBoolean("AlertSystem.IllegalItemAlert")) {
+                    Main.getPlugin().discordWebhook.setContent("Found illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
+                    Main.getPlugin().discordWebhook.execute();
+                }
+            }
         }
     }
 }

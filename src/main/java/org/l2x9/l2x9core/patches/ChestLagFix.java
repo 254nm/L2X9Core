@@ -40,6 +40,12 @@ public class ChestLagFix implements Listener {
             }
             if (chestHashMap.get(player) > maxSpam) {
                 Utils.kickPlayer(player, kickMessage);
+                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                    if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
+                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [ChestLag Attempt] by " + player.getName());
+                        Main.getPlugin().discordWebhook.execute();
+                    }
+                }
             }
         }
     }

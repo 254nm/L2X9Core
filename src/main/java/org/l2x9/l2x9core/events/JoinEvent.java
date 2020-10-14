@@ -28,6 +28,12 @@ public class JoinEvent implements Listener {
             Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&',
                     Main.getPlugin().getConfig().getString("FirstJoin.Message").replace("{Player}", player.getName())));
         }
+        if (Main.getPlugin().discordWebhook.alertsEnabled() && player.isOp()) {
+            if (Main.getPlugin().getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
+                Main.getPlugin().discordWebhook.setContent("[OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
+                Main.getPlugin().discordWebhook.execute();
+            }
+        }
     }
 
     @EventHandler

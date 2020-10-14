@@ -82,7 +82,7 @@ public class Utils {
         }
     }
 
-    public static Player getNearbyPlayers(int i, Location loc) {
+    public static Player getNearbyPlayer(int i, Location loc) {
         Player plrs = null;
         for (Player nearby : loc.getNearbyPlayers(i)) {
             plrs = nearby;

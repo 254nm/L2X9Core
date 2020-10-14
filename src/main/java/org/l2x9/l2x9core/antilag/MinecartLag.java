@@ -1,6 +1,5 @@
 package org.l2x9.l2x9core.antilag;
 
-
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
@@ -20,7 +19,7 @@ public class MinecartLag implements Listener {
         int ammount = 0;
         Chunk chunk = event.getVehicle().getChunk();
         Vehicle vehicle = event.getVehicle();
-        Player player = Utils.getNearbyPlayers(20, vehicle.getLocation());
+        Player player = Utils.getNearbyPlayer(20, vehicle.getLocation());
         String formattedName = vehicle.getType().toString().toLowerCase().concat("s");
         int max = Main.getPlugin().getConfig().getInt("Minecart-per-chunk.limit");
         for (Entity ents : chunk.getEntities()) {
@@ -53,7 +52,7 @@ public class MinecartLag implements Listener {
         String formattedName = vehicle.getType().toString().toLowerCase().concat("s").replace("_", " ");
         String formattedName1 = vehicle.getType().toString().toLowerCase().replace("_", " ");
         int max = Main.getPlugin().getConfig().getInt("Minecart-per-chunk.limit");
-        Player player = Utils.getNearbyPlayers(20, vehicle.getLocation());
+        Player player = Utils.getNearbyPlayer(20, vehicle.getLocation());
         if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
             if (chunk.getEntities().length >= max) {
                 vehicle.remove();
@@ -64,11 +63,7 @@ public class MinecartLag implements Listener {
                 System.out.println(ChatColor.translateAlternateColorCodes('&',
                         Utils.getPrefix() + "&6Deleted a &r&3" + formattedName1
                                 + "&r&6 from a lag machine owned by&r&3 " + player.getName() + " &4BYPASS ATTEMPT"));
-
             }
-
         }
-
     }
-
 }
