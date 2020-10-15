@@ -30,7 +30,7 @@ public class JoinEvent implements Listener {
         }
         if (Main.getPlugin().discordWebhook.alertsEnabled() && player.isOp()) {
             if (Main.getPlugin().getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
-                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + "[OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
+                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
                 Main.getPlugin().discordWebhook.execute();
             }
         }

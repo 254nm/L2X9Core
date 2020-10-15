@@ -28,7 +28,7 @@ public class ChinkBan implements Listener {
                     event.setCancelled(true);
                     if (Main.getPlugin().discordWebhook.alertsEnabled()) {
                         if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + z + " in world " + worldName);
+                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
                             Main.getPlugin().discordWebhook.execute();
                         }
                     }
@@ -43,7 +43,7 @@ public class ChinkBan implements Listener {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
                 if (Main.getPlugin().discordWebhook.alertsEnabled()) {
                     if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + z + " in world " + worldName);
+                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
                         Main.getPlugin().discordWebhook.execute();
                     }
                 }
@@ -58,6 +58,7 @@ public class ChinkBan implements Listener {
                 int x = event.getPlayer().getLocation().getBlockX();
                 int y = event.getPlayer().getLocation().getBlockY();
                 int z = event.getPlayer().getLocation().getBlockZ();
+                Player player = event.getPlayer();
                 String worldName = event.getPlayer().getWorld().getName();
                 int amount = 0;
                 for (Entity entity : event.getPlayer().getChunk().getEntities()) {
@@ -70,7 +71,7 @@ public class ChinkBan implements Listener {
                     event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
                     if (Main.getPlugin().discordWebhook.alertsEnabled()) {
                         if (Main.getPlugin().getConfigBoolean("AlertSystem.ChunkBanAttempt")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [Possible ChunkBanAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + z + " in world " + worldName);
+                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
                             Main.getPlugin().discordWebhook.execute();
                         }
                     }

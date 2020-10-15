@@ -37,7 +37,7 @@ public class BucketEvent implements Listener {
             event.setCancelled(true);
             if (Main.getPlugin().discordWebhook.alertsEnabled()) {
                 if (Main.getPlugin().getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
-                    Main.getPlugin().discordWebhook.setContent("[EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
+                    Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
                     Main.getPlugin().discordWebhook.execute();
                 }
             }
