@@ -11,15 +11,17 @@ public class BlockPhysics implements Listener {
 
     @EventHandler
     public void onLiquidSpread(BlockFromToEvent event) {
-        int disableTPS = Main.getPlugin().getConfig().getInt("BlockPhysics-disable-tps");
-        if (Utils.getTps() < disableTPS) {
-            Material type = event.getBlock().getType();
-            if (isChecked(type)) {
-                event.setCancelled(true);
+        try {
+            int disableTPS = Main.getPlugin().getConfig().getInt("BlockPhysics-disable-tps");
+            if (Utils.getTps() < disableTPS) {
+                Material type = event.getBlock().getType();
+                if (isChecked(type)) {
+                    event.setCancelled(true);
+                }
             }
-        }
+        } catch (Error | Exception ignored) {
+        } //StackOverflowErrors happen when you use this event
     }
-
     private boolean isChecked(Material material) {
         switch (material) {
             case LAVA:

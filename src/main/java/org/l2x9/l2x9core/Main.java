@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
-    } // I know a static plugin reference is bad ill change it soon
+    }
 
     public void onEnable() {
         int pluginId = 9128;
@@ -59,7 +59,6 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new MinecartLag(), this);
         pluginManager.registerEvents(new PlayerChat(), this);
         pluginManager.registerEvents(new ChestLagFix(), this);
-        //pluginManager.registerEvents(new EntityPerChunk(), this);
         // AntiIllegal events
         pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
         pluginManager.registerEvents(new HopperTansfer(), this);
