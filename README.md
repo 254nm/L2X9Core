@@ -26,7 +26,7 @@ ___
 
 ___
 
-#@ Config
+## Config
 
 ```yml
 # L2X9Core by 254n-m
