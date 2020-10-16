@@ -1,5 +1,5 @@
 # L2X9Core
-
+[![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core)
 ___
 
 ## Features
@@ -188,4 +188,6 @@ ___
 ![bStats](https://bstats.org/signatures/bukkit/L2X9Core.svg)
 No idea if this bStats works at all lol
 
+## Contact
+You can contact the developer of L2X9Core at **254n-m#5890**
 
