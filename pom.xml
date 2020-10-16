@@ -48,7 +48,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/l2X9Core/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -76,7 +76,7 @@
             <artifactId>saldupe</artifactId>
             <scope>system</scope>
             <version>1.0</version>
-            <systemPath>${project.basedir}/lib/saldupe.jar</systemPath>
+            <systemPath>${project.basedir}/saldupe.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
