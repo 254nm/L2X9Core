@@ -28,15 +28,17 @@ public class Main extends JavaPlugin {
 
     public static long startTime;
     private final PluginManager pluginManager = getServer().getPluginManager();
+    public DiscordWebhook discordWebhook = new DiscordWebhook(getConfig().getString("AlertSystem.WebhookURL"));
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
-    public DiscordWebhook discordWebhook = new DiscordWebhook(getConfig().getString("AlertSystem.WebhookURL"));
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
     }
 
     public void onEnable() {
+        int pluginId = 9128;
+        new Metrics(this, pluginId);
         saveDefaultConfig();
         startTime = System.currentTimeMillis();
         getLogger().info("by 254n_m enabled");
@@ -119,7 +121,6 @@ public class Main extends JavaPlugin {
     public boolean getConfigBoolean(String path) {
         return getConfig().getBoolean(path);
     }
-
     public String getPingRole() {
         return getConfig().getString("AlertSystem.PingRole");
     }

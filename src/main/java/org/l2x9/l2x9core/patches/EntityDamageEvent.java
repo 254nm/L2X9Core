@@ -21,17 +21,18 @@ import org.l2x9.l2x9core.util.Utils;
 public class EntityDamageEvent implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
-            Player damager = (Player) event.getDamager();
-            if (event.getDamage() > 30) {
-                damager.damage(event.getDamage());
-                event.setCancelled(true);
-                Utils.sendMessage(damager, Main.getPlugin().getConfig().getString("IllegalDamage.Message"));
+        if (Main.getPlugin().getConfigBoolean("Antiillegal.Check-Illegal-Damage")) {
+            if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
+                Player damager = (Player) event.getDamager();
+                if (event.getDamage() > 30) {
+                    damager.damage(event.getDamage());
+                    event.setCancelled(true);
+                    Utils.sendMessage(damager, Main.getPlugin().getConfig().getString("IllegalDamage.Message"));
 
+                }
             }
         }
     }
-
     @EventHandler
     public void onBow(EntityDamageByEntityEvent event) {
         if (Main.getPlugin().getConfig().getBoolean("AntiIllegal-Enabled")) {

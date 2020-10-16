@@ -117,14 +117,14 @@ BlockPhysics-disable-tps: 15
 #This is to prevent people from crashing / lagging the server by spam opening chest and other containers
 ChestLagFix:
   MaxOpensPerSecond: 16
-  KickMessage: "[&b&lL2X9&r&3&lCore&r]&c [AntiChestLag]&r&6You have lost connection to the server"
+  KickMessage: "[&b&lL2X9&r&3&lCore&r]&c [AntiChestLag]&r&6 You have lost connection to the server"
   RemoveUnicodeBooks: false
 #What should we notify you of on discord
 AlertSystem:
   Alerts-Enabled: true
   WebhookURL: ""
   #What role do we ping to get this ping the role you want but put a backslash there (i.e \@Owner) then copy paste the tag it gives you on discord and paste it here
-  PingRole: "<@&765660627812876309>"
+  PingRole: "@everyone"
   #What events do we need to alert you of
   LagMachineRemoval: true
   ChunkBanAttempt: true

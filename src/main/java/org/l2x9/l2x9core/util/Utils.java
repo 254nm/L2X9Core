@@ -22,6 +22,19 @@ public class Utils {
         return (Math.round(Bukkit.getServer().getTPS()[0]));
     }
 
+    public static ChatColor getTPSColor(String input) {
+        if (!input.equals("*20")) {
+            double i = Double.parseDouble(input);
+            if (i >= 18.0D) {
+                return ChatColor.GREEN;
+            } else {
+                return i >= 13.0D && i < 18.0D ? ChatColor.YELLOW : ChatColor.RED;
+            }
+        } else {
+            return ChatColor.GREEN;
+        }
+    }
+
     public static void crashPlayer(Player player) {
         for (int i = 0; i < 100; i++) {
             player.spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), Integer.MAX_VALUE, 1, 1, 1);
