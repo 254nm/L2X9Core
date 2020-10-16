@@ -181,4 +181,10 @@ ___
 * /world ~ Teleport to the spesified world
 * /help ~ Shows the help menu
 
+___
+
+## bStats
+
+![bStats](https://bstats.org/signatures/bukkit/L2X9Core.svg)
+
 
