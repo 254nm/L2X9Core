@@ -15,19 +15,25 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.Utils;
 
 public class EntityDamageEvent implements Listener {
+    L2X9Core plugin;
+
+    public EntityDamageEvent(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (Main.getPlugin().getConfigBoolean("Antiillegal.Check-Illegal-Damage")) {
+        if (plugin.getConfigBoolean("Antiillegal.Check-Illegal-Damage")) {
             if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
                 Player damager = (Player) event.getDamager();
                 if (event.getDamage() > 30) {
                     damager.damage(event.getDamage());
                     event.setCancelled(true);
-                    Utils.sendMessage(damager, Main.getPlugin().getConfig().getString("IllegalDamage.Message"));
+                    Utils.sendMessage(damager, plugin.getConfig().getString("IllegalDamage.Message"));
 
                 }
             }
@@ -35,7 +41,7 @@ public class EntityDamageEvent implements Listener {
     }
     @EventHandler
     public void onBow(EntityDamageByEntityEvent event) {
-        if (Main.getPlugin().getConfig().getBoolean("AntiIllegal-Enabled")) {
+        if (plugin.getConfig().getBoolean("AntiIllegal-Enabled")) {
             if (event.getDamager() instanceof Arrow) {
                 if (((Arrow) event.getDamager()).getShooter() instanceof Player && event.getDamage() > 40) {
                     Player damager = (Player) ((Arrow) event.getDamager()).getShooter();
@@ -56,7 +62,7 @@ public class EntityDamageEvent implements Listener {
                 if (effects.getAmplifier() > 5) {
                     event.setCancelled(true);
                     player.getInventory().remove(pot);
-                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalPotion.Message"));
+                    Utils.sendMessage(player, plugin.getConfig().getString("IllegalPotion.Message"));
                 }
 
             }
@@ -73,7 +79,7 @@ public class EntityDamageEvent implements Listener {
                         e.getPlayer().getInventory().remove(e.getItem());
                         e.setCancelled(true);
                         Utils.sendMessage(e.getPlayer(),
-                                Main.getPlugin().getConfig().getString("IllegalPotion.Message"));
+                                plugin.getConfig().getString("IllegalPotion.Message"));
 
                     }
 
@@ -111,7 +117,7 @@ public class EntityDamageEvent implements Listener {
                     vic.getInventory().addItem(milk);
                     Utils.crashPlayer(shooter);
                     shooter.chat("Im a faggot who uses illegal arrows in pvp");
-                    Utils.sendMessage(shooter, Main.getPlugin().getConfig().getString("IllegalPotion.Message"));
+                    Utils.sendMessage(shooter, plugin.getConfig().getString("IllegalPotion.Message"));
                 }
             }
         }

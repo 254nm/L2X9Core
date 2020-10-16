@@ -6,19 +6,25 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 @SuppressWarnings("deprecation")
 public class ItemPickup implements Listener {
-    ItemUtils ut = new ItemUtils();
+    ItemUtils itemUtils;
+    L2X9Core plugin;
+
+    public ItemPickup(L2X9Core plugin) {
+        this.plugin = plugin;
+        itemUtils = new ItemUtils(plugin);
+    }
 
     @EventHandler
     @AntiIllegal(EventName = "PlayerPickupItemEvent")
     public void onPickup(PlayerPickupItemEvent event) {
-        if (Main.getPlugin().getConfig().getBoolean("Antiillegal.ItemPickup-Enabled")) {
+        if (plugin.getConfig().getBoolean("Antiillegal.ItemPickup-Enabled")) {
             ItemStack item = event.getItem().getItemStack();
-            if (ut.isEnchantedBlock(item) || ut.hasIllegalNBT(item) || ut.hasIllegalEnchants(item)
-                    || ut.isOverstacked(item) || ut.isIllegal(item)) {
+            if (itemUtils.isEnchantedBlock(item) || itemUtils.hasIllegalNBT(item) || itemUtils.hasIllegalEnchants(item)
+                    || itemUtils.isOverstacked(item) || itemUtils.isIllegal(item)) {
                 event.setCancelled(true);
                 event.getItem().remove();
             }
@@ -28,7 +34,7 @@ public class ItemPickup implements Listener {
                     ShulkerBox box = (ShulkerBox) itemMeta.getBlockState();
                     for (ItemStack shulkerItem : box.getInventory().getContents()) {
                         if (shulkerItem != null) {
-                            if (ut.isArmor(item) || ut.isTool(item)) {
+                            if (itemUtils.isArmor(item) || itemUtils.isTool(item)) {
                                 if (item.getDurability() > item.getType().getMaxDurability()) {
                                     event.getItem().remove();
                                     event.setCancelled(true);
@@ -38,19 +44,19 @@ public class ItemPickup implements Listener {
                                     event.setCancelled(true);
                                 }
                             }
-                            if (ut.isIllegal(shulkerItem)) {
+                            if (itemUtils.isIllegal(shulkerItem)) {
                                 event.getItem().remove();
                             }
-                            if (ut.hasIllegalNBT(shulkerItem)) {
+                            if (itemUtils.hasIllegalNBT(shulkerItem)) {
                                 event.getItem().remove();
                                 event.setCancelled(true);
 
                             }
-                            if (ut.isOverstacked(shulkerItem)) {
+                            if (itemUtils.isOverstacked(shulkerItem)) {
                                 event.getItem().remove();
                                 event.setCancelled(true);
                             }
-                            if (ut.hasIllegalEnchants(shulkerItem)) {
+                            if (itemUtils.hasIllegalEnchants(shulkerItem)) {
                                 event.getItem().remove();
                                 event.setCancelled(true);
                             }

@@ -9,20 +9,26 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 public class HopperTansfer implements Listener {
-    ItemUtils utils = new ItemUtils();
+    ItemUtils itemUtils;
+    L2X9Core plugin;
+
+    public HopperTansfer(L2X9Core plugin) {
+        this.plugin = plugin;
+        itemUtils = new ItemUtils(plugin);
+    }
 
     @EventHandler
     @AntiIllegal(EventName = "InventoryMoveItemEvent")
     public void onInventoryClose(InventoryMoveItemEvent event) {
-        if (Main.getPlugin().getConfig().getBoolean("Antiillegal.HopperTransfer-Enabled")) {
+        if (plugin.getConfig().getBoolean("Antiillegal.HopperTransfer-Enabled")) {
             Inventory inv = event.getSource();
             if (inv.getContents() != null) {
                 for (ItemStack item : inv.getStorageContents()) {
                     if (item != null) {
-                        if (utils.isArmor(item) || utils.isTool(item)) {
+                        if (itemUtils.isArmor(item) || itemUtils.isTool(item)) {
                             if (item.getDurability() > item.getType().getMaxDurability()) {
                                 item.setDurability(item.getType().getMaxDurability());
                             }
@@ -31,20 +37,20 @@ public class HopperTansfer implements Listener {
                             }
 
                         }
-                        if (utils.isIllegal(item)) {
+                        if (itemUtils.isIllegal(item)) {
                             inv.remove(item);
                             event.setCancelled(true);
                         }
-                        if (utils.hasIllegalNBT(item)) {
+                        if (itemUtils.hasIllegalNBT(item)) {
                             inv.remove(item);
                             event.setCancelled(true);
 
                         }
-                        if (utils.isOverstacked(item)) {
+                        if (itemUtils.isOverstacked(item)) {
                             item.setAmount(item.getMaxStackSize());
                             event.setCancelled(true);
                         }
-                        if (utils.hasIllegalEnchants(item)) {
+                        if (itemUtils.hasIllegalEnchants(item)) {
                             inv.remove(item);
                             event.setCancelled(true);
                         }
@@ -61,7 +67,7 @@ public class HopperTansfer implements Listener {
                                 }
                                 item.setItemMeta(meta);
                             }
-                            if (utils.isEnchantedBlock(item)) {
+                            if (itemUtils.isEnchantedBlock(item)) {
                                 event.setCancelled(true);
                             }
                             if (item.getItemMeta() instanceof BlockStateMeta) {
@@ -70,7 +76,7 @@ public class HopperTansfer implements Listener {
                                     ShulkerBox shulker = (ShulkerBox) itemMeta.getBlockState();
                                     for (ItemStack shulkerItem : shulker.getInventory().getContents()) {
                                         if (shulkerItem != null) {
-                                            if (utils.isArmor(item) || utils.isTool(item)) {
+                                            if (itemUtils.isArmor(item) || itemUtils.isTool(item)) {
                                                 if (item.getDurability() > item.getType().getMaxDurability()) {
                                                     inv.remove(item);
                                                     event.setCancelled(true);
@@ -80,18 +86,18 @@ public class HopperTansfer implements Listener {
                                                     event.setCancelled(true);
                                                 }
                                             }
-                                            if (utils.isIllegal(shulkerItem)) {
+                                            if (itemUtils.isIllegal(shulkerItem)) {
                                                 inv.remove(item);
                                             }
-                                            if (utils.hasIllegalNBT(shulkerItem)) {
-                                                inv.remove(item);
-                                                event.setCancelled(true);
-                                            }
-                                            if (utils.isOverstacked(shulkerItem)) {
+                                            if (itemUtils.hasIllegalNBT(shulkerItem)) {
                                                 inv.remove(item);
                                                 event.setCancelled(true);
                                             }
-                                            if (utils.hasIllegalEnchants(shulkerItem)) {
+                                            if (itemUtils.isOverstacked(shulkerItem)) {
+                                                inv.remove(item);
+                                                event.setCancelled(true);
+                                            }
+                                            if (itemUtils.hasIllegalEnchants(shulkerItem)) {
                                                 inv.remove(item);
                                                 event.setCancelled(true);
                                             }

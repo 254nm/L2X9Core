@@ -1,6 +1,6 @@
 package org.l2x9.l2x9core.util;
 
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
@@ -12,20 +12,21 @@ import java.util.List;
 import java.util.*;
 
 public class DiscordWebhook {
-
     private final String url;
     private final List<EmbedObject> embeds = new ArrayList<>();
     private String content;
     private String username;
     private String avatarUrl;
     private boolean tts;
+    private final L2X9Core plugin;
 
-    public DiscordWebhook(String url) {
+    public DiscordWebhook(String url, L2X9Core plugin) {
         this.url = url;
+        this.plugin = plugin;
     }
 
     public boolean alertsEnabled() {
-        return Main.getPlugin().getConfig().getBoolean("AlertSystem.Alerts-Enabled");
+        return plugin.getConfig().getBoolean("AlertSystem.Alerts-Enabled");
     }
 
     public void setContent(String content) {

@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
@@ -21,12 +21,17 @@ import java.util.regex.Pattern;
 
 public class ChestLagFix implements Listener {
     HashMap<Player, Integer> chestHashMap = new HashMap<>();
+    L2X9Core plugin;
+
+    public ChestLagFix(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
-        int maxSpam = Main.getPlugin().getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
-        String kickMessage = Main.getPlugin().getConfig().getString("ChestLagFix.KickMessage");
-        boolean deleteBooks = Main.getPlugin().getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
+        int maxSpam = plugin.getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
+        String kickMessage = plugin.getConfig().getString("ChestLagFix.KickMessage");
+        boolean deleteBooks = plugin.getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
         InventoryType inventoryType = event.getInventory().getType();
         Player player = (Player) event.getPlayer();
         if (isCheckedInventory(inventoryType)) {
@@ -40,10 +45,10 @@ public class ChestLagFix implements Listener {
             }
             if (chestHashMap.get(player) > maxSpam) {
                 Utils.kickPlayer(player, kickMessage);
-                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                    if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
-                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [ChestLag Attempt] by " + player.getName());
-                        Main.getPlugin().discordWebhook.execute();
+                if (plugin.discordWebhook.alertsEnabled()) {
+                    if (plugin.getConfigBoolean("AlertSystem.ChestLagFix")) {
+                        plugin.discordWebhook.setContent(plugin.getPingRole() + " [ChestLag Attempt] by " + player.getName());
+                        plugin.discordWebhook.execute();
                     }
                 }
             }

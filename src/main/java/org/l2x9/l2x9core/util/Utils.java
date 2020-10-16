@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -117,9 +117,9 @@ public class Utils {
         return "[&b&lL2X9&r&3&lCore&r] ";
     }
 
-    public static YamlConfiguration loadCustomConfig(String name, File out) {
+    public static YamlConfiguration loadCustomConfig(String name, File out, L2X9Core plugin) {
         try {
-            InputStream in = Main.getPlugin().getResource(name);
+            InputStream in = plugin.getResource(name);
             if (!out.exists()) {
                 out.createNewFile();
             }
@@ -193,30 +193,30 @@ public class Utils {
 
     }
 
-    public static void antiSkid() {
-        for (String author : Main.getPlugin().getDescription().getAuthors()) {
-            if (!author.equals("254n_m") || !Main.getPlugin().getDescription().getName().equals("L2X9Core")) {
+    public static void antiSkid(L2X9Core plugin) {
+        for (String author : plugin.getDescription().getAuthors()) {
+            if (!author.equals("254n_m") || !plugin.getDescription().getName().equals("L2X9Core")) {
                 for (int i = 0; i < 20; i++) {
                     Utils.println(Utils.getPrefix() + "&eAnti skid has detected that you changed the name/author server will now shutdown");
                 }
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Main.getPlugin().getServer().shutdown();
+                        plugin.getServer().shutdown();
                     }
-                }.runTaskLater(Main.getPlugin(), 20);
+                }.runTaskLater(plugin, 20);
 
             }
         }
     }
 
-    public static void sendPlayerToServer(Player player, String server) {
+    public static void sendPlayerToServer(Player player, String server, L2X9Core plugin) {
         try {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
             out.writeUTF("Connect");
             out.writeUTF(server);
-            player.sendPluginMessage(Main.getPlugin(), "BungeeCord", b.toByteArray());
+            player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             b.close();
             out.close();
         } catch (Exception | Error e) {

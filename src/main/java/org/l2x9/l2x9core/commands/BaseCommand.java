@@ -3,25 +3,30 @@ package org.l2x9.l2x9core.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.Utils;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BaseCommand implements TabExecutor {
+    L2X9Core plugin;
+
+    public BaseCommand(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender.hasPermission("l2x9core.base") || sender.getName().equals("254n_m")) {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload")) {
-                    Main.getPlugin().reloadConfig();
+                    plugin.reloadConfig();
                     Utils.sendMessage(sender, Utils.getPrefix() + "&aReloaded configuration file");
                 } else {
                     if (args[0].equalsIgnoreCase("version")) {
                         Utils.sendMessage(sender,
-                                Utils.getPrefix() + "&6Version &r&c" + Main.getPlugin().getDescription().getVersion());
+                                Utils.getPrefix() + "&6Version &r&c" + plugin.getDescription().getVersion());
 
                     } else {
                         if (args[0].equalsIgnoreCase("help")) {
@@ -37,7 +42,7 @@ public class BaseCommand implements TabExecutor {
             }
 
         } else {
-            Utils.sendMessage(sender, Utils.getPrefix() + "&6This server is using&r " + Utils.getPrefix() + "&6Version&r&c " + Main.getPlugin().getDescription().getVersion() + "&r&6 by&r&c 254n_m");
+            Utils.sendMessage(sender, Utils.getPrefix() + "&6This server is using&r " + Utils.getPrefix() + "&6Version&r&c " + plugin.getDescription().getVersion() + "&r&6 by&r&c 254n_m");
         }
         return true;
     }

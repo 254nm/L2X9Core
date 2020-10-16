@@ -11,12 +11,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 import java.util.Map.Entry;
 
 public class BlockPlace implements Listener {
-    ItemUtils itemUtils = new ItemUtils();
+    ItemUtils itemUtils;
+    L2X9Core plugin;
+
+    public BlockPlace(L2X9Core plugin) {
+        this.plugin = plugin;
+        itemUtils = new ItemUtils(plugin);
+    }
 
     public static void removeColours(ItemStack item, ItemMeta meta) {
         String name = ChatColor.stripColor(meta.getDisplayName());
@@ -31,7 +37,7 @@ public class BlockPlace implements Listener {
     @EventHandler
     @AntiIllegal(EventName = "BlockPlaceEvent")
     public void onPlace(BlockPlaceEvent event) {
-        if (Main.getPlugin().getConfig().getBoolean("Antiillegal.Block-Place-Enabled")) {
+        if (plugin.getConfig().getBoolean("Antiillegal.Block-Place-Enabled")) {
             if (itemUtils.isIllegal(event.getItemInHand())) {
                 event.setCancelled(true);
                 event.getPlayer().getInventory().getItemInMainHand().setType(Material.AIR);

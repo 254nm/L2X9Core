@@ -9,10 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.Utils;
 
 public class MinecartLag implements Listener {
+    L2X9Core plugin;
+
+    public MinecartLag(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onSpawn(VehicleCreateEvent event) {
@@ -21,7 +26,7 @@ public class MinecartLag implements Listener {
         Vehicle vehicle = event.getVehicle();
         Player player = Utils.getNearbyPlayer(20, vehicle.getLocation());
         String formattedName = vehicle.getType().toString().toLowerCase().concat("s");
-        int max = Main.getPlugin().getConfig().getInt("Minecart-per-chunk.limit");
+        int max = plugin.getConfig().getInt("Minecart-per-chunk.limit");
         for (Entity ents : chunk.getEntities()) {
             if (ents instanceof Vehicle) {
                 ammount++;
@@ -51,7 +56,7 @@ public class MinecartLag implements Listener {
         Vehicle vehicle = event.getVehicle();
         String formattedName = vehicle.getType().toString().toLowerCase().concat("s").replace("_", " ");
         String formattedName1 = vehicle.getType().toString().toLowerCase().replace("_", " ");
-        int max = Main.getPlugin().getConfig().getInt("Minecart-per-chunk.limit");
+        int max = plugin.getConfig().getInt("Minecart-per-chunk.limit");
         Player player = Utils.getNearbyPlayer(20, vehicle.getLocation());
         if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
             if (chunk.getEntities().length >= max) {

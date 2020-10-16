@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.Utils;
 
 import java.util.Arrays;
@@ -15,6 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class WorldSwitcher implements TabExecutor {
+    L2X9Core plugin;
+
+    public WorldSwitcher(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -51,7 +56,7 @@ public class WorldSwitcher implements TabExecutor {
                             int x = player.getLocation().getBlockX();
                             int y = player.getLocation().getBlockY();
                             int z = player.getLocation().getBlockZ();
-                            World overWorld = Bukkit.getWorld(Main.getPlugin().getConfig().getString("World-name"));
+                            World overWorld = Bukkit.getWorld(plugin.getConfig().getString("World-name"));
                             player.teleport(new Location(overWorld, x, y, z));
                             Utils.sendMessage(player, "&6Teleporting to &r&c" + args[0]);
                             break;
@@ -60,7 +65,7 @@ public class WorldSwitcher implements TabExecutor {
                             int netherY = player.getLocation().getBlockY();
                             int netherZ = player.getLocation().getBlockZ();
                             World netherWorld = Bukkit
-                                    .getWorld(Main.getPlugin().getConfig().getString("World-name").concat("_nether"));
+                                    .getWorld(plugin.getConfig().getString("World-name").concat("_nether"));
                             if (netherY < 128) {
                                 player.teleport(new Location(netherWorld, netherX, 125, netherZ));
                             } else {
@@ -74,7 +79,7 @@ public class WorldSwitcher implements TabExecutor {
                             int endY = player.getLocation().getBlockY();
                             int endZ = player.getLocation().getBlockZ();
                             World endWorld = Bukkit
-                                    .getWorld(Main.getPlugin().getConfig().getString("World-name").concat("_the_end"));
+                                    .getWorld(plugin.getConfig().getString("World-name").concat("_the_end"));
                             player.teleport(new Location(endWorld, endX, endY, endZ));
                             Utils.sendMessage(player, "&6Teleporting to &r&c" + args[0]);
                             break;

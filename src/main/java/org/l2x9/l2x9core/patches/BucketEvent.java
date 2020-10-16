@@ -5,10 +5,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 import org.l2x9.l2x9core.util.Utils;
 
 public class BucketEvent implements Listener {
+    L2X9Core plugin;
+
+    public BucketEvent(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onBucket(PlayerBucketEmptyEvent event) {
@@ -35,10 +40,10 @@ public class BucketEvent implements Listener {
                 || event.getBlockClicked().getLocation().getWorld().getBlockAt(xPos, y, z)
                 .getType() == Material.ENDER_PORTAL) {
             event.setCancelled(true);
-            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                if (Main.getPlugin().getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
-                    Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
-                    Main.getPlugin().discordWebhook.execute();
+            if (plugin.discordWebhook.alertsEnabled()) {
+                if (plugin.getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
+                    plugin.discordWebhook.setContent(plugin.getPingRole() + " [EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
+                    plugin.discordWebhook.execute();
                 }
             }
         }
@@ -64,10 +69,10 @@ public class BucketEvent implements Listener {
                 || event.getBlock().getLocation().getWorld().getBlockAt(xPos, y, z)
                 .getType() == Material.ENDER_PORTAL) {
             event.setCancelled(true);
-            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                if (Main.getPlugin().getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
-                    Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + "[EndPortalDestroyAttempt] by " + Utils.getNearbyPlayer(20, event.getBlock().getLocation()).getName() + " at " + x + " " + y + " " + z);
-                    Main.getPlugin().discordWebhook.execute();
+            if (plugin.discordWebhook.alertsEnabled()) {
+                if (plugin.getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
+                    plugin.discordWebhook.setContent(plugin.getPingRole() + "[EndPortalDestroyAttempt] by " + Utils.getNearbyPlayer(20, event.getBlock().getLocation()).getName() + " at " + x + " " + y + " " + z);
+                    plugin.discordWebhook.execute();
                 }
             }
         }

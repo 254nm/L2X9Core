@@ -8,13 +8,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.potion.PotionEffect;
-import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.L2X9Core;
 
 public class JoinEvent implements Listener {
+    L2X9Core plugin;
+
+    public JoinEvent(L2X9Core plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        System.out.println(Main.getPlugin().getConfig().getBoolean("Antiillegal.Block-Place-Enabled"));
+        System.out.println(plugin.getConfig().getBoolean("Antiillegal.Block-Place-Enabled"));
         Player player = e.getPlayer();
         if (player.getActivePotionEffects() != null) {
             for (PotionEffect effects : player.getActivePotionEffects()) {
@@ -26,12 +31,12 @@ public class JoinEvent implements Listener {
         }
         if (!player.hasPlayedBefore()) {
             Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getPlugin().getConfig().getString("FirstJoin.Message").replace("{Player}", player.getName())));
+                    plugin.getConfig().getString("FirstJoin.Message").replace("{Player}", player.getName())));
         }
-        if (Main.getPlugin().discordWebhook.alertsEnabled() && player.isOp()) {
-            if (Main.getPlugin().getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
-                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
-                Main.getPlugin().discordWebhook.execute();
+        if (plugin.discordWebhook.alertsEnabled() && player.isOp()) {
+            if (plugin.getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
+                plugin.discordWebhook.setContent(plugin.getPingRole() + " [OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
+                plugin.discordWebhook.execute();
             }
         }
     }

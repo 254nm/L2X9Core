@@ -48,7 +48,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/l2X9Core/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
