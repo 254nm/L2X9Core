@@ -2,7 +2,7 @@ name: L2X9Core
 version: ${project.version}
 main: org.l2x9.l2x9core.Main
 authors: [ 254n_m ]
-description: Patches and fixes for most anarchy servers
+description: ${project.description}
 website: https://www.l2x9.org
 softdepend:
   - SalC1Dupe
@@ -29,4 +29,3 @@ commands:
     description: Displays a coustom help menu
   github:
     description: shows info about a given users github
-
