@@ -61,27 +61,22 @@
         </repository>
         <repository>
             <id>papermc</id>
-            <url>C:/Users/Mason/IdeaProjects/L2X9ExploitFixer/lib/server.jar</url>
-        </repository>
-        <repository>
-            <id>saldupe</id>
-            <url>C:/Users/Mason/IdeaProjects/L2X9ExploitFixer/lib/saldupe.jar</url>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>paper</artifactId>
-            <scope>system</scope>
-            <version>1.12.2</version>
-            <systemPath>C:/Users/Mason/IdeaProjects/L2X9ExploitFixer/lib/server.jar</systemPath>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.l2x9.saldupe</groupId>
             <artifactId>saldupe</artifactId>
             <scope>system</scope>
             <version>1.0</version>
-            <systemPath>C:/Users/Mason/IdeaProjects/L2X9ExploitFixer/lib/saldupe.jar</systemPath>
+            <systemPath>${project.basedir}/lib/saldupe.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
