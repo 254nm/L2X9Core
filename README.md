@@ -186,5 +186,6 @@ ___
 ## bStats
 
 ![bStats](https://bstats.org/signatures/bukkit/L2X9Core.svg)
+No idea if this bStats works at all lol
 
 
