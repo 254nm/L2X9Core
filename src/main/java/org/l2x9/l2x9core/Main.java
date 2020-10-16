@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
-    }
+    } // I know a static plugin reference is bad ill change it soon
 
     public void onEnable() {
         int pluginId = 9128;
