@@ -1,8 +1,8 @@
-### L2X9Core
+# L2X9Core
 
 ___
 
-# Features
+## Features
 
 * Prevent lag machines 
 * Prevent all crash exploits that i know of
@@ -16,7 +16,7 @@ ___
 * Discord alerts
 * Nether roof and bottom fix
 * Disable BlockPhysics at low tps to prevent server crashes
-* Disable RedStone ad bad tps to prevent players from crashing the server with lag machines
+* Disable RedStone at bad tps to prevent players from crashing the server with lag machines
 * Disable Elytra at low tps to prevent more server crashes
 * Limit player spawnable entites per chunk to prevent players from lagging the server
 * Remove illegal potion effects from players
@@ -26,7 +26,7 @@ ___
 
 ___
 
-# Config
+#@ Config
 
 ```yml
 # L2X9Core by 254n-m
@@ -168,7 +168,7 @@ AlertSystem:
 
 ___
 
-# Commands
+## Commands
 
 * /say ~ Configureable /say command with support for colours
 * /crash ~ Crash the game of any player / bot
