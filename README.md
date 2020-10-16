@@ -1,5 +1,5 @@
 # L2X9Core
-[![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core)
+[![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
 ___
 
 ## Features
@@ -189,5 +189,5 @@ ___
 No idea if this bStats works at all lol
 
 ## Contact
-You can contact the developer of L2X9Core at **254n-m#5890**
+You can contact the developer of L2X9Core at **254n-m#5890** with Discord or email l2x9.help@gmail.com
 
