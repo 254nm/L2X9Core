@@ -27,6 +27,8 @@ ___
 ___
 
 ## Config
+<details>
+  <summary>L2X9Core Config.yml</summary>
 
 ```yml
 # L2X9Core by 254n-m
@@ -165,7 +167,7 @@ AlertSystem:
   IllegalBlockPlace: true
   OppedPlayerJoin: true
 ```
-
+</details>
 ___
 
 ## Commands
