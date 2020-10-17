@@ -22,6 +22,7 @@ public class BlockPhysics implements Listener {
         } catch (Error | Exception ignored) {
         } //StackOverflowErrors happen when you use this event
     }
+
     private boolean isChecked(Material material) {
         switch (material) {
             case LAVA:

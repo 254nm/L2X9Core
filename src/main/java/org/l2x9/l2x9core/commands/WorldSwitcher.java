@@ -59,8 +59,7 @@ public class WorldSwitcher implements TabExecutor {
                             int netherX = player.getLocation().getBlockX();
                             int netherY = player.getLocation().getBlockY();
                             int netherZ = player.getLocation().getBlockZ();
-                            World netherWorld = Bukkit
-                                    .getWorld(Main.getPlugin().getConfig().getString("World-name").concat("_nether"));
+                            World netherWorld = Bukkit.getWorld(Main.getPlugin().getConfig().getString("World-name").concat("_nether"));
                             if (netherY < 128) {
                                 player.teleport(new Location(netherWorld, netherX, 125, netherZ));
                             } else {

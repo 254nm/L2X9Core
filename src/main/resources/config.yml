@@ -120,11 +120,12 @@ ChestLagFix:
   KickMessage: "[&b&lL2X9&r&3&lCore&r]&c [AntiChestLag]&r&6 You have lost connection to the server"
   RemoveUnicodeBooks: false
 #What should we notify you of on discord
+#WARNING IF YOU HAVE THIS ENABLED AND DO NOT INPUT A WEBHOOK URL IT WILL HAVE ERRORS.
 AlertSystem:
-  Alerts-Enabled: true
+  Alerts-Enabled: false
   WebhookURL: ""
   #What role do we ping to get this ping the role you want but put a backslash there (i.e \@Owner) then copy paste the tag it gives you on discord and paste it here
-  PingRole: "@everyone"
+  PingRole: ""
   #What events do we need to alert you of
   LagMachineRemoval: true
   ChunkBanAttempt: true

@@ -236,7 +236,6 @@ public class Utils {
         }
         return count;
     }
-
     public static void changeBlockInChunk(Chunk chunk, Material target, Material to) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -248,7 +247,6 @@ public class Utils {
             }
         }
     }
-
     public static void secondPass(HashMap<Player, Integer> hashMap) {
         for (Map.Entry<Player, Integer> violationEntry : hashMap.entrySet()) {
             if (violationEntry.getValue() > 0)
