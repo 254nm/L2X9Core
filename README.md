@@ -171,6 +171,10 @@ AlertSystem:
 </details>
 ___
 
+## Support discord
+https://discord.gg/qNqRhHv
+___
+
 ## Commands
 
 * /say ~ Configureable /say command with support for colours
