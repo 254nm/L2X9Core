@@ -124,7 +124,7 @@ ChestLagFix:
   RemoveUnicodeBooks: false
 #What should we notify you of on discord
 #WARNING IF YOU HAVE THIS ENABLED AND DO NOT INPUT A WEBHOOK URL IT WILL HAVE ERRORS.
-#Here is a video on how to configure this feature
+#Here is a video on how to configure this feature https://youtu.be/0qoJqk6PJas
 AlertSystem:
   Alerts-Enabled: false
   WebhookURL: ""
