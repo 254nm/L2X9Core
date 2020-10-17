@@ -68,7 +68,7 @@ public class ChestLagFix implements Listener {
         return false;
     }
 
-    public void deleteNBTBooks(Inventory inventory) {
+    private void deleteNBTBooks(Inventory inventory) {
         for (ItemStack item : inventory.getContents()) {
             if (item != null) {
                 if (item.getType() == Material.WRITTEN_BOOK || item.getType() == Material.BOOK_AND_QUILL) {

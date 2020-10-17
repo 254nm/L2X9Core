@@ -12,6 +12,8 @@ public class BucketEvent implements Listener {
 
     @EventHandler
     public void onBucket(PlayerBucketEmptyEvent event) {
+        // This is monke code im gonna rewrite this soon
+        //TODO Rewrite this patch
         int yNeg = event.getBlockClicked().getLocation().getBlockY() - 1;
         int yPos = event.getBlockClicked().getLocation().getBlockY() + 1;
         int xNeg = event.getBlockClicked().getLocation().getBlockX() - 1;

@@ -42,7 +42,7 @@ public class Offhand implements Listener {
         Utils.secondPass(offhandMap);
     }
 
-    public boolean isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(Player player) {
+    private boolean isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(Player player) {
         ItemStack stack = player.getInventory().getItemInMainHand();
         ArrayList<Material> materialArrayList = new ArrayList<>();
         for (Material material : Material.values()) {

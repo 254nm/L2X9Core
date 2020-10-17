@@ -31,9 +31,10 @@ public class GateWay implements Listener {
         if (entity instanceof Boat || entity instanceof Minecart || entity instanceof Pig || entity instanceof Mule
                 || entity instanceof Horse) {
             for (Player nearby : entity.getLocation().getNearbyPlayers(30)) {
-                if (event.getGateway().getLocation().getNearbyPlayers(20).size() > 0)
-                    nearby.sendMessage(ChatColor.GOLD + "Going through ENDGATEWAY while riding " + entity.getName()
-                            + " is currently disabled due to a sexploit");
+                nearby.sendMessage(ChatColor.GOLD
+                        + "Going through ENDGATEWAY while riding "
+                        + entity.getName()
+                        + " is currently disabled due to a sexploit");
                 nearby.teleport(new Location(nearby.getWorld(), nearby.getLocation().getBlockX(),
                         nearby.getLocation().getBlockY() + 5, nearby.getLocation().getBlockZ() + 30));
                 entity.setVelocity(vector);
@@ -44,7 +45,6 @@ public class GateWay implements Listener {
             }
         }
     }
-
     @EventHandler
     public void onPortal(PlayerPortalEvent event) {
         Player player = event.getPlayer();
