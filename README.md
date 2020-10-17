@@ -172,7 +172,7 @@ AlertSystem:
 ___
 
 ## Support discord
-[Support discord]: https://discord.gg/qNqRhHv
+https://discord.gg/qNqRhHv
 ___
 
 ## Commands
