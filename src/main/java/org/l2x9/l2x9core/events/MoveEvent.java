@@ -12,6 +12,7 @@ import org.l2x9.l2x9core.Main;
 public class MoveEvent implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
+
         Player player = event.getPlayer();
         int x = player.getLocation().getBlockX();
         int z = player.getLocation().getBlockZ();

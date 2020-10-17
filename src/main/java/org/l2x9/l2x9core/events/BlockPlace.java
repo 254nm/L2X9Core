@@ -14,33 +14,35 @@ public class BlockPlace implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        switch (event.getBlock().getType()) {
-            case BEDROCK:
-                event.setCancelled(true);
-                Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock"));
-                event.getPlayer().getInventory().getItemInMainHand().setType(null);
-                alertDiscord(player, event.getBlock());
-                break;
-            case ENDER_PORTAL_FRAME:
-                if (!(player.getInventory().getItemInMainHand().getType() == Material.EYE_OF_ENDER) || (!(player.getInventory().getItemInOffHand().getType() == Material.EYE_OF_ENDER))) {
+        if (Main.getPlugin().getConfigBoolean("IllegalBlock-Place.Enabled")) {
+            switch (event.getBlock().getType()) {
+                case BEDROCK:
                     event.setCancelled(true);
-                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock.End_Portal_Frame"));
+                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock"));
                     event.getPlayer().getInventory().getItemInMainHand().setType(null);
                     alertDiscord(player, event.getBlock());
-                }
-                break;
-            case BARRIER:
-                event.setCancelled(true);
-                Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Barrier"));
-                event.getPlayer().getInventory().getItemInMainHand().setType(null);
-                alertDiscord(player, event.getBlock());
-                break;
-            case MOB_SPAWNER:
-                event.setCancelled(true);
-                Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Mob_Spawner"));
-                event.getPlayer().getInventory().getItemInMainHand().setType(null);
-                alertDiscord(player, event.getBlock());
-                break;
+                    break;
+                case ENDER_PORTAL_FRAME:
+                    if (!(player.getInventory().getItemInMainHand().getType() == Material.EYE_OF_ENDER) || (!(player.getInventory().getItemInOffHand().getType() == Material.EYE_OF_ENDER))) {
+                        event.setCancelled(true);
+                        Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock.End_Portal_Frame"));
+                        event.getPlayer().getInventory().getItemInMainHand().setType(null);
+                        alertDiscord(player, event.getBlock());
+                    }
+                    break;
+                case BARRIER:
+                    event.setCancelled(true);
+                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Barrier"));
+                    event.getPlayer().getInventory().getItemInMainHand().setType(null);
+                    alertDiscord(player, event.getBlock());
+                    break;
+                case MOB_SPAWNER:
+                    event.setCancelled(true);
+                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Mob_Spawner"));
+                    event.getPlayer().getInventory().getItemInMainHand().setType(null);
+                    alertDiscord(player, event.getBlock());
+                    break;
+            }
         }
     }
 

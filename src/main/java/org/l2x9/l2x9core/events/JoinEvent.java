@@ -24,9 +24,11 @@ public class JoinEvent implements Listener {
             }
 
         }
-        if (!player.hasPlayedBefore()) {
-            Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    Main.getPlugin().getConfig().getString("FirstJoin.Message").replace("{Player}", player.getName())));
+        if (Main.getPlugin().getConfigBoolean("FirstJoin.Enabled")) {
+            if (!player.hasPlayedBefore()) {
+                Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                        Main.getPlugin().getConfig().getString("FirstJoin.Message").replace("{Player}", player.getName())));
+            }
         }
         if (Main.getPlugin().discordWebhook.alertsEnabled() && player.isOp()) {
             if (Main.getPlugin().getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
