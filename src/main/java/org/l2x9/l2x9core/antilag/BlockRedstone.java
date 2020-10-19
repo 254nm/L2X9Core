@@ -61,29 +61,34 @@ public class BlockRedstone implements Listener {
                     }
                 }
             }
-        } catch (StackOverflowError | NullPointerException ignored) {
+        } catch (Error | Exception throwable) {
+            //Utils.reportException(throwable);
         }
     }
 
     @EventHandler
     public void onPull(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.LEVER) {
-                Player player = event.getPlayer();
-                if (leverHashMap.containsKey(player)) {
-                    leverHashMap.put(player, leverHashMap.get(player) + 1);
-                } else {
-                    leverHashMap.put(player, 1);
-                }
-                if (leverHashMap.get(player) > 5) {
-                    event.setCancelled(true);
-                    Utils.kickPlayer(player, Utils.getPrefix() + "&6AntiFaggotExploit by 254n_m");
-                    leverHashMap.remove(player);
+        try {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getClickedBlock().getType() == Material.LEVER) {
+                    Player player = event.getPlayer();
+                    if (leverHashMap.containsKey(player)) {
+                        leverHashMap.put(player, leverHashMap.get(player) + 1);
+                    } else {
+                        leverHashMap.put(player, 1);
+                    }
+                    if (leverHashMap.get(player) > 5) {
+                        event.setCancelled(true);
+                        Utils.kickPlayer(player, Utils.getPrefix() + "&6AntiFaggotExploit by 254n_m");
+                        leverHashMap.remove(player);
+                    }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
-
     @EventHandler
     public void onSecond(SecondPassEvent event) {
         Utils.secondPass(leverHashMap);

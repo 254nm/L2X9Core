@@ -87,127 +87,132 @@ public class ItemUtils {
     }
 
     public void deleteIllegals(Inventory inventory) {
-        ItemUtils utils = new ItemUtils();
-        ItemStack itemStack = null;
-        boolean illegalsFound = false;
-        if (inventory.getContents() != null) {
-            for (ItemStack item : inventory.getStorageContents()) {
-                if (item != null) {
-                    if (utils.isArmor(item) || utils.isTool(item)) {
-                        if (item.getDurability() > item.getType().getMaxDurability()) {
-                            item.setDurability(item.getType().getMaxDurability());
-                            itemStack = item;
-                        }
-                        if (item.getDurability() < 0) {
-                            item.setDurability((short) 1);
-                            itemStack = item;
-                        }
+        try {
+            ItemUtils utils = new ItemUtils();
+            ItemStack itemStack = null;
+            boolean illegalsFound = false;
+            if (inventory.getContents() != null) {
+                for (ItemStack item : inventory.getStorageContents()) {
+                    if (item != null) {
+                        if (utils.isArmor(item) || utils.isTool(item)) {
+                            if (item.getDurability() > item.getType().getMaxDurability()) {
+                                item.setDurability(item.getType().getMaxDurability());
+                                itemStack = item;
+                            }
+                            if (item.getDurability() < 0) {
+                                item.setDurability((short) 1);
+                                itemStack = item;
+                            }
 
-                    }
-                    if (utils.isIllegal(item)) {
-                        inventory.remove(item);
-                        illegalsFound = true;
-                        itemStack = item;
-                    }
-                    if (utils.hasIllegalNBT(item)) {
-                        inventory.remove(item);
-                        illegalsFound = true;
-                        itemStack = item;
-
-                    }
-                    if (utils.isOverstacked(item)) {
-                        item.setAmount(item.getMaxStackSize());
-                        itemStack = item;
-                    }
-                    if (utils.hasIllegalEnchants(item)) {
-                        for (Entry<Enchantment, Integer> enchantmentIntegerEntry : item.getEnchantments().entrySet()) {
-                            item.removeEnchantment(enchantmentIntegerEntry.getKey());
+                        }
+                        if (utils.isIllegal(item)) {
+                            inventory.remove(item);
                             illegalsFound = true;
                             itemStack = item;
                         }
-                    }
-                    if (item.hasItemMeta()) {
-                        ItemMeta meta = item.getItemMeta();
-                        if (meta.getDisplayName() != null) {
-                            BlockPlace.removeColours(item, meta);
-                        }
-                        if (utils.isEnchantedBlock(item)) {
-                            Iterator<Entry<Enchantment, Integer>> enchants = item.getEnchantments().entrySet()
-                                    .iterator();
+                        if (utils.hasIllegalNBT(item)) {
+                            inventory.remove(item);
                             illegalsFound = true;
                             itemStack = item;
-                            while (enchants.hasNext()) {
-                                item.removeEnchantment(enchants.next().getKey());
+
+                        }
+                        if (utils.isOverstacked(item)) {
+                            item.setAmount(item.getMaxStackSize());
+                            itemStack = item;
+                        }
+                        if (utils.hasIllegalEnchants(item)) {
+                            for (Entry<Enchantment, Integer> enchantmentIntegerEntry : item.getEnchantments().entrySet()) {
+                                item.removeEnchantment(enchantmentIntegerEntry.getKey());
+                                illegalsFound = true;
+                                itemStack = item;
                             }
                         }
-                        if (item.getItemMeta() instanceof BlockStateMeta) {
-                            BlockStateMeta blockStateMeta = (BlockStateMeta) item.getItemMeta();
-                            if (blockStateMeta.getBlockState() instanceof ShulkerBox) {
-                                ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
-                                for (ItemStack shulkerItem : shulker.getInventory().getContents()) {
-                                    if (shulkerItem != null) {
-                                        if (utils.isArmor(shulkerItem) || utils.isTool(shulkerItem)) {
-                                            if (shulkerItem.getDurability() > shulkerItem.getType().getMaxDurability()) {
-                                                shulkerItem.setDurability(shulkerItem.getType().getMaxDurability());
-                                                illegalsFound = true;
-                                                itemStack = item;
-                                            }
-                                            if (shulkerItem.getDurability() < 0) {
-                                                shulkerItem.setDurability((short) 1);
-                                                illegalsFound = true;
-                                                itemStack = item;
-                                            }
-                                        }
-                                        if (utils.isIllegal(shulkerItem)) {
-                                            shulker.getInventory().remove(shulkerItem);
-                                            illegalsFound = true;
-                                            itemStack = item;
-                                        }
-                                        if (utils.hasIllegalNBT(shulkerItem)) {
-                                            shulker.getInventory().remove(shulkerItem);
-                                            illegalsFound = true;
-                                            itemStack = item;
-                                        }
-                                        if (utils.isOverstacked(shulkerItem)) {
-                                            shulkerItem.setAmount(shulkerItem.getType().getMaxStackSize());
-                                            illegalsFound = true;
-                                            itemStack = item;
-                                        }
-                                        if (utils.hasIllegalEnchants(shulkerItem)) {
-                                            Map<Enchantment, Integer> enchants = item.getEnchantments();
-                                            for (int level : enchants.values()) {
-                                                if (level > enchants.entrySet().iterator().next().getKey().getMaxLevel()) {
-                                                    shulkerItem.addEnchantment(enchants.entrySet().iterator().next().getKey(), enchants.entrySet().iterator().next().getKey().getMaxLevel());
-
+                        if (item.hasItemMeta()) {
+                            ItemMeta meta = item.getItemMeta();
+                            if (meta.getDisplayName() != null) {
+                                BlockPlace.removeColours(item, meta);
+                            }
+                            if (utils.isEnchantedBlock(item)) {
+                                Iterator<Entry<Enchantment, Integer>> enchants = item.getEnchantments().entrySet()
+                                        .iterator();
+                                illegalsFound = true;
+                                itemStack = item;
+                                while (enchants.hasNext()) {
+                                    item.removeEnchantment(enchants.next().getKey());
+                                }
+                            }
+                            if (item.getItemMeta() instanceof BlockStateMeta) {
+                                BlockStateMeta blockStateMeta = (BlockStateMeta) item.getItemMeta();
+                                if (blockStateMeta.getBlockState() instanceof ShulkerBox) {
+                                    ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
+                                    for (ItemStack shulkerItem : shulker.getInventory().getContents()) {
+                                        if (shulkerItem != null) {
+                                            if (utils.isArmor(shulkerItem) || utils.isTool(shulkerItem)) {
+                                                if (shulkerItem.getDurability() > shulkerItem.getType().getMaxDurability()) {
+                                                    shulkerItem.setDurability(shulkerItem.getType().getMaxDurability());
+                                                    illegalsFound = true;
+                                                    itemStack = item;
+                                                }
+                                                if (shulkerItem.getDurability() < 0) {
+                                                    shulkerItem.setDurability((short) 1);
+                                                    illegalsFound = true;
+                                                    itemStack = item;
                                                 }
                                             }
-                                            illegalsFound = true;
-                                            itemStack = item;
-                                        }
-                                        if (utils.isEnchantedBlock(shulkerItem)) {
-                                            shulkerItem.removeEnchantment(shulkerItem.getEnchantments().entrySet().iterator().next().getKey());
-                                            illegalsFound = true;
-                                            itemStack = item;
+                                            if (utils.isIllegal(shulkerItem)) {
+                                                shulker.getInventory().remove(shulkerItem);
+                                                illegalsFound = true;
+                                                itemStack = item;
+                                            }
+                                            if (utils.hasIllegalNBT(shulkerItem)) {
+                                                shulker.getInventory().remove(shulkerItem);
+                                                illegalsFound = true;
+                                                itemStack = item;
+                                            }
+                                            if (utils.isOverstacked(shulkerItem)) {
+                                                shulkerItem.setAmount(shulkerItem.getType().getMaxStackSize());
+                                                illegalsFound = true;
+                                                itemStack = item;
+                                            }
+                                            if (utils.hasIllegalEnchants(shulkerItem)) {
+                                                Map<Enchantment, Integer> enchants = item.getEnchantments();
+                                                for (int level : enchants.values()) {
+                                                    if (level > enchants.entrySet().iterator().next().getKey().getMaxLevel()) {
+                                                        shulkerItem.addEnchantment(enchants.entrySet().iterator().next().getKey(), enchants.entrySet().iterator().next().getKey().getMaxLevel());
+
+                                                    }
+                                                }
+                                                illegalsFound = true;
+                                                itemStack = item;
+                                            }
+                                            if (utils.isEnchantedBlock(shulkerItem)) {
+                                                shulkerItem.removeEnchantment(shulkerItem.getEnchantments().entrySet().iterator().next().getKey());
+                                                illegalsFound = true;
+                                                itemStack = item;
+                                            }
                                         }
                                     }
+                                    blockStateMeta.setBlockState(shulker);
+                                    item.setItemMeta(blockStateMeta);
                                 }
-                                blockStateMeta.setBlockState(shulker);
-                                item.setItemMeta(blockStateMeta);
-                            }
 
+                            }
                         }
                     }
                 }
             }
-        }
-        if (illegalsFound) {
-            Utils.println(Utils.getPrefix() + "&6Deleted illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
-            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                if (Main.getPlugin().getConfigBoolean("AlertSystem.IllegalItemAlert")) {
-                    Main.getPlugin().discordWebhook.setContent("Found illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
-                    Main.getPlugin().discordWebhook.execute();
+            if (illegalsFound) {
+                Utils.println(Utils.getPrefix() + "&6Deleted illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
+                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                    if (Main.getPlugin().getConfigBoolean("AlertSystem.IllegalItemAlert")) {
+                        Main.getPlugin().discordWebhook.setContent("Found illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
+                        Main.getPlugin().discordWebhook.execute();
+                    }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
 }

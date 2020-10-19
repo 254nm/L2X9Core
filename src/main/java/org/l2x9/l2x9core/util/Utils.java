@@ -236,6 +236,7 @@ public class Utils {
         }
         return count;
     }
+
     public static void changeBlockInChunk(Chunk chunk, Material target, Material to) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -247,10 +248,36 @@ public class Utils {
             }
         }
     }
+
     public static void secondPass(HashMap<Player, Integer> hashMap) {
         for (Map.Entry<Player, Integer> violationEntry : hashMap.entrySet()) {
             if (violationEntry.getValue() > 0)
                 violationEntry.setValue(violationEntry.getValue() - 1);
         }
+    }
+
+    public static void reportException(Throwable error) {
+        Thread thread = new Thread(() -> {
+            Utils.println(Utils.getPrefix() + "&6Has had the following error this has been reported to 254n_m via a DiscordWebhook if this is not resolved by the next update please contact 254n-m#5890 on discord!");
+            StringBuilder builder = new StringBuilder();
+            for (StackTraceElement stackTraceElement : error.getStackTrace()) {
+                builder.append(stackTraceElement.toString().concat("\\n"));
+            }
+            String concat = builder.toString().concat("ErrorCause: " + error).concat("\\nPluginVersion: " + Main.getPlugin().getDescription().getVersion()).concat("\\nServerVersion: " + Main.getPlugin().getServerBrand());
+            if (!(concat.toCharArray().length > 1994)) {
+                Main.getPlugin().exceptionHook.setContent("```" + concat + "```");
+                Main.getPlugin().exceptionHook.execute();
+            } else {
+                Hastebin hastebin = new Hastebin();
+                try {
+                    Main.getPlugin().exceptionHook.setContent("Error posted at: " + hastebin.post(concat.replace("\\n", "\n"), false));
+                    Main.getPlugin().exceptionHook.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        System.gc();
     }
 }

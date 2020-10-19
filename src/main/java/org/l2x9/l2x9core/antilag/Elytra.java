@@ -13,33 +13,42 @@ import org.l2x9.l2x9core.util.Utils;
 public class Elytra implements Listener {
     @EventHandler
     public void onToggleGlide(EntityToggleGlideEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
-            if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")) {
-                event.setCancelled(true);
-                Utils.sendMessage(player, Main.getPlugin().getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")));
+        try {
+            if (event.getEntity() instanceof Player) {
+                Player player = (Player) event.getEntity();
+                if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")) {
+                    event.setCancelled(true);
+                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")));
+                }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
         }
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Location from = event.getFrom();
-        Location to = event.getTo();
-        double distX = to.getX() - from.getX();
-        double distZ = to.getZ() - from.getZ();
-        double finalValue = Math.round(Math.hypot(distX, distZ));
-        if (finalValue > 3) {
-            event.setCancelled(true);
-            player.damage(15);
-            if (player.isGliding()) {
-                player.setGliding(false);
-                if (player.getInventory().getChestplate().getType() == Material.ELYTRA) {
-                    player.getWorld().dropItem(player.getLocation(), player.getInventory().getChestplate());
-                    player.getInventory().setChestplate(null);
+        try {
+            Player player = event.getPlayer();
+            Location from = event.getFrom();
+            Location to = event.getTo();
+            double distX = to.getX() - from.getX();
+            double distZ = to.getZ() - from.getZ();
+            double finalValue = Math.round(Math.hypot(distX, distZ));
+            if (finalValue > 3) {
+                event.setCancelled(true);
+                player.damage(15);
+                if (player.isGliding()) {
+                    player.setGliding(false);
+                    if (player.getInventory().getChestplate().getType() == Material.ELYTRA) {
+                        player.getWorld().dropItem(player.getLocation(), player.getInventory().getChestplate());
+                        player.getInventory().setChestplate(null);
+                    }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
 }

@@ -24,29 +24,34 @@ public class ChestLagFix implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
-        int maxSpam = Main.getPlugin().getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
-        String kickMessage = Main.getPlugin().getConfig().getString("ChestLagFix.KickMessage");
-        boolean deleteBooks = Main.getPlugin().getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
-        InventoryType inventoryType = event.getInventory().getType();
-        Player player = (Player) event.getPlayer();
-        if (isCheckedInventory(inventoryType)) {
-            if (chestHashMap.containsKey(player)) {
-                chestHashMap.replace(player, chestHashMap.get(player) + 1);
-            } else {
-                chestHashMap.put(player, 1);
-            }
-            if (deleteBooks) {
-                deleteNBTBooks(event.getInventory());
-            }
-            if (chestHashMap.get(player) > maxSpam) {
-                Utils.kickPlayer(player, kickMessage);
-                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                    if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
-                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [ChestLag Attempt] by " + player.getName());
-                        Main.getPlugin().discordWebhook.execute();
+        try {
+            int maxSpam = Main.getPlugin().getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
+            String kickMessage = Main.getPlugin().getConfig().getString("ChestLagFix.KickMessage");
+            boolean deleteBooks = Main.getPlugin().getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
+            InventoryType inventoryType = event.getInventory().getType();
+            Player player = (Player) event.getPlayer();
+            if (isCheckedInventory(inventoryType)) {
+                if (chestHashMap.containsKey(player)) {
+                    chestHashMap.replace(player, chestHashMap.get(player) + 1);
+                } else {
+                    chestHashMap.put(player, 1);
+                }
+                if (deleteBooks) {
+                    deleteNBTBooks(event.getInventory());
+                }
+                if (chestHashMap.get(player) > maxSpam) {
+                    Utils.kickPlayer(player, kickMessage);
+                    if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                        if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
+                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [ChestLag Attempt] by " + player.getName());
+                            Main.getPlugin().discordWebhook.execute();
+                        }
                     }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
 

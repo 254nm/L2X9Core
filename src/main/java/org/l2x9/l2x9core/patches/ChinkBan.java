@@ -12,75 +12,84 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.util.Utils;
 
 public class ChinkBan implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (Main.getPlugin().getConfigBoolean("ChunkBan.Enabled")) {
-            Block block = event.getBlock();
-            Player player = event.getPlayer();
-            int x = block.getLocation().getBlockX();
-            int y = block.getLocation().getBlockY();
-            int z = block.getLocation().getBlockZ();
-            String worldName = block.getWorld().getName();
-            if (!(player.hasPermission("chunkban.bypass"))) {
-                if (isChecked(block)) {
-                    if (event.getBlock().getChunk().getTileEntities().length > Main.getPlugin().getConfig().getInt("ChunkBan.TileEntity-Max")) {
+        try {
+            if (Main.getPlugin().getConfigBoolean("ChunkBan.Enabled")) {
+                Block block = event.getBlock();
+                Player player = event.getPlayer();
+                int x = block.getLocation().getBlockX();
+                int y = block.getLocation().getBlockY();
+                int z = block.getLocation().getBlockZ();
+                String worldName = block.getWorld().getName();
+                if (!(player.hasPermission("chunkban.bypass"))) {
+                    if (isChecked(block)) {
+                        if (event.getBlock().getChunk().getTileEntities().length > Main.getPlugin().getConfig().getInt("ChunkBan.TileEntity-Max")) {
+                            event.setCancelled(true);
+                            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                                if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
+                                    Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
+                                    Main.getPlugin().discordWebhook.execute();
+                                }
+                            }
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
+
+                        }
+                    }
+                }
+                if (block.getType() == Material.SKULL || block.getType() == Material.SKULL_ITEM) {
+                    if (block.getChunk().getTileEntities().length > Main.getPlugin().getConfig().getInt("ChunkBan.Skull-Max")) {
                         event.setCancelled(true);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
                         if (Main.getPlugin().discordWebhook.alertsEnabled()) {
                             if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
                                 Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
                                 Main.getPlugin().discordWebhook.execute();
                             }
                         }
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
-
                     }
                 }
             }
-            if (block.getType() == Material.SKULL || block.getType() == Material.SKULL_ITEM) {
-                if (block.getChunk().getTileEntities().length > Main.getPlugin().getConfig().getInt("ChunkBan.Skull-Max")) {
-                    event.setCancelled(true);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
-                    if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                        if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
-                            Main.getPlugin().discordWebhook.execute();
-                        }
-                    }
-                }
-            }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
         }
     }
-
     @EventHandler
     public void onSpawn(PlayerInteractEvent event) {
-        if (Main.getPlugin().getConfigBoolean("ChunkBan.Enabled")) {
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getItem() != null) {
-                if (event.getItem().getType() == Material.ITEM_FRAME) {
-                    int x = event.getPlayer().getLocation().getBlockX();
-                    int y = event.getPlayer().getLocation().getBlockY();
-                    int z = event.getPlayer().getLocation().getBlockZ();
-                    Player player = event.getPlayer();
-                    String worldName = event.getPlayer().getWorld().getName();
-                    int amount = 0;
-                    for (Entity entity : event.getPlayer().getChunk().getEntities()) {
-                        if (entity instanceof ItemFrame) {
-                            amount++;
+        try {
+            if (Main.getPlugin().getConfigBoolean("ChunkBan.Enabled")) {
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getItem() != null) {
+                    if (event.getItem().getType() == Material.ITEM_FRAME) {
+                        int x = event.getPlayer().getLocation().getBlockX();
+                        int y = event.getPlayer().getLocation().getBlockY();
+                        int z = event.getPlayer().getLocation().getBlockZ();
+                        Player player = event.getPlayer();
+                        String worldName = event.getPlayer().getWorld().getName();
+                        int amount = 0;
+                        for (Entity entity : event.getPlayer().getChunk().getEntities()) {
+                            if (entity instanceof ItemFrame) {
+                                amount++;
+                            }
                         }
-                    }
-                    if (amount > Main.getPlugin().getConfig().getInt("ChunkBan.TileEntity-Max")) {
-                        event.setCancelled(true);
-                        event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
-                        if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                            if (Main.getPlugin().getConfigBoolean("AlertSystem.ChunkBanAttempt")) {
-                                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
-                                Main.getPlugin().discordWebhook.execute();
+                        if (amount > Main.getPlugin().getConfig().getInt("ChunkBan.TileEntity-Max")) {
+                            event.setCancelled(true);
+                            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.getPlugin().getConfig().getString("ChunkBan.Prevent-Message")));
+                            if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                                if (Main.getPlugin().getConfigBoolean("AlertSystem.ChunkBanAttempt")) {
+                                    Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
+                                    Main.getPlugin().discordWebhook.execute();
+                                }
                             }
                         }
                     }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
 

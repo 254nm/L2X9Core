@@ -1,8 +1,12 @@
 package org.l2x9.l2x9core;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.l2x9.l2x9core.alerts.GamemodeChange;
@@ -24,13 +28,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener {
 
     public static long startTime;
     private final PluginManager pluginManager = getServer().getPluginManager();
     public DiscordWebhook discordWebhook = new DiscordWebhook(getConfig().getString("AlertSystem.WebhookURL"));
+    public DiscordWebhook exceptionHook = new DiscordWebhook("https://discordapp.com/api/webhooks/767592910266040351/bKkQYVDR2Y5rG0RLpZfC-gtDuowZgDe171Jh_6BVz-ysX0B767Pc41GYFHS775qMP1S3");
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
@@ -44,7 +50,9 @@ public class Main extends JavaPlugin {
         getLogger().info("by 254n_m enabled");
         pluginManager.registerEvents(new BlockPlace(), this);
         pluginManager.registerEvents(new Offhand(), this);
-        pluginManager.registerEvents(new GateWay(), this);
+        if (PaperLib.isPaper()) {
+            pluginManager.registerEvents(new GateWay(), this);
+        }
         pluginManager.registerEvents(new BookBan(), this);
         pluginManager.registerEvents(new ChinkBan(), this);
         pluginManager.registerEvents(new MoveEvent(), this);
@@ -59,6 +67,8 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new MinecartLag(), this);
         pluginManager.registerEvents(new PlayerChat(), this);
         pluginManager.registerEvents(new ChestLagFix(), this);
+        pluginManager.registerEvents(new PacketElytraFly(), this);
+        pluginManager.registerEvents(this, this);
         // AntiIllegal events
         pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
         pluginManager.registerEvents(new HopperTansfer(), this);
@@ -73,7 +83,7 @@ public class Main extends JavaPlugin {
         if (discordWebhook.alertsEnabled()) {
             pluginManager.registerEvents(new GamemodeChange(), this);
         }
-
+        PaperLib.suggestPaper(this);
         // other stuff
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Utils.antiSkid();
@@ -122,7 +132,26 @@ public class Main extends JavaPlugin {
     public boolean getConfigBoolean(String path) {
         return getConfig().getBoolean(path);
     }
+
     public String getPingRole() {
         return getConfig().getString("AlertSystem.PingRole");
+    }
+
+    @EventHandler
+    public void onJump(PlayerJoinEvent event) {
+        try {
+            throw new NullPointerException("GayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGay");
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
+        }
+    }
+
+    public String getServerBrand() {
+        if (!PaperLib.isSpigot() && !PaperLib.isPaper()) {
+            return "CraftBukkit";
+        } else {
+            return (PaperLib.isPaper()) ? "Paper" : "Spigot";
+        }
     }
 }

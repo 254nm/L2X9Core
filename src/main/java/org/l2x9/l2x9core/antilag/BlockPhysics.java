@@ -19,8 +19,10 @@ public class BlockPhysics implements Listener {
                     event.setCancelled(true);
                 }
             }
-        } catch (Error | Exception ignored) {
-        } //StackOverflowErrors happen when you use this event
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
+        }
     }
 
     private boolean isChecked(Material material) {

@@ -18,22 +18,27 @@ public class Offhand implements Listener {
 
     @EventHandler
     public void PlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent event) {
-        Player player = event.getPlayer();
-        if (isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(player)) {
-            if (offhandMap.containsKey(player)) {
-                offhandMap.replace(player, offhandMap.get(player) + 1);
-            } else {
-                offhandMap.put(player, 1);
-            }
-            if (offhandMap.get(player) > 10) {
-                player.kickPlayer("Packet Exploit Detected");
-                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                    if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-                        Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
-                        Main.getPlugin().discordWebhook.execute();
+        try {
+            Player player = event.getPlayer();
+            if (isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(player)) {
+                if (offhandMap.containsKey(player)) {
+                    offhandMap.replace(player, offhandMap.get(player) + 1);
+                } else {
+                    offhandMap.put(player, 1);
+                }
+                if (offhandMap.get(player) > 10) {
+                    player.kickPlayer("Packet Exploit Detected");
+                    if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                        if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
+                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
+                            Main.getPlugin().discordWebhook.execute();
+                        }
                     }
                 }
             }
+        } catch (Error | Exception throwable) {
+            Utils.reportException(throwable);
+            throwable.printStackTrace();
         }
     }
 

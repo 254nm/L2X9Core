@@ -33,6 +33,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
+                <configuration>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
+                    </dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>org.l2x9.l2x9core.paperlib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -61,7 +71,7 @@
         </repository>
         <repository>
             <id>papermc</id>
-            <url>C:/Users/Mason/IdeaProjects/L2X9ExploitFixer/lib/server.jar</url>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -77,6 +87,12 @@
             <scope>system</scope>
             <version>1.0</version>
             <systemPath>${project.basedir}/lib/saldupe.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.5</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

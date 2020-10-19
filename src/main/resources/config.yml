@@ -35,6 +35,11 @@ FirstJoin:
 #Set 0 to disable 
 Elytra:
   Disable-TPS: 12
+  #This will patch future clients packet elytra fly witch can be used to bypass most elytra speed limit plugins and make the elytra not lose any durability
+  PacketElytraFly-Enabled: true
+  #Sends a message to the player when they try to use PacketElytraFly
+  SendMessage: true
+  Message: "[&b&lL2X9&r&3&lCore&r]&6 PacketElytraFly is currently disabled due to it causing tons of lag"
 Redstone:
   Disable-TPS: 16
   Amount-per-chunk: 16
