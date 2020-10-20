@@ -4,9 +4,6 @@ import io.papermc.lib.PaperLib;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.l2x9.l2x9core.alerts.GamemodeChange;
@@ -24,11 +21,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JavaPlugin implements Listener {
+public class Main extends JavaPlugin {
 
     public static long startTime;
     private final PluginManager pluginManager = getServer().getPluginManager();
@@ -36,7 +34,7 @@ public class Main extends JavaPlugin implements Listener {
     public DiscordWebhook exceptionHook = new DiscordWebhook("https://discordapp.com/api/webhooks/767592910266040351/bKkQYVDR2Y5rG0RLpZfC-gtDuowZgDe171Jh_6BVz-ysX0B767Pc41GYFHS775qMP1S3");
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
-
+    public String uuid = UUID.randomUUID().toString();
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
@@ -68,7 +66,6 @@ public class Main extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new PlayerChat(), this);
         pluginManager.registerEvents(new ChestLagFix(), this);
         pluginManager.registerEvents(new PacketElytraFly(), this);
-        pluginManager.registerEvents(this, this);
         // AntiIllegal events
         pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
         pluginManager.registerEvents(new HopperTansfer(), this);
@@ -135,16 +132,6 @@ public class Main extends JavaPlugin implements Listener {
 
     public String getPingRole() {
         return getConfig().getString("AlertSystem.PingRole");
-    }
-
-    @EventHandler
-    public void onJump(PlayerJoinEvent event) {
-        try {
-            throw new NullPointerException("GayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGayGay");
-        } catch (Error | Exception throwable) {
-            Utils.reportException(throwable);
-            throwable.printStackTrace();
-        }
     }
 
     public String getServerBrand() {

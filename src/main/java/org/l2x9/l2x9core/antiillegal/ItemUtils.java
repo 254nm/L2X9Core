@@ -66,7 +66,11 @@ public class ItemUtils {
     }
 
     public boolean isOverstacked(ItemStack item) {
-        return item.getAmount() > item.getMaxStackSize();
+        if (Main.getPlugin().getConfigBoolean("Antiillegal.Delete-Stacked-Items")) {
+            return item.getAmount() > item.getMaxStackSize();
+        } else {
+            return false;
+        }
     }
 
     public boolean hasIllegalEnchants(ItemStack item) {

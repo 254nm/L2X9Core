@@ -20,28 +20,28 @@ public class BlockPlace implements Listener {
                     case BEDROCK:
                         event.setCancelled(true);
                         Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock"));
-                        event.getPlayer().getInventory().getItemInMainHand().setType(null);
                         alertDiscord(player, event.getBlock());
+                        event.getPlayer().getInventory().getItemInMainHand().setType(Material.AIR);
                         break;
                     case ENDER_PORTAL_FRAME:
                         if (!(player.getInventory().getItemInMainHand().getType() == Material.EYE_OF_ENDER) || (!(player.getInventory().getItemInOffHand().getType() == Material.EYE_OF_ENDER))) {
                             event.setCancelled(true);
                             Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Bedrock.End_Portal_Frame"));
-                            event.getPlayer().getInventory().getItemInMainHand().setType(null);
                             alertDiscord(player, event.getBlock());
+                            event.getPlayer().getInventory().getItemInMainHand().setType(Material.AIR);
                         }
                         break;
                     case BARRIER:
                         event.setCancelled(true);
                         Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Barrier"));
-                        event.getPlayer().getInventory().getItemInMainHand().setType(null);
                         alertDiscord(player, event.getBlock());
+                        event.getPlayer().getInventory().getItemInMainHand().setType(Material.AIR);
                         break;
                     case MOB_SPAWNER:
                         event.setCancelled(true);
                         Utils.sendMessage(player, Main.getPlugin().getConfig().getString("IllegalBlock-Place.Mob_Spawner"));
-                        event.getPlayer().getInventory().getItemInMainHand().setType(null);
                         alertDiscord(player, event.getBlock());
+                        event.getPlayer().getInventory().getItemInMainHand().setType(Material.AIR);
                         break;
                 }
             }
