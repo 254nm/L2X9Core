@@ -29,6 +29,12 @@ public class Elytra implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         try {
+            if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")) {
+                if (event.getPlayer().isGliding()) {
+                    event.getPlayer().setGliding(false);
+                    Utils.sendMessage(event.getPlayer(), Main.getPlugin().getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")));
+                }
+            }
             Player player = event.getPlayer();
             Location from = event.getFrom();
             Location to = event.getTo();

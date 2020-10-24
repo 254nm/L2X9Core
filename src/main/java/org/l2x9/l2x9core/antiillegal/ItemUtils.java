@@ -62,7 +62,6 @@ public class ItemUtils {
                     || meta.isUnbreakable() || meta.hasLore();
         }
         return false;
-
     }
 
     public boolean isOverstacked(ItemStack item) {
@@ -179,11 +178,13 @@ public class ItemUtils {
                                                 itemStack = item;
                                             }
                                             if (utils.hasIllegalEnchants(shulkerItem)) {
-                                                Map<Enchantment, Integer> enchants = item.getEnchantments();
-                                                for (int level : enchants.values()) {
-                                                    if (level > enchants.entrySet().iterator().next().getKey().getMaxLevel()) {
-                                                        shulkerItem.addEnchantment(enchants.entrySet().iterator().next().getKey(), enchants.entrySet().iterator().next().getKey().getMaxLevel());
-
+                                                for (Entry<Enchantment, Integer> enchantmentIntEntry : shulkerItem.getEnchantments().entrySet()) {
+                                                    if (enchantmentIntEntry.getValue() > enchantmentIntEntry.getKey().getMaxLevel()) {
+                                                        if (enchantmentIntEntry.getKey().canEnchantItem(shulkerItem)) {
+                                                            shulkerItem.addEnchantment(enchantmentIntEntry.getKey(), enchantmentIntEntry.getKey().getMaxLevel());
+                                                        } else {
+                                                            shulkerItem.removeEnchantment(enchantmentIntEntry.getKey());
+                                                        }
                                                     }
                                                 }
                                                 illegalsFound = true;
@@ -199,7 +200,6 @@ public class ItemUtils {
                                     blockStateMeta.setBlockState(shulker);
                                     item.setItemMeta(blockStateMeta);
                                 }
-
                             }
                         }
                     }

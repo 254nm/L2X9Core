@@ -27,5 +27,8 @@ commands:
     description: Switch worlds
   help:
     description: Displays a coustom help menu
-  github:
-    description: shows info about a given users github
+  toggleconnectionmessages:
+    description: Toggles on / off connection messages for the sender of the command
+    aliases:
+      - tc
+      - toggleconnection

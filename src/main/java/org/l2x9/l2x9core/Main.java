@@ -1,6 +1,7 @@
 package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -35,6 +37,7 @@ public class Main extends JavaPlugin {
     SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
     ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
     public String uuid = UUID.randomUUID().toString();
+    public final HashMap<String, Boolean> toggled = new HashMap<>();
 
     public static Main getPlugin() {
         return getPlugin(Main.class);
@@ -66,6 +69,8 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new PlayerChat(), this);
         pluginManager.registerEvents(new ChestLagFix(), this);
         pluginManager.registerEvents(new PacketElytraFly(), this);
+        pluginManager.registerEvents(new ConnectionMessages(), this);
+        Bukkit.getScheduler().runTaskTimer(this, new FallingBlock(), 0, 2400);
         // AntiIllegal events
         pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
         pluginManager.registerEvents(new HopperTansfer(), this);
@@ -94,6 +99,7 @@ public class Main extends JavaPlugin {
         getCommand("discord").setExecutor(new DiscordCommand());
         getCommand("world").setExecutor(new WorldSwitcher());
         getCommand("help").setExecutor(new HelpCommand());
+        getCommand("toggleconnectionmessages").setExecutor(new ConnectionMessages());
         //Server specific events
         if (pluginManager.getPlugin("SalC1Dupe") != null) {
             if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {

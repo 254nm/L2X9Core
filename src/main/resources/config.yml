@@ -145,3 +145,8 @@ AlertSystem:
   PreventEndPortalDestroy: true
   IllegalBlockPlace: true
   OppedPlayerJoin: true
+#These are the connection messages for when a player joins / leaves
+#Use & for colours and %player% as a placeholder for the players name
+Connection:
+  Player-Join-Message: "&7%player% Joined"
+  Player-Leave-Message: "&7%player% Left"
