@@ -21,8 +21,10 @@ public class UUidCommand implements CommandExecutor {
                 sendClickableMessage(
                         sender,
                         "&6The UUID of&r&c " + target.getName() + "&r&6 is &r&c" + target.getUniqueId().toString(),
-                        "&aClick to copy",
-                        target.getUniqueId().toString(), ClickEvent.Action.SUGGEST_COMMAND);
+                        "&a&lClick to copy",
+                        target.getUniqueId().toString(),
+                        ClickEvent.Action.SUGGEST_COMMAND
+                );
 
             } else {
                 Utils.sendMessage(sender, "&4Error&r&c: Please include at least one argument /uuid <playerName>");

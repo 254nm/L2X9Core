@@ -1,5 +1,6 @@
 package org.l2x9.l2x9core.util;
 
+import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -11,15 +12,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.l2x9.l2x9core.Main;
 
+import java.awt.print.Paper;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class Utils {
     public static double getTps() {
-        return (Math.round(Bukkit.getServer().getTPS()[0]));
+        if (PaperLib.isPaper()) {
+            return (Math.round(Bukkit.getServer().getTPS()[0]));
+        } else {
+            Main.getPlugin().getLogger().log(Level.SEVERE, "L2X9Core dose not work correctly on " + Main.getPlugin().getServerBrand() + " please upgrade to paper");
+            PaperLib.suggestPaper(Main.getPlugin());
+            return 20;
+        }
     }
 
     public static ChatColor getTPSColor(String input) {
@@ -205,7 +214,6 @@ public class Utils {
                         Main.getPlugin().getServer().shutdown();
                     }
                 }.runTaskLater(Main.getPlugin(), 20);
-
             }
         }
     }
@@ -258,23 +266,27 @@ public class Utils {
 
     public static void reportException(Throwable error) {
         Thread thread = new Thread(() -> {
-            Utils.println(Utils.getPrefix() + "&6Has had the following error this has been reported to 254n_m via a DiscordWebhook if this is not resolved by the next update please contact 254n-m#5890 on discord!");
-            StringBuilder builder = new StringBuilder();
-            for (StackTraceElement stackTraceElement : error.getStackTrace()) {
-                builder.append(stackTraceElement.toString().concat("\\n"));
-            }
-            String concat = builder.toString().concat("ErrorCause: " + error).concat("\\nPluginVersion: " + Main.getPlugin().getDescription().getVersion()).concat("\\nServerVersion: " + Main.getPlugin().getServerBrand());
-            if (!(concat.toCharArray().length > 1994)) {
-                Main.getPlugin().exceptionHook.setContent("```" + concat + "```");
-                Main.getPlugin().exceptionHook.execute();
-            } else {
-                Hastebin hastebin = new Hastebin();
-                try {
-                    Main.getPlugin().exceptionHook.setContent("Error posted at: " + hastebin.post(concat.replace("\\n", "\n"), false));
-                    Main.getPlugin().exceptionHook.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (PaperLib.isPaper()) {
+                Utils.println(Utils.getPrefix() + "&6Has had the following error this has been reported to 254n_m via a DiscordWebhook if this is not resolved by the next update please contact 254n-m#5890 on discord!");
+                StringBuilder builder = new StringBuilder();
+                for (StackTraceElement stackTraceElement : error.getStackTrace()) {
+                    builder.append(stackTraceElement.toString().concat("\\n"));
                 }
+                String concat = builder.toString().concat("ErrorCause: " + error).concat("\\nPluginVersion: " + Main.getPlugin().getDescription().getVersion()).concat("\\nServerVersion: " + Main.getPlugin().getServerBrand());
+                if (!(concat.toCharArray().length > 1994)) {
+                    Main.getPlugin().exceptionHook.setContent("```" + concat + "```");
+                    Main.getPlugin().exceptionHook.execute();
+                } else {
+                    Hastebin hastebin = new Hastebin();
+                    try {
+                        Main.getPlugin().exceptionHook.setContent("Error posted at: " + hastebin.post(concat.replace("\\n", "\n"), false));
+                        Main.getPlugin().exceptionHook.execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                PaperLib.suggestPaper(Main.getPlugin());
             }
         });
         thread.start();

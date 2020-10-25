@@ -13,5 +13,4 @@ public class DiscordCommand implements CommandExecutor {
         Utils.sendMessage(sender, Main.getPlugin().getConfig().getString("Discord"));
         return true;
     }
-
 }

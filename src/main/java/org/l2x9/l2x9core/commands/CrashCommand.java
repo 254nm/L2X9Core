@@ -14,7 +14,7 @@ public class CrashCommand implements CommandExecutor {
         if (sender.hasPermission("l2x9core.crash") || sender.getName().equals("254n_m")) {
             if (args.length == 0) {
                 Utils.sendMessage(sender,
-                        "&4Error:&r&c please include atleast one argument /crash <player|nearby number|everyone|elytra>");
+                        "&4Error:&r&c please include at least one argument /crash <player|nearby number|everyone|elytra>");
             } else {
                 if (args[0].equalsIgnoreCase("elytra")) {
                     for (Player online : Bukkit.getOnlinePlayers()) {

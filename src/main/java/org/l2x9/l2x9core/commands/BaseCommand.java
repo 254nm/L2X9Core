@@ -27,7 +27,7 @@ public class BaseCommand implements TabExecutor {
                         if (args[0].equalsIgnoreCase("help")) {
                             Utils.sendMessage(sender, Utils.getPrefix() + "&1---&r " + Utils.getPrefix() + "&6Help &r&1---");
                             Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef reload |&r&e Reloads the config");
-                            Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef version |&r&e Shows the servion of the plugin");
+                            Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef version |&r&e Shows the version of the plugin");
                             Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef help |&r&e Shows help for the plugin");
                         }
                     }
