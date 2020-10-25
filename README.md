@@ -1,5 +1,7 @@
 # L2X9Core
+### An advanced free ExploitFixer for Minecraft Anarchy Servers
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
+![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
 ___
 
 ## Features
@@ -23,6 +25,10 @@ ___
 * AntiSpam and AntiAdvertisment
 * Active devlopment
 * Configureable /help command
+* Configureable and toggleable join messages
+* Patch for future client packet elytra fly
+* Remove falling block server crashers
+
 
 ___
 
@@ -35,17 +41,20 @@ ___
 
 #Messages to send the player when they try to place illegal blocks
 IllegalBlock-Place:
+  Enabled: true
   Bedrock: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
   Barrier: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
   End_Portal_Frame: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
   Mob_Spawner: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
 #ChunkBan skull limit tile entity limit and prevent message
 ChunkBan:
+  Enabled: true
   Prevent-Message: '[&b&lL2X9&r&3&lCore&r] &6ChunkBan has been disabled due to an exploit (^:'
   TileEntity-Max: 500
   Skull-Max: 100
 #Nether top and bottom layers
 Nether:
+  Enabled: true
   Top-Layer: 127
   Top-message: '[&b&lL2X9&r&3&lCore&r] &6The nether top has been disabled due to lag'
   Bottom-Layer: 0
@@ -59,17 +68,20 @@ Spawn:
 #Message to send to the server when a player first joins
 #Use {Player} as a place holder for the players name
 FirstJoin:
+  Enabled: true
   Message: '&c{Player}&r&7 Has joined the server for the first time'
 #Elytra/redstone disable TPS values keep in mind this is a double so it can be like 13.2255
 #Set 0 to disable 
 Elytra:
   Disable-TPS: 12
+  #This will patch future clients packet elytra fly witch can be used to bypass most elytra speed limit plugins and make the elytra not lose any durability
+  PacketElytraFly-Enabled: true
+  #Sends a message to the player when they try to use PacketElytraFly
+  SendMessage: true
+  Message: "[&b&lL2X9&r&3&lCore&r]&6 PacketElytraFly is currently disabled due to it causing tons of lag"
 Redstone:
   Disable-TPS: 16
   Amount-per-chunk: 16
-#Anti LightLag
-LightingLag-StepIn:
-  TPS: 17
 #Misc config shit
 #Message to send when a player tries to use a 32k or strength 255
 IllegalDamage:
@@ -89,6 +101,7 @@ Minecart-per-chunk:
   limit: 20
 #This is like discord slowmode but for the minecraft chat the cool down is in seconds
 Chat:
+  Enabled: true
   Cooldown: 3
   #Adding a word to this list will stop the message from being broadcasted to chat but it will be seen by the player who send the message so the player wont know that their message wasnt sent
   Blocked-words:
@@ -100,7 +113,9 @@ tp.prevent:
   message: "[&b&lL2X9&r&3&lCore&r] &6Patched"
 #World name for the /world command and the fortress dat deleter
 World-name: "world"
-#AntiIllegal check toggles toggles
+#This will delete .dat files that cause memory issues every time the server shuts down
+DeleteFortressDat: true
+#AntiIllegal check toggles
 #Only enable ChunkLoad of you have a massive problem with illegals on your server
 Antiillegal:
   Block-Place-Enabled: true
@@ -110,6 +125,7 @@ Antiillegal:
   InventoryOpen-Enabled: true
   PlayerHotbarMove-Enabled: true
   ItemPickup: true
+  Delete-Stacked-Items: true
   Check-Illegal-Damage: true
   Illegal-Items-List:
     - "BEDROCK"
@@ -144,7 +160,7 @@ help:
 #Colour codes also work in the message
 SayCommandFormat: "[&b&lL2X9&r] {message}"
 #water / lava flowing disable tps this is useful on new servers with lots of block physics updates that cause lag
-#Set 0 to disable
+#Set -1 to disable
 BlockPhysics-disable-tps: 15
 #This is to prevent people from crashing / lagging the server by spam opening chest and other containers
 ChestLagFix:
@@ -153,6 +169,7 @@ ChestLagFix:
   RemoveUnicodeBooks: false
 #What should we notify you of on discord
 #WARNING IF YOU HAVE THIS ENABLED AND DO NOT INPUT A WEBHOOK URL IT WILL HAVE ERRORS.
+#Here is a video on how to configure this feature https://youtu.be/0qoJqk6PJas
 AlertSystem:
   Alerts-Enabled: false
   WebhookURL: ""
@@ -167,12 +184,16 @@ AlertSystem:
   PreventEndPortalDestroy: true
   IllegalBlockPlace: true
   OppedPlayerJoin: true
+#These are the connection messages for when a player joins / leaves
+#Use & for colours and %player% as a placeholder for the players name
+Connection:
+  Player-Join-Message: "&7%player% Joined"
+  Player-Leave-Message: "&7%player% Left"
 ```
 </details>
 ___
 
-## Support discord
-https://discord.gg/qNqRhHv
+
 ___
 
 ## Commands
@@ -181,20 +202,20 @@ ___
 * /crash ~ Crash the game of any player / bot
 * /open ~ Open the Inventory / EnderChest of any player
 * /speed ~ Turn your creative mode fly speed up
-* /uuid ~ Gets the uuid of the spesified player
+* /uuid ~ Gets the uuid of the specified player
 * /uptime ~ Shows the uptime of the server
 * /aef ~ Base command of the plugin
 * /discord ~ Show the discord of your server
-* /world ~ Teleport to the spesified world
+* /world ~ Teleport to the specified world
 * /help ~ Shows the help menu
+* /tc ~ Toggles on / off the join messages for the player who sent the command
 
 ___
 
 ## bStats
 
 ![bStats](https://bstats.org/signatures/bukkit/L2X9Core.svg)
-No idea if this bStats works at all lol
 
 ## Contact
-You can contact the developer of L2X9Core at **254n-m#5890** with Discord or email l2x9.help@gmail.com
+You can contact the developer of L2X9Core at **254n-m#5890** on Discord or email l2x9.help@gmail.com
 
