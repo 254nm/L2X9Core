@@ -1,5 +1,7 @@
 # L2X9Core
+### An advanced free ExploitFixer for Minecraft Anarchy Servers
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
+![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
 ___
 
 ## Features
@@ -171,8 +173,7 @@ AlertSystem:
 </details>
 ___
 
-## Support discord
-https://discord.gg/qNqRhHv
+
 ___
 
 ## Commands
@@ -181,11 +182,11 @@ ___
 * /crash ~ Crash the game of any player / bot
 * /open ~ Open the Inventory / EnderChest of any player
 * /speed ~ Turn your creative mode fly speed up
-* /uuid ~ Gets the uuid of the spesified player
+* /uuid ~ Gets the uuid of the specified player
 * /uptime ~ Shows the uptime of the server
 * /aef ~ Base command of the plugin
 * /discord ~ Show the discord of your server
-* /world ~ Teleport to the spesified world
+* /world ~ Teleport to the specified world
 * /help ~ Shows the help menu
 
 ___
@@ -193,8 +194,7 @@ ___
 ## bStats
 
 ![bStats](https://bstats.org/signatures/bukkit/L2X9Core.svg)
-No idea if this bStats works at all lol
 
 ## Contact
-You can contact the developer of L2X9Core at **254n-m#5890** with Discord or email l2x9.help@gmail.com
+You can contact the developer of L2X9Core at **254n-m#5890** on Discord or email l2x9.help@gmail.com
 
