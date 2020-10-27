@@ -3,8 +3,9 @@
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
 ![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
 ___
-
-## Features
+## Download
+You can download L2X9Core at XeraMC a new website where you can post plugins: https://xeramc.org/index.php?resources/l2x9core.19/ or by clicking the releases tab on Github
+## Features]
 
 * Prevent lag machines 
 * Prevent all crash exploits that i know of
