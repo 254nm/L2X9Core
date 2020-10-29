@@ -17,12 +17,18 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.l2x9.l2x9core.Main;
 
 public class GamemodeChange implements Listener {
+    Main plugin;
+
+    public GamemodeChange(Main plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onGamemodeChange(PlayerGameModeChangeEvent event) {
-        if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-            if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
-                Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [GamemodeChange] by " + event.getPlayer().getName() + " to " + event.getNewGameMode().name());
-                Main.getPlugin().discordWebhook.execute();
+        if (plugin.discordWebhook.alertsEnabled()) {
+            if (plugin.getConfigBoolean("AlertSystem.ChestLagFix")) {
+                plugin.discordWebhook.setContent(plugin.getPingRole() + " [GamemodeChange] by " + event.getPlayer().getName() + " to " + event.getNewGameMode().name());
+                plugin.discordWebhook.execute();
             }
         }
     }

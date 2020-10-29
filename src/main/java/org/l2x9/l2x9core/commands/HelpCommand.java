@@ -9,12 +9,17 @@ import org.l2x9.l2x9core.util.Utils;
 import java.util.List;
 
 public class HelpCommand implements CommandExecutor {
+	Main plugin;
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        List<String> list = Main.getPlugin().getConfig().getStringList("help");
-        String join = String.join("\n", list);
-        Utils.sendMessage(sender, join);
-        return true;
-    }
+	public HelpCommand(Main plugin) {
+		this.plugin = plugin;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		List<String> list = plugin.getConfig().getStringList("help");
+		String join = String.join("\n", list);
+		Utils.sendMessage(sender, join);
+		return true;
+	}
 }

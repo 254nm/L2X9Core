@@ -11,14 +11,20 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class Elytra implements Listener {
+    Main plugin;
+
+    public Elytra(Main plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onToggleGlide(EntityToggleGlideEvent event) {
         try {
             if (event.getEntity() instanceof Player) {
                 Player player = (Player) event.getEntity();
-                if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")) {
+                if (Utils.getTps() <= plugin.getConfig().getInt("Elytra.Disable-TPS")) {
                     event.setCancelled(true);
-                    Utils.sendMessage(player, Main.getPlugin().getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")));
+                    Utils.sendMessage(player, plugin.getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + plugin.getConfig().getInt("Elytra.Disable-TPS")));
                 }
             }
         } catch (Error | Exception throwable) {
@@ -29,10 +35,10 @@ public class Elytra implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         try {
-            if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")) {
+            if (Utils.getTps() <= plugin.getConfig().getInt("Elytra.Disable-TPS")) {
                 if (event.getPlayer().isGliding()) {
                     event.getPlayer().setGliding(false);
-                    Utils.sendMessage(event.getPlayer(), Main.getPlugin().getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + Main.getPlugin().getConfig().getInt("Elytra.Disable-TPS")));
+                    Utils.sendMessage(event.getPlayer(), plugin.getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + plugin.getConfig().getInt("Elytra.Disable-TPS")));
                 }
             }
             Player player = event.getPlayer();

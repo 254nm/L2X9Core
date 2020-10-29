@@ -8,14 +8,18 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class PlayerScroll implements Listener {
-    ItemUtils itemUtils = new ItemUtils();
+    Main plugin;
+
+    public PlayerScroll(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onItemMove(PlayerItemHeldEvent event) {
         try {
-            if (Main.getPlugin().getConfig().getBoolean("Antiillegal.PlayerHotbarMove-Enabled")) {
+            if (plugin.getConfig().getBoolean("Antiillegal.PlayerHotbarMove-Enabled")) {
                 Player player = event.getPlayer();
-                itemUtils.deleteIllegals(player.getInventory());
+                plugin.getItemUtils().deleteIllegals(player.getInventory());
             }
         } catch (Error | Exception throwable) {
             Utils.reportException(throwable);

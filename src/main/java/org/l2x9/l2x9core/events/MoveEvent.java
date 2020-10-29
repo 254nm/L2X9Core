@@ -11,43 +11,49 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class MoveEvent implements Listener {
-    @EventHandler
-    public void onMove(PlayerMoveEvent event) {
-        try {
-            Player player = event.getPlayer();
-            int x = player.getLocation().getBlockX();
-            int z = player.getLocation().getBlockZ();
-            Location bottom = new Location(player.getWorld(), z, 5, x);
-            Location top = new Location(player.getWorld(), z, 125, x);
-            if (!(player.hasPermission("antifag.netherroof.bypass"))) {
+	Main plugin;
 
-                if (player.getWorld().getEnvironment() == Environment.NETHER
-                        && player.getLocation().getBlockY() > Main.getPlugin().getConfig().getInt("Nether.Top-Layer")
-                        && !player.isOp()) {
+	public MoveEvent(Main plugin) {
+		this.plugin = plugin;
+	}
 
-                    player.teleport(top);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            Main.getPlugin().getConfig().getString("Nether.Top-message")));
-                    if (Main.getPlugin().getConfig().getString("Nether.top-bottom-do-damage").equalsIgnoreCase("true")) {
-                        player.setHealth(0);
-                    }
-                }
-                if (player.getWorld().getEnvironment() == Environment.NETHER
-                        && player.getLocation().getBlockY() < Main.getPlugin().getConfig().getInt("Nether.Bottom-Layer")
-                        && !player.isOp()) {
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		try {
+			Player player = event.getPlayer();
+			int x = player.getLocation().getBlockX();
+			int z = player.getLocation().getBlockZ();
+			Location bottom = new Location(player.getWorld(), z, 5, x);
+			Location top = new Location(player.getWorld(), z, 125, x);
+			if (!(player.hasPermission("antifag.netherroof.bypass"))) {
 
-                    player.teleport(bottom);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            Main.getPlugin().getConfig().getString("Nether.Bottom-message")));
-                    if (Main.getPlugin().getConfig().getString("Nether.top-bottom-do-damage").equalsIgnoreCase("true")) {
-                        player.damage(40);
+				if (player.getWorld().getEnvironment() == Environment.NETHER
+						&& player.getLocation().getBlockY() > plugin.getConfig().getInt("Nether.Top-Layer")
+						&& !player.isOp()) {
 
-                    }
-                }
-            }
-        } catch (Error | Exception throwable) {
-            Utils.reportException(throwable);
-            throwable.printStackTrace();
-        }
-    }
+					player.teleport(top);
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+							plugin.getConfig().getString("Nether.Top-message")));
+					if (plugin.getConfig().getString("Nether.top-bottom-do-damage").equalsIgnoreCase("true")) {
+						player.setHealth(0);
+					}
+				}
+				if (player.getWorld().getEnvironment() == Environment.NETHER
+						&& player.getLocation().getBlockY() < plugin.getConfig().getInt("Nether.Bottom-Layer")
+						&& !player.isOp()) {
+
+					player.teleport(bottom);
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+							plugin.getConfig().getString("Nether.Bottom-message")));
+					if (plugin.getConfig().getString("Nether.top-bottom-do-damage").equalsIgnoreCase("true")) {
+						player.damage(40);
+
+					}
+				}
+			}
+		} catch (Error | Exception throwable) {
+			Utils.reportException(throwable);
+			throwable.printStackTrace();
+		}
+	}
 }

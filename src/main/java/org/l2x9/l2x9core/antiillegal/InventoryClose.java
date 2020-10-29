@@ -12,17 +12,21 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class InventoryClose implements Listener {
-    ItemUtils utils = new ItemUtils();
+    Main plugin;
+
+    public InventoryClose(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     @AntiIllegal(EventName = "InventoryCloseEvent")
     public void onInventoryClose(InventoryCloseEvent event) {
         try {
-            if (Main.getPlugin().getConfig().getBoolean("Antiillegal.InventoryClose-Enabled")) {
+            if (plugin.getConfig().getBoolean("Antiillegal.InventoryClose-Enabled")) {
                 Inventory inv = event.getInventory();
-                utils.deleteIllegals(inv);
+                plugin.getItemUtils().deleteIllegals(inv);
                 Inventory playerInv = event.getPlayer().getInventory();
-                utils.deleteIllegals(playerInv);
+                plugin.getItemUtils().deleteIllegals(playerInv);
                 if (event.getInventory().getType() == InventoryType.SHULKER_BOX) {
                     Inventory shulkerInv = event.getInventory();
                     for (ItemStack item : shulkerInv.getContents()) {

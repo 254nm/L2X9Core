@@ -23,11 +23,16 @@ import java.util.HashMap;
 public class BlockRedstone implements Listener {
     private final HashMap<Player, Integer> leverHashMap = new HashMap<>();
     int alertAmount = 0;
+    Main plugin;
+
+    public BlockRedstone(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onRedstoneTick(BlockRedstoneEvent event) {
         try {
-            if (Utils.getTps() <= Main.getPlugin().getConfig().getInt("Redstone.Disable-TPS")
+            if (Utils.getTps() <= plugin.getConfig().getInt("Redstone.Disable-TPS")
                     && !(event.getBlock().getType() == Material.TRAPPED_CHEST)) {
                 Block block = event.getBlock();
                 String fagMachine = "Deleted a taco machine at " + block.getLocation().getBlockX() + " "
@@ -36,12 +41,12 @@ public class BlockRedstone implements Listener {
                 event.setNewCurrent(0);
                 event.getBlock().setType(Material.AIR);
                 sendOpMessage("[&b&lL2X9&r&3&lCore&r] &6Removed a lag machine at &r&1" + block.getLocation().getBlockX() + " " + block.getLocation().getBlockY() + " " + block.getLocation().getBlockZ() + "&r&6 owned by &r&1 " + Utils.getNearbyPlayer(50, block.getLocation()).getName(), "&aClick to telepot to the player", "/tp " + Utils.getNearbyPlayer(50, block.getLocation()).getName(), ClickEvent.Action.RUN_COMMAND);
-                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
+                if (plugin.discordWebhook.alertsEnabled()) {
                     if (!(alertAmount > 10)) {
-                        if (Main.getPlugin().getConfigBoolean("AlertSystem.LagMachineRemoval")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [POSSIBLE LAG MACHINE] " + fagMachine + " Owned by " + Utils.getNearbyPlayer(50, block.getLocation()).getName());
-                            Main.getPlugin().discordWebhook.execute();
-                            //Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole());
+                        if (plugin.getConfigBoolean("AlertSystem.LagMachineRemoval")) {
+                            plugin.discordWebhook.setContent(plugin.getPingRole() + " [POSSIBLE LAG MACHINE] " + fagMachine + " Owned by " + Utils.getNearbyPlayer(50, block.getLocation()).getName());
+                            plugin.discordWebhook.execute();
+                            //plugin.discordWebhook.setContent(plugin.getPingRole());
                         }
                     } else {
                         alertAmount = 0;
@@ -89,6 +94,7 @@ public class BlockRedstone implements Listener {
             throwable.printStackTrace();
         }
     }
+
     @EventHandler
     public void onSecond(SecondPassEvent event) {
         Utils.secondPass(leverHashMap);
@@ -105,7 +111,7 @@ public class BlockRedstone implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         Chunk chunk = event.getBlock().getChunk();
-        if (Utils.countBlockPerChunk(chunk, Material.REDSTONE_WIRE) > Main.getPlugin().getConfig().getInt("Redstone.Amount-per-chunk")) {
+        if (Utils.countBlockPerChunk(chunk, Material.REDSTONE_WIRE) > plugin.getConfig().getInt("Redstone.Amount-per-chunk")) {
             event.setCancelled(true);
             Utils.sendMessage(event.getPlayer(), Utils.getPrefix() + "&6Please limit redstone to &r&c16&r&6 per chunk");
 

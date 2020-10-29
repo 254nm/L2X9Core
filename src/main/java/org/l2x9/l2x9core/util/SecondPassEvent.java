@@ -7,29 +7,29 @@ import org.l2x9.l2x9core.Main;
 import java.util.logging.Logger;
 
 public class SecondPassEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
-    private final Logger logger;
-    private final Main plugin;
+	private static final HandlerList handlers = new HandlerList();
+	private final Logger logger;
+	private final Main plugin;
 
-    public SecondPassEvent(Logger logger, Main main) {
-        this.logger = logger;
-        plugin = main;
-    }
+	public SecondPassEvent(Logger logger, Main main) {
+		this.logger = logger;
+		plugin = main;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 
-    public Logger getLogger() {
-        return logger;
-    }
+	public Logger getLogger() {
+		return logger;
+	}
 
-    public Main getPlugin() {
-        return plugin;
-    }
+	public Main getPlugin() {
+		return plugin;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 }

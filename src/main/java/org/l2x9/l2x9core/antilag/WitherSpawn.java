@@ -7,18 +7,18 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.l2x9.l2x9core.util.Utils;
 
 public class WitherSpawn implements Listener {
-    @EventHandler
-    public void onWitherSpawn(EntitySpawnEvent event) {
-        try {
-            if (event.getEntity() instanceof Wither) {
-                if (Utils.getTps() <= 16) {
-                    event.setCancelled(true);
+	@EventHandler
+	public void onWitherSpawn(EntitySpawnEvent event) {
+		try {
+			if (event.getEntity() instanceof Wither) {
+				if (Utils.getTps() <= 16) {
+					event.setCancelled(true);
 
-                }
-            }
-        } catch (Error | Exception throwable) {
-            Utils.reportException(throwable);
-            throwable.printStackTrace();
-        }
-    }
+				}
+			}
+		} catch (Error | Exception throwable) {
+			Utils.reportException(throwable);
+			throwable.printStackTrace();
+		}
+	}
 }

@@ -17,6 +17,12 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class ItemUtils {
+    Main plugin;
+
+    public ItemUtils(Main plugin) {
+        this.plugin = plugin;
+    }
+
     public boolean isArmor(ItemStack item) {
         List<Material> armor = Arrays.asList(Material.LEATHER_BOOTS, Material.CHAINMAIL_BOOTS, Material.IRON_BOOTS,
                 Material.DIAMOND_BOOTS, Material.GOLD_BOOTS, Material.LEATHER_LEGGINGS, Material.CHAINMAIL_LEGGINGS,
@@ -39,7 +45,7 @@ public class ItemUtils {
     }
 
     public boolean isIllegal(ItemStack item) {
-        List<String> items = Main.getPlugin().getConfig().getStringList("Antiillegal.Illegal-Items-List");
+        List<String> items = plugin.getConfig().getStringList("Antiillegal.Illegal-Items-List");
         List<Material> materials = new ArrayList<>();
         List<Material> knownMaterials = Arrays.asList(Material.values());
         for (String material : items) {
@@ -47,7 +53,7 @@ public class ItemUtils {
             if (knownMaterials.contains(Material.getMaterial(upperCaseMat))) {
                 materials.add(Material.getMaterial(upperCaseMat));
             } else {
-                Main.getPlugin().getLogger().log(Level.SEVERE, ChatColor.translateAlternateColorCodes('&', "&cInvalid configuration option Antiillegal.Illegal-Items-List " + material));
+                plugin.getLogger().log(Level.SEVERE, ChatColor.translateAlternateColorCodes('&', "&cInvalid configuration option Antiillegal.Illegal-Items-List " + material));
             }
         }
         return materials.contains(item.getType());
@@ -65,7 +71,7 @@ public class ItemUtils {
     }
 
     public boolean isOverstacked(ItemStack item) {
-        if (Main.getPlugin().getConfigBoolean("Antiillegal.Delete-Stacked-Items")) {
+        if (plugin.getConfigBoolean("Antiillegal.Delete-Stacked-Items")) {
             return item.getAmount() > item.getMaxStackSize();
         } else {
             return false;
@@ -91,7 +97,7 @@ public class ItemUtils {
 
     public void deleteIllegals(Inventory inventory) {
         try {
-            ItemUtils utils = new ItemUtils();
+            ItemUtils utils = plugin.getItemUtils();
             ItemStack itemStack = null;
             boolean illegalsFound = false;
             if (inventory.getContents() != null) {
@@ -207,10 +213,10 @@ public class ItemUtils {
             }
             if (illegalsFound) {
                 Utils.println(Utils.getPrefix() + "&6Deleted illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
-                if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                    if (Main.getPlugin().getConfigBoolean("AlertSystem.IllegalItemAlert")) {
-                        Main.getPlugin().discordWebhook.setContent("Found illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
-                        Main.getPlugin().discordWebhook.execute();
+                if (plugin.discordWebhook.alertsEnabled()) {
+                    if (plugin.getConfigBoolean("AlertSystem.IllegalItemAlert")) {
+                        plugin.discordWebhook.setContent("Found illegals " + itemStack.getType() + " " + itemStack.getI18NDisplayName() + " " + itemStack.getEnchantments());
+                        plugin.discordWebhook.execute();
                     }
                 }
             }

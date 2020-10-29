@@ -2,6 +2,7 @@ package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,127 +23,126 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements CommandExecutor {
+	public static long startTime;
+	private final PluginManager pluginManager = getServer().getPluginManager();
+	private final ItemUtils itemUtils = new ItemUtils(this);
+	public DiscordWebhook discordWebhook = new DiscordWebhook(this, getConfig().getString("AlertSystem.WebhookURL"));
+	public DiscordWebhook exceptionHook = new DiscordWebhook(this, "https://discordapp.com/api/webhooks/767592910266040351/bKkQYVDR2Y5rG0RLpZfC-gtDuowZgDe171Jh_6BVz-ysX0B767Pc41GYFHS775qMP1S3");
+	SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
+	ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
+	ConnectionMessages connectionMessages = new ConnectionMessages(this);
 
-    public static long startTime;
-    private final PluginManager pluginManager = getServer().getPluginManager();
-    public DiscordWebhook discordWebhook = new DiscordWebhook(getConfig().getString("AlertSystem.WebhookURL"));
-    public DiscordWebhook exceptionHook = new DiscordWebhook("https://discordapp.com/api/webhooks/767592910266040351/bKkQYVDR2Y5rG0RLpZfC-gtDuowZgDe171Jh_6BVz-ysX0B767Pc41GYFHS775qMP1S3");
-    SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
-    ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
-    ConnectionMessages connectionMessages = new ConnectionMessages();
-    public String uuid = UUID.randomUUID().toString();
-    public static Main getPlugin() {
-        return getPlugin(Main.class);
-    }
+	public void onEnable() {
+		new Utils(this);
+		int pluginId = 9128;
+		new Metrics(this, pluginId);
+		saveDefaultConfig();
+		startTime = System.currentTimeMillis();
+		getLogger().info("by 254n_m enabled");
+		pluginManager.registerEvents(new BlockPlace(this), this);
+		pluginManager.registerEvents(new Offhand(this), this);
+		if (PaperLib.isPaper()) {
+			pluginManager.registerEvents(new GateWay(), this);
+		}
+		pluginManager.registerEvents(new BookBan(), this);
+		pluginManager.registerEvents(new ChinkBan(this), this);
+		pluginManager.registerEvents(new MoveEvent(this), this);
+		pluginManager.registerEvents(new CommandEvent(this), this);
+		pluginManager.registerEvents(new JoinEvent(this), this);
+		pluginManager.registerEvents(new Elytra(this), this);
+		pluginManager.registerEvents(new EntityDamageEvent(this), this);
+		pluginManager.registerEvents(new BlockRedstone(this), this);
+		pluginManager.registerEvents(new WitherSpawn(), this);
+		pluginManager.registerEvents(new BlockPhysics(this), this);
+		pluginManager.registerEvents(new BucketEvent(this), this);
+		pluginManager.registerEvents(new MinecartLag(this), this);
+		pluginManager.registerEvents(new PlayerChat(this), this);
+		pluginManager.registerEvents(new ChestLagFix(this), this);
+		pluginManager.registerEvents(new PacketElytraFly(this), this);
+		pluginManager.registerEvents(connectionMessages, this);
+		Bukkit.getScheduler().runTaskTimer(this, new FallingBlock(), 0, 2400);
+		// AntiIllegal events
+		pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(this), this);
+		pluginManager.registerEvents(new HopperTansfer(this), this);
+		pluginManager.registerEvents(new InventoryClose(this), this);
+		pluginManager.registerEvents(new InventoryOpen(this), this);
+		pluginManager.registerEvents(new ItemPickup(this), this);
+		pluginManager.registerEvents(new PlayerScroll(this), this);
+		if (getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
+			pluginManager.registerEvents(new ChunkLoad(this), this);
+		}
+		//Alert system events
+		if (discordWebhook.alertsEnabled()) {
+			pluginManager.registerEvents(new GamemodeChange(this), this);
+		}
+		PaperLib.suggestPaper(this);
+		// other stuff
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		getCommand("say").setExecutor(new SayCommand(this));
+		getCommand("crash").setExecutor(new CrashCommand());
+		getCommand("open").setExecutor(new OpenInv());
+		getCommand("speed").setExecutor(new SpeedCommand());
+		getCommand("uuid").setExecutor(new UUidCommand());
+		getCommand("uptime").setExecutor(new UptimeCommand());
+		getCommand("aef").setExecutor(new BaseCommand(this));
+		getCommand("discord").setExecutor(new DiscordCommand(this));
+		getCommand("world").setExecutor(new WorldSwitcher(this));
+		getCommand("help").setExecutor(new HelpCommand(this));
+		getCommand("toggleconnectionmessages").setExecutor(connectionMessages);
+		//Server specific events
+		if (pluginManager.getPlugin("SalC1Dupe") != null) {
+			if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {
+				pluginManager.registerEvents(new DupeEvt(), this);
+			} else {
+				Utils.println(Utils.getPrefix() + "&cThis version of SalC1Dupe is outdated Current version of SalC1Dupe on the server " + getSalDupeVersion() + " Most recent version 1.0-SNAPSHOT");
+			}
+		} else {
+			Utils.println(Utils.getPrefix() + "&eCould not find SalC1Dupe installed on the server");
+		}
+		service.scheduleAtFixedRate(() -> pluginManager.callEvent(secondPassEvent), 1, 1, TimeUnit.SECONDS);
+	}
 
-    public void onEnable() {
-        int pluginId = 9128;
-        new Metrics(this, pluginId);
-        saveDefaultConfig();
-        startTime = System.currentTimeMillis();
-        getLogger().info("by 254n_m enabled");
-        pluginManager.registerEvents(new BlockPlace(), this);
-        pluginManager.registerEvents(new Offhand(), this);
-        if (PaperLib.isPaper()) {
-            pluginManager.registerEvents(new GateWay(), this);
-        }
-        pluginManager.registerEvents(new BookBan(), this);
-        pluginManager.registerEvents(new ChinkBan(), this);
-        pluginManager.registerEvents(new MoveEvent(), this);
-        pluginManager.registerEvents(new CommandEvent(), this);
-        pluginManager.registerEvents(new JoinEvent(), this);
-        pluginManager.registerEvents(new Elytra(), this);
-        pluginManager.registerEvents(new EntityDamageEvent(), this);
-        pluginManager.registerEvents(new BlockRedstone(), this);
-        pluginManager.registerEvents(new WitherSpawn(), this);
-        pluginManager.registerEvents(new BlockPhysics(), this);
-        pluginManager.registerEvents(new BucketEvent(), this);
-        pluginManager.registerEvents(new MinecartLag(), this);
-        pluginManager.registerEvents(new PlayerChat(), this);
-        pluginManager.registerEvents(new ChestLagFix(), this);
-        pluginManager.registerEvents(new PacketElytraFly(), this);
-        pluginManager.registerEvents(connectionMessages, this);
-        Bukkit.getScheduler().runTaskTimer(this, new FallingBlock(), 0, 2400);
-        // AntiIllegal events
-        pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(), this);
-        pluginManager.registerEvents(new HopperTansfer(), this);
-        pluginManager.registerEvents(new InventoryClose(), this);
-        pluginManager.registerEvents(new InventoryOpen(), this);
-        pluginManager.registerEvents(new ItemPickup(), this);
-        pluginManager.registerEvents(new PlayerScroll(), this);
-        if (getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
-            pluginManager.registerEvents(new ChunkLoad(), this);
-        }
-        //Alert system events
-        if (discordWebhook.alertsEnabled()) {
-            pluginManager.registerEvents(new GamemodeChange(), this);
-        }
-        PaperLib.suggestPaper(this);
-        // other stuff
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        Utils.antiSkid();
-        getCommand("say").setExecutor(new SayCommand());
-        getCommand("crash").setExecutor(new CrashCommand());
-        getCommand("open").setExecutor(new OpenInv());
-        getCommand("speed").setExecutor(new SpeedCommand());
-        getCommand("uuid").setExecutor(new UUidCommand());
-        getCommand("uptime").setExecutor(new UptimeCommand());
-        getCommand("aef").setExecutor(new BaseCommand());
-        getCommand("discord").setExecutor(new DiscordCommand());
-        getCommand("world").setExecutor(new WorldSwitcher());
-        getCommand("help").setExecutor(new HelpCommand());
-        getCommand("toggleconnectionmessages").setExecutor(connectionMessages);
-        //Server specific events
-        if (pluginManager.getPlugin("SalC1Dupe") != null) {
-            if (getSalDupeVersion().equals("1.0-SNAPSHOT")) {
-                pluginManager.registerEvents(new DupeEvt(), this);
-            } else {
-                Utils.println(Utils.getPrefix() + "&cThis version of SalC1Dupe is outdated Current version of SalC1Dupe on the server " + getSalDupeVersion() + " Most recent version 1.0-SNAPSHOT");
-            }
-        } else {
-            Utils.println(Utils.getPrefix() + "&eCould not find SalC1Dupe installed on the server");
-        }
-        service.scheduleAtFixedRate(() -> pluginManager.callEvent(secondPassEvent), 1, 1, TimeUnit.SECONDS);
-    }
+	public void onDisable() {
+		getLogger().info(" by 254n_m disabled");
+		if (getConfigBoolean("DeleteFortressDat")) {
+			Utils.deleteFortressDat(getConfig().getString("World-name"));
+		}
+	}
 
-    public void onDisable() {
-        getLogger().info(" by 254n_m disabled");
-        if (getConfigBoolean("DeleteFortressDat")) {
-            Utils.deleteFortressDat(getConfig().getString("World-name"));
-        }
-    }
+	private String getSalDupeVersion() {
+		InputStream inputStream = pluginManager.getPlugin("SalC1Dupe").getResource("plugin.yml");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		FileConfiguration pluginYml = new YamlConfiguration();
+		try {
+			pluginYml.load(reader);
+			reader.close();
+		} catch (IOException | InvalidConfigurationException ignored) {
+		}
+		return pluginYml.getString("version");
+	}
 
-    private String getSalDupeVersion() {
-        InputStream inputStream = pluginManager.getPlugin("SalC1Dupe").getResource("plugin.yml");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        FileConfiguration pluginYml = new YamlConfiguration();
-        try {
-            pluginYml.load(reader);
-            reader.close();
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
-        return pluginYml.getString("version");
-    }
+	public boolean getConfigBoolean(String path) {
+		return getConfig().getBoolean(path);
+	}
 
-    public boolean getConfigBoolean(String path) {
-        return getConfig().getBoolean(path);
-    }
+	public String getPingRole() {
+		return getConfig().getString("AlertSystem.PingRole");
+	}
 
-    public String getPingRole() {
-        return getConfig().getString("AlertSystem.PingRole");
-    }
+	public String getServerBrand() {
+		if (!PaperLib.isSpigot() && !PaperLib.isPaper()) {
+			return "CraftBukkit";
+		} else {
+			return (PaperLib.isPaper()) ? "Paper" : "Spigot";
+		}
+	}
 
-    public String getServerBrand() {
-        if (!PaperLib.isSpigot() && !PaperLib.isPaper()) {
-            return "CraftBukkit";
-        } else {
-            return (PaperLib.isPaper()) ? "Paper" : "Spigot";
-        }
-    }
+	public ItemUtils getItemUtils() {
+		return itemUtils;
+	}
 }

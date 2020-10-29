@@ -9,17 +9,21 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class ChunkLoad implements Listener {
-    ItemUtils itemUtils = new ItemUtils();
+    Main plugin;
+
+    public ChunkLoad(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     @AntiIllegal(EventName = "ChunkLoadEvent")
     public void onLoad(ChunkLoadEvent event) {
         try {
-            if (Main.getPlugin().getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
+            if (plugin.getConfig().getBoolean("Antiillegal.ChunkLoad-Enabled")) {
                 for (BlockState state : event.getChunk().getTileEntities()) {
                     if (state instanceof Container) {
                         Container container = (Container) state;
-                        itemUtils.deleteIllegals(container.getInventory());
+                        plugin.getItemUtils().deleteIllegals(container.getInventory());
 
                     }
                 }

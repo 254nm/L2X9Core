@@ -8,11 +8,16 @@ import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Utils;
 
 public class BlockPhysics implements Listener {
+    Main plugin;
+
+    public BlockPhysics(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onLiquidSpread(BlockFromToEvent event) {
         try {
-            int disableTPS = Main.getPlugin().getConfig().getInt("BlockPhysics-disable-tps");
+            int disableTPS = plugin.getConfig().getInt("BlockPhysics-disable-tps");
             if (Utils.getTps() < disableTPS) {
                 Material type = event.getBlock().getType();
                 if (isChecked(type)) {

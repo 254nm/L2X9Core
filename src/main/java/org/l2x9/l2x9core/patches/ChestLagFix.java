@@ -21,13 +21,18 @@ import java.util.regex.Pattern;
 
 public class ChestLagFix implements Listener {
     HashMap<Player, Integer> chestHashMap = new HashMap<>();
+    Main plugin;
+
+    public ChestLagFix(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
         try {
-            int maxSpam = Main.getPlugin().getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
-            String kickMessage = Main.getPlugin().getConfig().getString("ChestLagFix.KickMessage");
-            boolean deleteBooks = Main.getPlugin().getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
+            int maxSpam = plugin.getConfig().getInt("ChestLagFix.MaxOpensPerSecond");
+            String kickMessage = plugin.getConfig().getString("ChestLagFix.KickMessage");
+            boolean deleteBooks = plugin.getConfig().getBoolean("ChestLagFix.RemoveUnicodeBooks");
             InventoryType inventoryType = event.getInventory().getType();
             Player player = (Player) event.getPlayer();
             if (isCheckedInventory(inventoryType)) {
@@ -41,10 +46,10 @@ public class ChestLagFix implements Listener {
                 }
                 if (chestHashMap.get(player) > maxSpam) {
                     Utils.kickPlayer(player, kickMessage);
-                    if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                        if (Main.getPlugin().getConfigBoolean("AlertSystem.ChestLagFix")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [ChestLag Attempt] by " + player.getName());
-                            Main.getPlugin().discordWebhook.execute();
+                    if (plugin.discordWebhook.alertsEnabled()) {
+                        if (plugin.getConfigBoolean("AlertSystem.ChestLagFix")) {
+                            plugin.discordWebhook.setContent(plugin.getPingRole() + " [ChestLag Attempt] by " + player.getName());
+                            plugin.discordWebhook.execute();
                         }
                     }
                 }

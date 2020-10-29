@@ -14,54 +14,59 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Offhand implements Listener {
-    HashMap<Player, Integer> offhandMap = new HashMap<>();
+	HashMap<Player, Integer> offhandMap = new HashMap<>();
+	Main plugin;
 
-    @EventHandler
-    public void PlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent event) {
-        try {
-            Player player = event.getPlayer();
-            if (isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(player)) {
-                if (offhandMap.containsKey(player)) {
-                    offhandMap.replace(player, offhandMap.get(player) + 1);
-                } else {
-                    offhandMap.put(player, 1);
-                }
-                if (offhandMap.get(player) > 10) {
-                    player.kickPlayer("Packet Exploit Detected");
-                    if (Main.getPlugin().discordWebhook.alertsEnabled()) {
-                        if (Main.getPlugin().getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-                            Main.getPlugin().discordWebhook.setContent(Main.getPlugin().getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
-                            Main.getPlugin().discordWebhook.execute();
-                        }
-                    }
-                }
-            }
-        } catch (Error | Exception throwable) {
-            Utils.reportException(throwable);
-            throwable.printStackTrace();
-        }
-    }
+	public Offhand(Main plugin) {
+		this.plugin = plugin;
+	}
 
-    @EventHandler
-    public void onSecond(SecondPassEvent event) {
-        Utils.secondPass(offhandMap);
-    }
+	@EventHandler
+	public void PlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent event) {
+		try {
+			Player player = event.getPlayer();
+			if (isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(player)) {
+				if (offhandMap.containsKey(player)) {
+					offhandMap.replace(player, offhandMap.get(player) + 1);
+				} else {
+					offhandMap.put(player, 1);
+				}
+				if (offhandMap.get(player) > 10) {
+					player.kickPlayer("Packet Exploit Detected");
+					if (plugin.discordWebhook.alertsEnabled()) {
+						if (plugin.getConfigBoolean("AlertSystem.OffhandServerCrash")) {
+							plugin.discordWebhook.setContent(plugin.getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
+							plugin.discordWebhook.execute();
+						}
+					}
+				}
+			}
+		} catch (Error | Exception throwable) {
+			Utils.reportException(throwable);
+			throwable.printStackTrace();
+		}
+	}
 
-    private boolean isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(Player player) {
-        ItemStack stack = player.getInventory().getItemInMainHand();
-        ArrayList<Material> materialArrayList = new ArrayList<>();
-        for (Material material : Material.values()) {
-            if (material.equals(Material.BOOK)) {
-                materialArrayList.add(material);
-            }
-            if (material.equals(Material.BOOK_AND_QUILL)) {
-                materialArrayList.add(material);
-            }
-            if (material.toString().contains("SHULKER_BOX")) {
-                materialArrayList.add(material);
-            }
-        }
-        return materialArrayList.contains(stack.getType());
-    }
+	@EventHandler
+	public void onSecond(SecondPassEvent event) {
+		Utils.secondPass(offhandMap);
+	}
+
+	private boolean isRetardTryingToCrashTheFuckingServerLikeAFuckingFaggot(Player player) {
+		ItemStack stack = player.getInventory().getItemInMainHand();
+		ArrayList<Material> materialArrayList = new ArrayList<>();
+		for (Material material : Material.values()) {
+			if (material.equals(Material.BOOK)) {
+				materialArrayList.add(material);
+			}
+			if (material.equals(Material.BOOK_AND_QUILL)) {
+				materialArrayList.add(material);
+			}
+			if (material.toString().contains("SHULKER_BOX")) {
+				materialArrayList.add(material);
+			}
+		}
+		return materialArrayList.contains(stack.getType());
+	}
 }
 
