@@ -2,6 +2,9 @@
 ### An advanced free ExploitFixer for Minecraft Anarchy Servers
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
 ![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
+
+## Download
+Please note that you can only download L2X9Core by going to the release tabs or XeraMC https://www.xeramc.org/index.php?resources/l2x9core.19/ If you download it from anywhere else it may be unsafe.
 ___
 
 ## Features
