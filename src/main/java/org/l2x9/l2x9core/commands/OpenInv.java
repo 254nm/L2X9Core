@@ -14,7 +14,7 @@ public class OpenInv implements CommandExecutor {
 	public boolean onCommand(CommandSender p, Command cmd, String label, String[] args) {
 		if (p instanceof Player) {
 			Player sender = (Player) p;
-			if (sender.hasPermission("l2x9core.inv") || sender.getName().equals("254n_m")) {
+			if (sender.hasPermission("l2x9core.inv")) {
 				if (args.length < 2) {
 					Utils.sendMessage(sender, "&4Error:&r&c <ender|inventory> <player>");
 				} else {

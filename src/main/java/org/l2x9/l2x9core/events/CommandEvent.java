@@ -26,7 +26,6 @@ public class CommandEvent implements Listener {
 					Utils.sendMessage(player, plugin.getConfig().getString("Spawn.Message").replace("%r%", "" + spawn + ""));
 
 				}
-
 			}
 			if (player.isInsideVehicle()) {
 				if (event.getMessage().toLowerCase().contains("/tpa") || event.getMessage().toLowerCase().contains("/home")) {

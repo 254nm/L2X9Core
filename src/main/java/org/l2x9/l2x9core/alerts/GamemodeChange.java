@@ -1,14 +1,3 @@
-/*
- * ******************************************************
- *  * Copyright (C) 2010-2020 Mason Smith <l2x9.help@gmail.com>
- *  *
- *  * This file is part of L2X9Core.
- *  *
- *  * L2X9Core can not be copied and/or distributed without the express
- *  * permission of Mason Smith
- *  ******************************************************
- */
-
 package org.l2x9.l2x9core.alerts;
 
 import org.bukkit.event.EventHandler;
