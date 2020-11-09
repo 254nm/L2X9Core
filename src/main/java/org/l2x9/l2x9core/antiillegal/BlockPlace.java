@@ -115,7 +115,7 @@ public class BlockPlace implements Listener {
 
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
+
 		}
 	}
 }

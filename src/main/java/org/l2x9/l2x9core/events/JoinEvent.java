@@ -21,7 +21,6 @@ public class JoinEvent implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		try {
-			System.out.println(plugin.getConfig().getBoolean("Antiillegal.Block-Place-Enabled"));
 			Player player = e.getPlayer();
 			if (player.getActivePotionEffects() != null) {
 				for (PotionEffect effects : player.getActivePotionEffects()) {
@@ -45,7 +44,6 @@ public class JoinEvent implements Listener {
 			}
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
 		}
 	}
 

@@ -222,7 +222,7 @@ public class ItemUtils {
             }
         } catch (Error | Exception throwable) {
             Utils.reportException(throwable);
-            throwable.printStackTrace();
+
         }
     }
 }

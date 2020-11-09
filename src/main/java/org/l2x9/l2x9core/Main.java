@@ -2,10 +2,12 @@ package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.l2x9.l2x9core.alerts.GamemodeChange;
@@ -17,12 +19,16 @@ import org.l2x9.l2x9core.events.*;
 import org.l2x9.l2x9core.patches.*;
 import org.l2x9.l2x9core.util.DiscordWebhook;
 import org.l2x9.l2x9core.util.SecondPassEvent;
+import org.l2x9.l2x9core.util.TenSecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,14 +40,17 @@ public class Main extends JavaPlugin implements CommandExecutor {
 	public DiscordWebhook discordWebhook = new DiscordWebhook(this, getConfig().getString("AlertSystem.WebhookURL"));
 	public DiscordWebhook exceptionHook = new DiscordWebhook(this, "https://discordapp.com/api/webhooks/767592910266040351/bKkQYVDR2Y5rG0RLpZfC-gtDuowZgDe171Jh_6BVz-ysX0B767Pc41GYFHS775qMP1S3");
 	SecondPassEvent secondPassEvent = new SecondPassEvent(getLogger(), this);
+	private final HashMap<String, Integer> entityIntegerHashMap = new HashMap<>();
 	ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
 	ConnectionMessages connectionMessages = new ConnectionMessages(this);
+	TenSecondPassEvent tenSecondPassEvent = new TenSecondPassEvent(getLogger(), this);
 
 	public void onEnable() {
 		new Utils(this);
 		int pluginId = 9128;
 		new Metrics(this, pluginId);
 		saveDefaultConfig();
+		setupChunkEntityLimit();
 		startTime = System.currentTimeMillis();
 		getLogger().info("by 254n_m enabled");
 		pluginManager.registerEvents(new BlockPlace(this), this);
@@ -50,6 +59,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 			pluginManager.registerEvents(new GateWay(), this);
 		}
 		pluginManager.registerEvents(new BookBan(), this);
+		pluginManager.registerEvents(new EntityPerChunkLimit(), this);
 		pluginManager.registerEvents(new ChinkBan(this), this);
 		pluginManager.registerEvents(new MoveEvent(this), this);
 		pluginManager.registerEvents(new CommandEvent(this), this);
@@ -105,6 +115,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 			Utils.println(Utils.getPrefix() + "&eCould not find SalC1Dupe installed on the server");
 		}
 		service.scheduleAtFixedRate(() -> pluginManager.callEvent(secondPassEvent), 1, 1, TimeUnit.SECONDS);
+		service.scheduleAtFixedRate(() -> pluginManager.callEvent(tenSecondPassEvent), 1, 10, TimeUnit.SECONDS);
 	}
 
 	public void onDisable() {
@@ -144,5 +155,30 @@ public class Main extends JavaPlugin implements CommandExecutor {
 
 	public ItemUtils getItemUtils() {
 		return itemUtils;
+	}
+
+	public HashMap<String, Integer> getEntityAmounts() {
+		return entityIntegerHashMap;
+	}
+
+	public void setupChunkEntityLimit() {
+		try {
+			List<String> entityPairs = getConfig().getStringList("EntityAmounts.TypePairs");
+			List<String> validEntitys = new ArrayList<>();
+			for (EntityType type : EntityType.values()) {
+				validEntitys.add(type.toString());
+			}
+			for (String pair : entityPairs) {
+				String entityType = pair.split(":")[0].toUpperCase();
+				int amount = Integer.parseInt(pair.split(":")[1]);
+				if (validEntitys.contains(entityType)) {
+					entityIntegerHashMap.put(entityType, amount);
+				} else {
+					getLogger().info(ChatColor.RED + "Unknown EntityType " + entityType + " in the EntityAmounts section of the config");
+				}
+			}
+		} catch (Error | Exception throwable) {
+			getLogger().info(ChatColor.RED + "Error in the EntityAmounts section of the config missing \":\"");
+		}
 	}
 }

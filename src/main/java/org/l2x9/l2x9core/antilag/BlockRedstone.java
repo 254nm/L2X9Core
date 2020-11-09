@@ -91,7 +91,7 @@ public class BlockRedstone implements Listener {
             }
         } catch (Error | Exception throwable) {
             Utils.reportException(throwable);
-            throwable.printStackTrace();
+
         }
     }
 

@@ -22,7 +22,8 @@ public class BaseCommand implements TabExecutor {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reloadConfig();
-                    Utils.sendMessage(sender, Utils.getPrefix() + "&aReloaded configuration file");
+	                plugin.setupChunkEntityLimit();
+	                Utils.sendMessage(sender, Utils.getPrefix() + "&aReloaded configuration file");
                 } else {
                     if (args[0].equalsIgnoreCase("version")) {
                         Utils.sendMessage(sender, Utils.getPrefix() + "&6Version &r&c" + plugin.getDescription().getVersion());

@@ -47,7 +47,7 @@ public class GateWay implements Listener {
 			}
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
+
 		}
 	}
 
@@ -65,7 +65,7 @@ public class GateWay implements Listener {
 			}
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
+
 		}
 	}
 
@@ -84,7 +84,7 @@ public class GateWay implements Listener {
 			}
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
+
 		}
 	}
 
@@ -113,7 +113,7 @@ public class GateWay implements Listener {
 			}
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
-			throwable.printStackTrace();
+
 		}
 	}
 }

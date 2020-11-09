@@ -112,7 +112,7 @@ public class HopperTansfer implements Listener {
             }
         } catch (Error | Exception throwable) {
             Utils.reportException(throwable);
-            throwable.printStackTrace();
+
         }
     }
 }

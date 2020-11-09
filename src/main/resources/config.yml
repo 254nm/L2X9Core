@@ -150,3 +150,15 @@ AlertSystem:
 Connection:
   Player-Join-Message: "&7%player% Joined"
   Player-Leave-Message: "&7%player% Left"
+#Max amount of any entity listed here per chunk
+#The formatting for this is <entity>:<amount> (i.e pig:20)
+#A list of all valid entities can be found here https://helpch.at/docs/1.12.2/org/bukkit/entity/EntityType.html
+EntityAmounts:
+  EntityAmounts-Enabled: true
+  TypePairs:
+    - "ender_crystal:20"
+    - "armor_stand:15"
+    - "wither:30"
+    - "falling_block:50"
+    - "primed_tnt:5"
+    - "dropped_item:50"
