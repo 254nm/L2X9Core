@@ -28,7 +28,7 @@ public class Utils {
 		if (PaperLib.isPaper()) {
 			return (Math.round(Bukkit.getServer().getTPS()[0]));
 		} else {
-			plugin.getLogger().log(Level.SEVERE, "L2X9Core dose not work correctly on " + plugin.getServerBrand() + " please upgrade to paper");
+			plugin.getLogger().log(Level.SEVERE, "L2X9Core dose not work correctly on " + getServerBrand() + " please upgrade to paper");
 			PaperLib.suggestPaper(plugin);
 			return 20;
 		}
@@ -237,7 +237,7 @@ public class Utils {
 				for (StackTraceElement stackTraceElement : error.getStackTrace()) {
 					builder.append(stackTraceElement.toString().concat("\\n"));
 				}
-				String concat = builder.toString().concat("ErrorCause: " + error).concat("\\nPluginVersion: " + plugin.getDescription().getVersion()).concat("\\nServerVersion: " + plugin.getServerBrand());
+				String concat = builder.toString().concat("ErrorCause: " + error).concat("\\nPluginVersion: " + plugin.getDescription().getVersion()).concat("\\nServerVersion: " + getServerBrand());
 				if (!(concat.toCharArray().length > 1994)) {
 					plugin.exceptionHook.setContent("```" + concat + "```");
 					plugin.exceptionHook.execute();
@@ -256,5 +256,13 @@ public class Utils {
 		});
 		thread.start();
 		System.gc();
+	}
+
+	public static String getServerBrand() {
+		if (!PaperLib.isSpigot() && !PaperLib.isPaper()) {
+			return "CraftBukkit";
+		} else {
+			return (PaperLib.isPaper()) ? "Paper" : "Spigot";
+		}
 	}
 }

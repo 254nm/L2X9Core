@@ -1,7 +1,6 @@
 package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -75,7 +74,6 @@ public class Main extends JavaPlugin implements CommandExecutor {
 		pluginManager.registerEvents(new ChestLagFix(this), this);
 		pluginManager.registerEvents(new PacketElytraFly(this), this);
 		pluginManager.registerEvents(connectionMessages, this);
-		Bukkit.getScheduler().runTaskTimer(this, new FallingBlock(), 0, 2400);
 		// AntiIllegal events
 		pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(this), this);
 		pluginManager.registerEvents(new HopperTansfer(this), this);
@@ -144,15 +142,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 	public String getPingRole() {
 		return getConfig().getString("AlertSystem.PingRole");
 	}
-
-	public String getServerBrand() {
-		if (!PaperLib.isSpigot() && !PaperLib.isPaper()) {
-			return "CraftBukkit";
-		} else {
-			return (PaperLib.isPaper()) ? "Paper" : "Spigot";
-		}
-	}
-
+	
 	public ItemUtils getItemUtils() {
 		return itemUtils;
 	}
