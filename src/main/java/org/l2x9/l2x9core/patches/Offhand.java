@@ -32,11 +32,10 @@ public class Offhand implements Listener {
 					offhandMap.put(player, 1);
 				}
 				if (offhandMap.get(player) > 10) {
-					player.kickPlayer("Packet Exploit Detected");
+					player.kickPlayer("&cPacket Exploit Detected");
 					if (plugin.discordWebhook.alertsEnabled()) {
 						if (plugin.getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-							plugin.discordWebhook.setContent(plugin.getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
-							plugin.discordWebhook.execute();
+							plugin.discordAlertQueue.add(plugin.getPingRole() + " [Possible offhand server crash attempt] by " + player.getName());
 						}
 					}
 				}

@@ -25,9 +25,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +41,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 	ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
 	ConnectionMessages connectionMessages = new ConnectionMessages(this);
 	TenSecondPassEvent tenSecondPassEvent = new TenSecondPassEvent(getLogger(), this);
+	public final Queue<String> discordAlertQueue = new LinkedList<>();
 
 	public void onEnable() {
 		new Utils(this);

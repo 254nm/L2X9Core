@@ -45,8 +45,7 @@ public class BucketEvent implements Listener {
 				event.setCancelled(true);
 				if (plugin.discordWebhook.alertsEnabled()) {
 					if (plugin.getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
-						plugin.discordWebhook.setContent(plugin.getPingRole() + " [EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
-						plugin.discordWebhook.execute();
+						plugin.discordAlertQueue.add(plugin.getPingRole() + " [EndPortalDestroyAttempt] by " + event.getPlayer().getName() + " at " + x + " " + y + " " + z);
 					}
 				}
 			}
@@ -78,8 +77,7 @@ public class BucketEvent implements Listener {
 				event.setCancelled(true);
 				if (plugin.discordWebhook.alertsEnabled()) {
 					if (plugin.getConfigBoolean("AlertSystem.PreventEndPortalDestroy")) {
-						plugin.discordWebhook.setContent(plugin.getPingRole() + "[EndPortalDestroyAttempt] by " + Utils.getNearbyPlayer(20, event.getBlock().getLocation()).getName() + " at " + x + " " + y + " " + z);
-						plugin.discordWebhook.execute();
+						plugin.discordAlertQueue.add(plugin.getPingRole() + "[EndPortalDestroyAttempt] by " + Utils.getNearbyPlayer(20, event.getBlock().getLocation()).getName() + " at " + x + " " + y + " " + z);
 					}
 				}
 			}

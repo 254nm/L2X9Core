@@ -48,8 +48,7 @@ public class ChestLagFix implements Listener {
                     Utils.kickPlayer(player, kickMessage);
                     if (plugin.discordWebhook.alertsEnabled()) {
                         if (plugin.getConfigBoolean("AlertSystem.ChestLagFix")) {
-                            plugin.discordWebhook.setContent(plugin.getPingRole() + " [ChestLag Attempt] by " + player.getName());
-                            plugin.discordWebhook.execute();
+                            plugin.discordAlertQueue.add(plugin.getPingRole() + " [ChestLag Attempt] by " + player.getName());
                         }
                     }
                 }

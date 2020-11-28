@@ -37,8 +37,7 @@ public class ChinkBan implements Listener {
 							event.setCancelled(true);
 							if (plugin.discordWebhook.alertsEnabled()) {
 								if (plugin.getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-									plugin.discordWebhook.setContent(plugin.getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
-									plugin.discordWebhook.execute();
+									plugin.discordAlertQueue.add(plugin.getPingRole() + " [Possible ChunkBan Attempt] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
 								}
 							}
 							player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("ChunkBan.Prevent-Message")));
@@ -51,8 +50,7 @@ public class ChinkBan implements Listener {
 						player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("ChunkBan.Prevent-Message")));
 						if (plugin.discordWebhook.alertsEnabled()) {
 							if (plugin.getConfigBoolean("AlertSystem.OffhandServerCrash")) {
-								plugin.discordWebhook.setContent(plugin.getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
-								plugin.discordWebhook.execute();
+								plugin.discordAlertQueue.add(plugin.getPingRole() + " [Possible ChunkBan Attempt] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
 							}
 						}
 					}
@@ -85,8 +83,7 @@ public class ChinkBan implements Listener {
 							event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("ChunkBan.Prevent-Message")));
 							if (plugin.discordWebhook.alertsEnabled()) {
 								if (plugin.getConfigBoolean("AlertSystem.ChunkBanAttempt")) {
-									plugin.discordWebhook.setContent(plugin.getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
-									plugin.discordWebhook.execute();
+									plugin.discordAlertQueue.add(plugin.getPingRole() + " [POSSIBLE CHUNKBAN ATTEMPT] by " + player.getName() + " at " + x + " " + y + " " + z + " in world " + worldName);
 								}
 							}
 						}

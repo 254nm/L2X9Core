@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.l2x9.l2x9core.Main;
+import org.l2x9.l2x9core.util.DiscordWebhook;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.Utils;
 
@@ -44,9 +45,7 @@ public class BlockRedstone implements Listener {
                 if (plugin.discordWebhook.alertsEnabled()) {
                     if (!(alertAmount > 10)) {
                         if (plugin.getConfigBoolean("AlertSystem.LagMachineRemoval")) {
-                            plugin.discordWebhook.setContent(plugin.getPingRole() + " [POSSIBLE LAG MACHINE] " + fagMachine + " Owned by " + Utils.getNearbyPlayer(50, block.getLocation()).getName());
-                            plugin.discordWebhook.execute();
-                            //plugin.discordWebhook.setContent(plugin.getPingRole());
+                           plugin.discordAlertQueue.add(plugin.getPingRole() + " [Possible LagMachine] " + fagMachine + " Owned by " + Utils.getNearbyPlayer(50, block.getLocation()).getName());
                         }
                     } else {
                         alertAmount = 0;
@@ -98,6 +97,14 @@ public class BlockRedstone implements Listener {
     @EventHandler
     public void onSecond(SecondPassEvent event) {
         Utils.secondPass(leverHashMap);
+        if (plugin.discordAlertQueue.size() > 0) {
+            DiscordWebhook webhook = plugin.discordWebhook;
+            String line = plugin.discordAlertQueue.poll();
+            if (line != null && !line.isEmpty()) {
+                webhook.setContent(line);
+                webhook.execute();
+            }
+        }
     }
 
     private void sendOpMessage(String message, String hoverText, String cmd, ClickEvent.Action action) {

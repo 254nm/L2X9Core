@@ -38,8 +38,7 @@ public class JoinEvent implements Listener {
 			}
 			if (plugin.discordWebhook.alertsEnabled() && player.isOp()) {
 				if (plugin.getConfigBoolean("AlertSystem.OppedPlayerJoin")) {
-					plugin.discordWebhook.setContent(plugin.getPingRole() + " [OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
-					plugin.discordWebhook.execute();
+					plugin.discordAlertQueue.add(plugin.getPingRole() + " [OppedPlayerJoin] Player with op by the name of " + player.getName() + " Joined the server");
 				}
 			}
 		} catch (Error | Exception throwable) {

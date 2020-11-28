@@ -15,9 +15,8 @@ public class GamemodeChange implements Listener {
     @EventHandler
     public void onGamemodeChange(PlayerGameModeChangeEvent event) {
         if (plugin.discordWebhook.alertsEnabled()) {
-            if (plugin.getConfigBoolean("AlertSystem.ChestLagFix")) {
-                plugin.discordWebhook.setContent(plugin.getPingRole() + " [GamemodeChange] by " + event.getPlayer().getName() + " to " + event.getNewGameMode().name());
-                plugin.discordWebhook.execute();
+            if (plugin.getConfigBoolean("AlertSystem.GamemodeChange")) {
+                plugin.discordAlertQueue.add(plugin.getPingRole() + " [GamemodeChange] by " + event.getPlayer().getName() + " to " + event.getNewGameMode().name());
             }
         }
     }
