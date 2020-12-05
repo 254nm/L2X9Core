@@ -17,7 +17,7 @@ public class BucketEvent implements Listener {
 
 	@EventHandler
 	public void onBucket(PlayerBucketEmptyEvent event) {
-		// This is monke code im gonna rewrite this soon
+		// This is monkee code im gonna rewrite this soon
 		//TODO Rewrite this patch
 		try {
 			int yNeg = event.getBlockClicked().getLocation().getBlockY() - 1;

@@ -163,3 +163,5 @@ EntityAmounts:
     - "falling_block:50"
     - "primed_tnt:5"
     - "dropped_item:50"
+#Deop opped players when they leave
+DeopOnLeave: true
