@@ -56,5 +56,6 @@ public class BookBan implements Listener {
 			return matcher.find();
 		}
 		return false;
+
 	}
 }
