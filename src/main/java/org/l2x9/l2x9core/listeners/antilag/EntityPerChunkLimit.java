@@ -1,4 +1,4 @@
-package org.l2x9.l2x9core.antilag;
+package org.l2x9.l2x9core.listeners.antilag;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;

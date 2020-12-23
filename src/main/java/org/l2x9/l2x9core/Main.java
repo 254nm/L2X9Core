@@ -1,21 +1,26 @@
 package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
+import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.l2x9.l2x9core.alerts.GamemodeChange;
-import org.l2x9.l2x9core.antiillegal.*;
-import org.l2x9.l2x9core.antilag.*;
+import org.l2x9.l2x9core.api.PacketReadEvent;
+import org.l2x9.l2x9core.api.PacketWriteEvent;
+import org.l2x9.l2x9core.listeners.GamemodeChange;
+import org.l2x9.l2x9core.listeners.antiillegal.*;
+import org.l2x9.l2x9core.listeners.antilag.*;
 import org.l2x9.l2x9core.commands.*;
-import org.l2x9.l2x9core.events.BlockPlace;
-import org.l2x9.l2x9core.events.*;
-import org.l2x9.l2x9core.patches.*;
+import org.l2x9.l2x9core.listeners.BlockPlace;
+import org.l2x9.l2x9core.listeners.*;
+import org.l2x9.l2x9core.listeners.patches.*;
 import org.l2x9.l2x9core.util.DiscordWebhook;
 import org.l2x9.l2x9core.util.SecondPassEvent;
 import org.l2x9.l2x9core.util.TenSecondPassEvent;
@@ -25,12 +30,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JavaPlugin implements CommandExecutor {
+public class Main extends JavaPlugin implements CommandExecutor, Listener {
 	public static long startTime;
 	private final PluginManager pluginManager = getServer().getPluginManager();
 	private final ItemUtils itemUtils = new ItemUtils(this);
@@ -44,6 +50,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 	public final Queue<String> discordAlertQueue = new LinkedList<>();
 
 	public void onEnable() {
+		pluginManager.registerEvents(this, this);
 		new Utils(this);
 		int pluginId = 9128;
 		new Metrics(this, pluginId);
@@ -72,9 +79,10 @@ public class Main extends JavaPlugin implements CommandExecutor {
 		pluginManager.registerEvents(new PlayerChat(this), this);
 		pluginManager.registerEvents(new ChestLagFix(this), this);
 		pluginManager.registerEvents(new PacketElytraFly(this), this);
+		pluginManager.registerEvents(new PacketInject(), this);
 		pluginManager.registerEvents(connectionMessages, this);
 		// AntiIllegal events
-		pluginManager.registerEvents(new org.l2x9.l2x9core.antiillegal.BlockPlace(this), this);
+		pluginManager.registerEvents(new org.l2x9.l2x9core.listeners.antiillegal.BlockPlace(this), this);
 		pluginManager.registerEvents(new HopperTansfer(this), this);
 		pluginManager.registerEvents(new InventoryClose(this), this);
 		pluginManager.registerEvents(new InventoryOpen(this), this);

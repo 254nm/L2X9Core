@@ -42,6 +42,11 @@
                             <shadedPattern>org.l2x9.l2x9core.paperlib</shadedPattern>
                         </relocation>
                     </relocations>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>io.netty</exclude>
+                        </excludes>
+                    </artifactSet>
                 </configuration>
                 <executions>
                     <execution>
@@ -93,6 +98,18 @@
             <artifactId>paperlib</artifactId>
             <version>1.0.5</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.56.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
