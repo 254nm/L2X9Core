@@ -1,25 +1,20 @@
 package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
-import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.l2x9.l2x9core.api.PacketReadEvent;
-import org.l2x9.l2x9core.api.PacketWriteEvent;
-import org.l2x9.l2x9core.listeners.GamemodeChange;
-import org.l2x9.l2x9core.listeners.antiillegal.*;
-import org.l2x9.l2x9core.listeners.antilag.*;
 import org.l2x9.l2x9core.commands.*;
 import org.l2x9.l2x9core.listeners.BlockPlace;
 import org.l2x9.l2x9core.listeners.*;
+import org.l2x9.l2x9core.listeners.antiillegal.*;
+import org.l2x9.l2x9core.listeners.antilag.*;
 import org.l2x9.l2x9core.listeners.patches.*;
 import org.l2x9.l2x9core.util.DiscordWebhook;
 import org.l2x9.l2x9core.util.SecondPassEvent;
@@ -30,7 +25,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -81,6 +75,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
 		pluginManager.registerEvents(new PacketElytraFly(this), this);
 		pluginManager.registerEvents(new PacketInject(), this);
 		pluginManager.registerEvents(connectionMessages, this);
+		pluginManager.registerEvents(new PacketFly(), this);
 		// AntiIllegal events
 		pluginManager.registerEvents(new org.l2x9.l2x9core.listeners.antiillegal.BlockPlace(this), this);
 		pluginManager.registerEvents(new HopperTansfer(this), this);
