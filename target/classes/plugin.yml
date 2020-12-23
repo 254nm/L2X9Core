@@ -1,0 +1,34 @@
+name: L2X9Core
+version: 2.5-RELEASE
+main: org.l2x9.l2x9core.Main
+authors: [ 254n_m ]
+description: Patches and fixes for most anarchy servers
+website: https://www.l2x9.org
+softdepend:
+  - SalC1Dupe
+commands:
+  say:
+    description: Configureable say command
+  open:
+    description: Open peoples inventorys
+  crash:
+    description: Crash players games
+  speed:
+    description: Turn up your fly speed
+  uuid:
+    description: Get the uuid of the spesified player
+  uptime:
+    description: Get the uptime of the server
+  aef:
+    description: Base command of the plugin
+  discord:
+    description: Shows a discoes link
+  world:
+    description: Switch worlds
+  help:
+    description: Displays a coustom help menu
+  toggleconnectionmessages:
+    description: Toggles on / off connection messages for the sender of the command
+    aliases:
+      - tc
+      - toggleconnection
