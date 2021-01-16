@@ -28,7 +28,7 @@ public class Utils {
 		if (PaperLib.isPaper()) {
 			return (Math.round(Bukkit.getServer().getTPS()[0]));
 		} else {
-			plugin.getLogger().log(Level.SEVERE, "L2X9Core dose not work correctly on " + getServerBrand() + " please upgrade to paper");
+			plugin.getLogger().log(Level.SEVERE, "L2X9Core does not work correctly on " + getServerBrand() + " please upgrade to paper");
 			PaperLib.suggestPaper(plugin);
 			return 20;
 		}
