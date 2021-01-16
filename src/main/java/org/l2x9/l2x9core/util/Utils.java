@@ -54,11 +54,17 @@ public class Utils {
 	}
 
 	public static void sendMessage(Player player, String string) {
-		player.sendMessage(ChatColor.translateAlternateColorCodes('&', string));
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message-format").replace("{message}", string)));
 	}
 
 	public static void sendMessage(CommandSender sender, String string) {
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', string));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message-format").replace("{message}", string)));
+	}
+	public static String getPrefix() {
+		return "[&b&lL2X9&r&3&lCore&r] ";
+	}
+	public static void sendPrefixedMessage(CommandSender sender, String string) {
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getPrefix() + string));
 	}
 
 	public static void kickPlayer(Player player, String string) {
@@ -123,10 +129,6 @@ public class Utils {
 		long hours = ms / 3600000L % 24L;
 		long days = ms / 86400000L;
 		return String.format("%dd %02dh %02dm %02ds", days, hours, minutes, seconds);
-	}
-
-	public static String getPrefix() {
-		return "[&b&lL2X9&r&3&lCore&r] ";
 	}
 
 	public static void deleteFortressDat(String worldName) {
