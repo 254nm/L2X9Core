@@ -1,6 +1,7 @@
 package org.l2x9.l2x9core.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +29,7 @@ public class ConnectionMessages implements Listener, CommandExecutor {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			toggled.putIfAbsent(player.getUniqueId().toString(), true);
 			if (toggled.get(player.getUniqueId().toString())) {
-				Utils.sendMessage(player, plugin.getConfig().getString("Connection.Player-Join-Message").replace("%player%", event.getPlayer().getDisplayName()));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Connection.Player-Join-Message").replace("%player%", event.getPlayer().getDisplayName())));
 			}
 		}
 	}
@@ -38,7 +39,7 @@ public class ConnectionMessages implements Listener, CommandExecutor {
 		event.setQuitMessage(null);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (toggled.get(player.getUniqueId().toString())) {
-				Utils.sendMessage(player, plugin.getConfig().getString("Connection.Player-Leave-Message").replace("%player%", event.getPlayer().getDisplayName()));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Connection.Player-Leave-Message").replace("%player%", event.getPlayer().getDisplayName())));
 			}
 		}
 	}

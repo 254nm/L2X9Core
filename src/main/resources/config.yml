@@ -1,25 +1,27 @@
 # L2X9Core by 254n-m
 
+message-format: "[&b&lL2X9&r&3&lCore&r] &6{message}"
+
 #Messages to send the player when they try to place illegal blocks
 IllegalBlock-Place:
   Enabled: true
-  Bedrock: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  Barrier: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  End_Portal_Frame: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  Mob_Spawner: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
+  Bedrock: 'That block is not allowed'
+  Barrier: 'That block is not allowed'
+  End_Portal_Frame: 'That block is not allowed'
+  Mob_Spawner: 'That block is not allowed'
 #ChunkBan skull limit tile entity limit and prevent message
 ChunkBan:
   Enabled: true
-  Prevent-Message: '[&b&lL2X9&r&3&lCore&r] &6ChunkBan has been disabled due to an exploit (^:'
+  Prevent-Message: 'ChunkBan has been disabled due to an exploit (^:'
   TileEntity-Max: 500
   Skull-Max: 100
 #Nether top and bottom layers
 Nether:
   Enabled: true
   Top-Layer: 127
-  Top-message: '[&b&lL2X9&r&3&lCore&r] &6The nether top has been disabled due to lag'
+  Top-message: 'The nether top has been disabled due to lag'
   Bottom-Layer: 0
-  Bottom-message: '[&b&lL2X9&r&3&lCore&r] &6The nether bottom has been disabled due to lag'
+  Bottom-message: 'The nether bottom has been disabled due to lag'
   top-bottom-do-damage: true
 #Raidus around spawn to disable /home in
 #Set 0 to disable
@@ -40,7 +42,7 @@ Connection:
 
 Speed:
   Limit: 3
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 You're moving too fast!"
+  Message: "You're moving too fast!"
   #Damage player for moving too fast?
   Damage: true
   DamageAmount: 15
@@ -54,22 +56,22 @@ Elytra:
   PacketElytraFly-Enabled: true
   #Sends a message to the player when they try to use PacketElytraFly
   SendMessage: true
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 PacketElytraFly is currently disabled due to it causing tons of lag"
+  Message: "PacketElytraFly is currently disabled due to it causing tons of lag"
 Redstone:
   Disable-TPS: 16
   Amount-per-chunk: 16
 #Misc config shit
 #Message to send when a player tries to use a 32k or strength 255
 IllegalDamage:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 How did you even get a 32k out to begin with"
+  Message: "How did you even get a 32k out to begin with"
 #Player attempts to use or drink an illegal potion or use an illegal tipped arrow
 IllegalPotion:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 Sorry those are patched"
+  Message: "Sorry those are patched"
 #Message to send the player when they use an elytra in low tps use {tps} to get the elytra disable tps
 ElytraLowTPS:
-  Message: "[&b&lL2X9&r&3&lCore&r] &6Elytras are disabled if the tps is below&r&c {tps}"
+  Message: "Elytras are disabled if the tps is below&r&c {tps}"
 UnbookBan:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 You have been unbookbanned"
+  Message: "You have been unbookbanned"
 #Message for /discord use & for colors
 Discord: "&6Join us on discord at &r&c<Your discord here>"
 #Ammount of vehicles allowed in a chunk
@@ -86,7 +88,7 @@ Chat:
     - "dot"
 #TP on an entity exploit prevent message
 tp.prevent:
-  message: "[&b&lL2X9&r&3&lCore&r] &6Patched"
+  message: "Patched"
 #World name for the /world command and the fortress dat deleter
 World-name: "world"
 #This will delete .dat files that cause memory issues every time the server shuts down
