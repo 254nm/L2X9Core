@@ -49,6 +49,7 @@ public class Elytra implements Listener {
             double finalValue = Math.round(Math.hypot(distX, distZ));
             if (finalValue > plugin.getConfig().getInt("Speed.Limit")) {
                 event.setCancelled(true);
+                player.teleport(from);
                 Utils.sendMessage(player, plugin.getConfig().getString("Speed.Message"));
                 if (plugin.getConfig().getBoolean("Speed.Damage")) {
                     player.damage(plugin.getConfig().getInt("Speed.DamageAmount"));
