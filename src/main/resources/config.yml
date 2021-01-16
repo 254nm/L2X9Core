@@ -26,13 +26,28 @@ Nether:
 Spawn:
   Raidus: 500
   Message: "&6You must be&r&c %r% &r&6 blocks from spawn to use /home "
+
 #Message to send to the server when a player first joins
 #Use {Player} as a place holder for the players name
 FirstJoin:
   Enabled: true
   Message: '&c{Player}&r&7 Has joined the server for the first time'
+#These are the connection messages for when a player joins / leaves
+#Use & for colours and %player% as a placeholder for the players name
+Connection:
+  Player-Join-Message: "&7%player% Joined"
+  Player-Leave-Message: "&7%player% Left"
+
+Speed:
+  Limit: 3
+  Message: "[&b&lL2X9&r&3&lCore&r]&6 You're moving too fast!"
+  #Damage player for moving too fast?
+  Damage: true
+  DamageAmount: 15
+
 #Elytra/redstone disable TPS values keep in mind this is a double so it can be like 13.2255
-#Set 0 to disable 
+#Set 0 to disable
+
 Elytra:
   Disable-TPS: 12
   #This will patch future clients packet elytra fly witch can be used to bypass most elytra speed limit plugins and make the elytra not lose any durability
@@ -146,11 +161,6 @@ AlertSystem:
   IllegalBlockPlace: true
   OppedPlayerJoin: true
   GamemodeChange: true
-#These are the connection messages for when a player joins / leaves
-#Use & for colours and %player% as a placeholder for the players name
-Connection:
-  Player-Join-Message: "&7%player% Joined"
-  Player-Leave-Message: "&7%player% Left"
 #Max amount of any entity listed here per chunk
 #The formatting for this is <entity>:<amount> (i.e pig:20)
 #A list of all valid entities can be found here https://helpch.at/docs/1.12.2/org/bukkit/entity/EntityType.html

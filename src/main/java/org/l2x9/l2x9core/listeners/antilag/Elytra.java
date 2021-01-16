@@ -35,21 +35,24 @@ public class Elytra implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         try {
+            Player player = event.getPlayer();
             if (Utils.getTps() <= plugin.getConfig().getInt("Elytra.Disable-TPS")) {
                 if (event.getPlayer().isGliding()) {
                     event.getPlayer().setGliding(false);
-                    Utils.sendMessage(event.getPlayer(), plugin.getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + plugin.getConfig().getInt("Elytra.Disable-TPS")));
+                    Utils.sendMessage(player, plugin.getConfig().getString("ElytraLowTPS.Message").replace("{tps}", "" + plugin.getConfig().getInt("Elytra.Disable-TPS")));
                 }
             }
-            Player player = event.getPlayer();
             Location from = event.getFrom();
             Location to = event.getTo();
             double distX = to.getX() - from.getX();
             double distZ = to.getZ() - from.getZ();
             double finalValue = Math.round(Math.hypot(distX, distZ));
-            if (finalValue > 3) {
+            if (finalValue > plugin.getConfig().getInt("Speed.Limit")) {
                 event.setCancelled(true);
-                player.damage(15);
+                Utils.sendMessage(player, plugin.getConfig().getString("Speed.Message"));
+                if (plugin.getConfig().getBoolean("Speed.Damage")) {
+                    player.damage(plugin.getConfig().getInt("Speed.DamageAmount"));
+                }
                 if (player.isGliding()) {
                     player.setGliding(false);
                     if (player.getInventory().getChestplate().getType() == Material.ELYTRA) {
