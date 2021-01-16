@@ -23,26 +23,26 @@ public class BaseCommand implements TabExecutor {
                 if (args[0].equalsIgnoreCase("reload")) {
                     plugin.reloadConfig();
 	                plugin.setupChunkEntityLimit();
-	                Utils.sendMessage(sender, Utils.getPrefix() + "&aReloaded configuration file");
+	                Utils.sendPrefixedMessage(sender, "&aReloaded configuration file");
                 } else {
                     if (args[0].equalsIgnoreCase("version")) {
-                        Utils.sendMessage(sender, Utils.getPrefix() + "&6Version &r&c" + plugin.getDescription().getVersion());
+                        Utils.sendPrefixedMessage(sender, "&6Version &r&c" + plugin.getDescription().getVersion());
 
                     } else {
                         if (args[0].equalsIgnoreCase("help")) {
-                            Utils.sendMessage(sender, Utils.getPrefix() + "&1---&r " + Utils.getPrefix() + "&6Help &r&1---");
-                            Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef reload |&r&e Reloads the config");
-                            Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef version |&r&e Shows the version of the plugin");
-                            Utils.sendMessage(sender, Utils.getPrefix() + "&6 /aef help |&r&e Shows help for the plugin");
+                            Utils.sendPrefixedMessage(sender, "&1---&r &b&lL2X9&r&3&lCore&r &6Help &r&1---");
+                            Utils.sendPrefixedMessage(sender, "&6 /aef reload |&r&e Reloads the config");
+                            Utils.sendPrefixedMessage(sender, "&6 /aef version |&r&e Shows the version of the plugin");
+                            Utils.sendPrefixedMessage(sender, "&6 /aef help |&r&e Shows help for the plugin");
                         }
                     }
                 }
             } else {
-                Utils.sendMessage(sender, Utils.getPrefix() + "&6Please do&r&c /aef help&r&6 to get help");
+                Utils.sendPrefixedMessage(sender, "&6Please do&r&c /aef help&r&6 to get help");
             }
 
         } else {
-            Utils.sendMessage(sender, Utils.getPrefix() + "&6This server is using&r " + Utils.getPrefix() + "&6Version&r&c " + plugin.getDescription().getVersion() + "&r&6 by&r&c 254n_m");
+            Utils.sendPrefixedMessage(sender, "&6This server is using &b&lL2X9&r&3&lCore&r &6Version&r&c " + plugin.getDescription().getVersion() + "&r&6 by&r&c 254n_m");
         }
         return true;
     }
