@@ -2,31 +2,33 @@ name: L2X9Core
 version: ${project.version}
 main: org.l2x9.l2x9core.Main
 authors: [ 254n_m ]
-description: ${project.description}
+description:  ${project.description}
 website: https://www.l2x9.org
 softdepend:
   - SalC1Dupe
 commands:
   say:
-    description: Configureable say command
+    description: e
   open:
-    description: Open peoples inventorys
+    description: e
   crash:
-    description: Crash players games
+    description: e
   speed:
-    description: Turn up your fly speed
+    description: e
   uuid:
-    description: Get the uuid of the spesified player
+    description: e
   uptime:
-    description: Get the uptime of the server
+    description: e
   aef:
-    description: Base command of the plugin
+    description: e
   discord:
-    description: Shows a discoes link
+    description: e
   world:
-    description: Switch worlds
+    description: e
   help:
-    description: Displays a coustom help menu
+    description: e
+  spawn:
+    description: e
   toggleconnectionmessages:
     description: Toggles on / off connection messages for the sender of the command
     aliases:

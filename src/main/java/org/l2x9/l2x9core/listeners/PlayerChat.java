@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.l2x9.l2x9core.Main;
 import org.l2x9.l2x9core.util.Cooldown;
 import org.l2x9.l2x9core.util.Utils;
@@ -59,6 +60,20 @@ public class PlayerChat implements Listener {
 		} catch (Error | Exception throwable) {
 			Utils.reportException(throwable);
 
+		}
+	}
+
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent event) {
+		if (plugin.getConfigBoolean("Chat.Enabled")) {
+			Player player = event.getPlayer();
+			if (!player.isOp()) {
+				if (cm.checkCooldown(player)) {
+					cm.setCooldown(player, plugin.getConfig().getInt("Chat.Cooldown"));
+				} else {
+					event.setCancelled(true);
+				}
+			}
 		}
 	}
 }

@@ -2,14 +2,15 @@ package org.l2x9.l2x9core;
 
 import io.papermc.lib.PaperLib;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.l2x9.l2x9core.commands.*;
+import org.l2x9.l2x9core.command.CommandHandler;
+import org.l2x9.l2x9core.command.NotInPluginYMLException;
+import org.l2x9.l2x9core.command.commands.*;
 import org.l2x9.l2x9core.listeners.BlockPlace;
 import org.l2x9.l2x9core.listeners.*;
 import org.l2x9.l2x9core.listeners.antiillegal.*;
@@ -29,7 +30,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends JavaPlugin implements CommandExecutor {
+public class Main extends JavaPlugin {
 	public static long startTime;
 	private final PluginManager pluginManager = getServer().getPluginManager();
 	private final ItemUtils itemUtils = new ItemUtils(this);
@@ -40,6 +41,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 	ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
 	ConnectionMessages connectionMessages = new ConnectionMessages(this);
 	TenSecondPassEvent tenSecondPassEvent = new TenSecondPassEvent(getLogger(), this);
+	public CommandHandler commandHandler;
 	public final Queue<String> discordAlertQueue = new LinkedList<>();
 
 	public void onEnable() {
@@ -48,12 +50,18 @@ public class Main extends JavaPlugin implements CommandExecutor {
 		new Metrics(this, pluginId);
 		saveDefaultConfig();
 		setupChunkEntityLimit();
+		commandHandler = new CommandHandler(this);
 		startTime = System.currentTimeMillis();
 		getLogger().info("by 254n_m enabled");
 		pluginManager.registerEvents(new BlockPlace(this), this);
 		pluginManager.registerEvents(new Offhand(this), this);
 		if (PaperLib.isPaper()) {
 			pluginManager.registerEvents(new GateWay(), this);
+		}
+		try {
+			commandHandler.registerCommands();
+		} catch (NotInPluginYMLException e) {
+			e.printStackTrace();
 		}
 		pluginManager.registerEvents(new BookBan(), this);
 		pluginManager.registerEvents(new EntityPerChunkLimit(), this);
@@ -90,16 +98,6 @@ public class Main extends JavaPlugin implements CommandExecutor {
 		PaperLib.suggestPaper(this);
 		// other stuff
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		getCommand("say").setExecutor(new SayCommand(this));
-		getCommand("crash").setExecutor(new CrashCommand());
-		getCommand("open").setExecutor(new OpenInv());
-		getCommand("speed").setExecutor(new SpeedCommand());
-		getCommand("uuid").setExecutor(new UUidCommand());
-		getCommand("uptime").setExecutor(new UptimeCommand());
-		getCommand("aef").setExecutor(new BaseCommand(this));
-		getCommand("discord").setExecutor(new DiscordCommand(this));
-		getCommand("world").setExecutor(new WorldSwitcher(this));
-		getCommand("help").setExecutor(new HelpCommand(this));
 		getCommand("toggleconnectionmessages").setExecutor(connectionMessages);
 		//Server specific events
 		if (pluginManager.getPlugin("SalC1Dupe") != null) {
@@ -129,6 +127,7 @@ public class Main extends JavaPlugin implements CommandExecutor {
 		try {
 			pluginYml.load(reader);
 			reader.close();
+			inputStream.close();
 		} catch (IOException | InvalidConfigurationException ignored) {
 		}
 		return pluginYml.getString("version");
@@ -148,6 +147,10 @@ public class Main extends JavaPlugin implements CommandExecutor {
 
 	public HashMap<String, Integer> getEntityAmounts() {
 		return entityIntegerHashMap;
+	}
+
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
 	}
 
 	public void setupChunkEntityLimit() {
