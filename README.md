@@ -1,5 +1,6 @@
 # LeeesExploitFixer 3.0 is a fork of 254nm's l2x9core
 ### i intend to keep this fork up to date on exploit fixes
+###for help with this plugin join our support discord: https://discord.gg/QFkeH5qaKQ
 ___
 
 ## Features
@@ -26,5 +27,3 @@ ___
 * Configureable and toggleable join messages
 * Patch for future client packet elytra fly
 * Remove falling block server crashers
-* 
-####for help with this plugin join our support discord: https://discord.gg/QFkeH5qaKQ
