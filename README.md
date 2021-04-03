@@ -1,4 +1,5 @@
-# L2X9Core
+# LeeesExploitFixer 3.0 is a fork of 254nm's L2X9Core
+# that i plan to update to patch the latest exploits
 ### An advanced free ExploitFixer for Minecraft Anarchy Servers
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
 ![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
