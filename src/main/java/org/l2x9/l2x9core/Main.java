@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
 		setupChunkEntityLimit();
 		commandHandler = new CommandHandler(this);
 		startTime = System.currentTimeMillis();
-		getLogger().info("by 254n_m enabled");
+		getLogger().info("by Nate Legault enabled");
 		pluginManager.registerEvents(new BlockPlace(this), this);
 		pluginManager.registerEvents(new Offhand(this), this);
 		if (PaperLib.isPaper()) {
@@ -114,7 +114,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		getLogger().info(" by 254n_m disabled");
+		getLogger().info("by Nate Legault disabled");
 		if (getConfigBoolean("DeleteFortressDat")) {
 			Utils.deleteFortressDat(getConfig().getString("World-name"));
 		}

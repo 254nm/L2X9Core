@@ -6,7 +6,7 @@
 
     <groupId>org.l2x9</groupId>
     <artifactId>LeeesExploitFixer</artifactId>
-    <version>3.0.1-RELEASE</version>
+    <version>3.0.2-RELEASE</version>
     <packaging>jar</packaging>
 
     <name>LeeesExploitFixer 3.0</name>
