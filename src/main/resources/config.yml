@@ -1,25 +1,27 @@
-# L2X9Core by 254n-m
+# LeeesExploitFixer 3.0 RELEASE
+# contact Leee#9594 on discord
+# for help with this plugin
 
 #Messages to send the player when they try to place illegal blocks
 IllegalBlock-Place:
   Enabled: true
-  Bedrock: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  Barrier: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  End_Portal_Frame: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
-  Mob_Spawner: '[&b&lL2X9&r&3&lCore&r] &6That block is not allowed'
+  Bedrock: '&6&l[&b&lLEF&6&l]&6 &6That block is not allowed'
+  Barrier: '&6&l[&b&lLEF&6&l]&6 &6That block is not allowed'
+  End_Portal_Frame: '&6&l[&b&lLEF&6&l]&6 &6That block is not allowed'
+  Mob_Spawner: '&6&l[&b&lLEF&6&l]&6 &6That block is not allowed'
 #ChunkBan skull limit tile entity limit and prevent message
 ChunkBan:
   Enabled: true
-  Prevent-Message: '[&b&lL2X9&r&3&lCore&r] &6ChunkBan has been disabled due to an exploit (^:'
+  Prevent-Message: '&6&l[&b&lLEF&6&l]&6 &6ChunkBan has been disabled due to an exploit (^:'
   TileEntity-Max: 500
   Skull-Max: 100
 #Nether top and bottom layers
 Nether:
   Enabled: true
   Top-Layer: 127
-  Top-message: '[&b&lL2X9&r&3&lCore&r] &6The nether top has been disabled due to lag'
+  Top-message: '&6&l[&b&lLEF&6&l]&6 &6The nether top has been disabled due to lag'
   Bottom-Layer: 0
-  Bottom-message: '[&b&lL2X9&r&3&lCore&r] &6The nether bottom has been disabled due to lag'
+  Bottom-message: '&6&l[&b&lLEF&6&l]&6 &6The nether bottom has been disabled due to lag'
   top-bottom-do-damage: true
 #Raidus around spawn to disable /home in
 #Set 0 to disable
@@ -34,29 +36,30 @@ FirstJoin:
 #Elytra/redstone disable TPS values keep in mind this is a double so it can be like 13.2255
 #Set 0 to disable 
 Elytra:
-  Disable-TPS: 12
+  Disable-TPS: 17
   #This will patch future clients packet elytra fly witch can be used to bypass most elytra speed limit plugins and make the elytra not lose any durability
   PacketElytraFly-Enabled: true
   #Sends a message to the player when they try to use PacketElytraFly
   SendMessage: true
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 PacketElytraFly is currently disabled due to it causing tons of lag"
+  Message: "&6&l[&b&lLEF&6&l]&6&6 PacketElytraFly is currently disabled due to it causing tons of lag"
 Redstone:
-  Disable-TPS: 16
-  Amount-per-chunk: 16
+  Disable-TPS: 15
+  Amount-per-chunk: 15
 #Misc config shit
 #Message to send when a player tries to use a 32k or strength 255
 IllegalDamage:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 How did you even get a 32k out to begin with"
+  Message: "&6&l[&b&lLEF&6&l]&6&6 How did you even get a 32k out to begin with"
 #Player attempts to use or drink an illegal potion or use an illegal tipped arrow
 IllegalPotion:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 Sorry those are patched"
+  Message: "&6&l[&b&lLEF&6&l]&6&6 Sorry those are patched"
 #Message to send the player when they use an elytra in low tps use {tps} to get the elytra disable tps
 ElytraLowTPS:
-  Message: "[&b&lL2X9&r&3&lCore&r] &6Elytras are disabled if the tps is below&r&c {tps}"
+  Message: "&6&l[&b&lLEF&6&l]&6 &6Elytras are disabled if the tps is below&r&c {tps}"
 UnbookBan:
-  Message: "[&b&lL2X9&r&3&lCore&r]&6 You have been unbookbanned"
+  Message: "&6&l[&b&lLEF&6&l]&6&6 You have been unbookbanned"
 #Message for /discord use & for colors
-Discord: "&6Join us on discord at &r&c<Your discord here>"
+#make sure to add the permission l2x9core.command.discord
+Discord: "&6[&b7b&37t&6] Join us on discord at &chttp://discord.7b7t.me"
 #Ammount of vehicles allowed in a chunk
 Minecart-per-chunk:
   limit: 20
@@ -71,9 +74,9 @@ Chat:
     - "dot"
 #TP on an entity exploit prevent message
 tp.prevent:
-  message: "[&b&lL2X9&r&3&lCore&r] &6Patched"
+  message: "&6&l[&b&lLEF&6&l]&6 &6Patched"
 #World name for the /world command and the fortress dat deleter
-World-name: "world"
+World-name: "0b0t"
 #This will delete .dat files that cause memory issues every time the server shuts down
 DeleteFortressDat: true
 #AntiIllegal check toggles
@@ -103,7 +106,7 @@ Antiillegal:
 #Help menu use & for colors
 Help:
   #Enable the help menu from l2x9core
-  Enabled: true
+  Enabled: false
   List:
     - "&6-----------------------------------------------------"
     - "&3/ignore <name> to ignore a player."
@@ -122,14 +125,14 @@ Help:
     - "&6-----------------------------------------------------"
 #Formatting for the say command use {message} as a place holder for the message use & for colours
 #Colour codes also work in the message
-SayCommandFormat: "[&b&lL2X9&r] {message}"
+SayCommandFormat: "&6&l[&b&lLEF&6&l]&6 {message}"
 #water / lava flowing disable tps this is useful on new servers with lots of block physics updates that cause lag
 #Set -1 to disable
 BlockPhysics-disable-tps: 15
 #This is to prevent people from crashing / lagging the server by spam opening chest and other containers
 ChestLagFix:
   MaxOpensPerSecond: 16
-  KickMessage: "[&b&lL2X9&r&3&lCore&r]&c [AntiChestLag]&r&6 You have lost connection to the server"
+  KickMessage: "&6&l[&b&lLEF&6&l]&6&c [AntiChestLag]&r&6 You have lost connection to the server"
   RemoveUnicodeBooks: false
 #What should we notify you of on discord
 #WARNING IF YOU HAVE THIS ENABLED AND DO NOT INPUT A WEBHOOK URL IT WILL HAVE ERRORS.
@@ -152,8 +155,8 @@ AlertSystem:
 #These are the connection messages for when a player joins / leaves
 #Use & for colours and %player% as a placeholder for the players name
 Connection:
-  Player-Join-Message: "&7%player% Joined"
-  Player-Leave-Message: "&7%player% Left"
+  Player-Join-Message: "&7%player% &7joined"
+  Player-Leave-Message: "&7%player% &7left"
 #Max amount of any entity listed here per chunk
 #The formatting for this is <entity>:<amount> (i.e pig:20)
 #A list of all valid entities can be found here https://helpch.at/docs/1.12.2/org/bukkit/entity/EntityType.html
@@ -167,4 +170,4 @@ EntityAmounts:
     - "primed_tnt:5"
     - "dropped_item:50"
 #Deop opped players when they leave
-DeopOnLeave: true
+DeopOnLeave: false

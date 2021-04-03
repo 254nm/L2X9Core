@@ -28,7 +28,7 @@ public class Utils {
 		if (PaperLib.isPaper()) {
 			return (Math.round(Bukkit.getServer().getTPS()[0]));
 		} else {
-			plugin.getLogger().log(Level.SEVERE, "L2X9Core dose not work correctly on " + getServerBrand() + " please upgrade to paper");
+			plugin.getLogger().log(Level.SEVERE, "LeeesExploitFixer dose not work correctly on " + getServerBrand() + " please upgrade to paper");
 			PaperLib.suggestPaper(plugin);
 			return 20;
 		}
@@ -126,7 +126,7 @@ public class Utils {
 	}
 
 	public static String getPrefix() {
-		return "[&b&lL2X9&r&3&lCore&r] ";
+		return "&6&l[&b&lLEF&6&l]&6 ";
 	}
 
 	public static void deleteFortressDat(String worldName) {

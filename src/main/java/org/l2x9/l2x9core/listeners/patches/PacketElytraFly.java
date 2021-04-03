@@ -35,8 +35,6 @@ public class PacketElytraFly implements Listener {
 						elytraHashMap.remove(player);
 						ItemStack chest = player.getInventory().getChestplate();
 						if (chest != null && chest.getType() == Material.ELYTRA) {
-							player.getLocation().getWorld().dropItem(player.getLocation(), chest);
-							player.getInventory().setChestplate(null);
 							player.setGliding(false);
 							if (plugin.getConfigBoolean("Elytra.SendMessage")) {
 								Utils.sendMessage(player, plugin.getConfig().getString("Elytra.Message"));

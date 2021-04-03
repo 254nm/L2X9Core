@@ -52,10 +52,6 @@ public class Elytra implements Listener {
                 player.damage(15);
                 if (player.isGliding()) {
                     player.setGliding(false);
-                    if (player.getInventory().getChestplate().getType() == Material.ELYTRA) {
-                        player.getWorld().dropItem(player.getLocation(), player.getInventory().getChestplate());
-                        player.getInventory().setChestplate(null);
-                    }
                 }
             }
         } catch (Error | Exception throwable) {

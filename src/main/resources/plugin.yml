@@ -1,5 +1,5 @@
-name: L2X9Core
-version: ${project.version}
+name: LeeesExploitFixer
+version: 3.0
 main: org.l2x9.l2x9core.Main
 authors: [ 254n_m ]
 description:  ${project.description}
