@@ -8,8 +8,8 @@ public class BaseCommand extends org.l2x9.l2x9core.command.BaseCommand {
 
     public BaseCommand() {
         super(
-                "aef",
-                "/aef reload | version | help",
+                "lef",
+                "/lef reload | version | help",
                 "l2x9core.command.aef",
                 "Base command of the plugin",
                 new String[]{

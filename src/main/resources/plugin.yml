@@ -1,9 +1,9 @@
 name: LeeesExploitFixer
-version: 3.0
+version: 3.0.1
 main: org.l2x9.l2x9core.Main
-authors: [ 254n_m ]
+authors: [ 254n_m, Leeewith3Es ]
 description:  ${project.description}
-website: https://www.l2x9.org
+website: https://www.xera.ca
 softdepend:
   - SalC1Dupe
 commands:
@@ -19,7 +19,7 @@ commands:
     description: e
   uptime:
     description: e
-  aef:
+  lef:
     description: e
   discord:
     description: e
