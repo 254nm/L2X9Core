@@ -1,6 +1,6 @@
 name: LeeesExploitFixer
 version: 3.0.2
-main: org.l2x9.l2x9core.Main
+main: ca.xera.leeesexploitfixer.Main
 authors: [ 254n_m, Leeewith3Es ]
 description:  ${project.description}
 website: https://www.xera.ca
@@ -8,25 +8,25 @@ softdepend:
   - SalC1Dupe
 commands:
   say:
-    description: e
+    description: Broadcast a message to the server from the console.
   open:
-    description: e
+    description: Open a players inventory (only works with OPed players)
   crash:
-    description: e
+    description: Crash a player (use at your own risk)
   speed:
-    description: e
+    description: Change the speed on how you walk (Oped players only)
   uuid:
     description: e
   uptime:
-    description: e
+    description: Check server uptime
   lef:
-    description: e
+    description: Main command
   discord:
-    description: e
+    description: Discord command
   world:
-    description: e
+    description: Teleport to another world
   help:
-    description: e
+    description: Custom help command
   spawn:
     description: e
   toggleconnectionmessages:
