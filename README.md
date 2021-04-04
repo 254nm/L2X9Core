@@ -1,4 +1,5 @@
-# L2X9Core
+# L2X9Core 
+# This project has been discontinued. Sorry to all who use it, if you still need updates please look into the many forks
 ### An advanced free ExploitFixer for Minecraft Anarchy Servers
 [![HitCount](http://hits.dwyl.com/L2X9org/l2x9core.svg)](http://hits.dwyl.com/L2X9org/l2x9core) [![GitHub All Releases](https://img.shields.io/github/downloads/l2x9org/l2x9core/total.svg)](https://github.com/l2x9org/l2x9core/releases/)
 ![Discord](https://img.shields.io/discord/766985930950443048?label=Discord)
@@ -23,7 +24,6 @@ ___
 * Limit player spawnable entites per chunk to prevent players from lagging the server
 * Remove illegal potion effects from players
 * AntiSpam and AntiAdvertisment
-* Active devlopment
 * Configureable /help command
 * Configureable and toggleable join messages
 * Patch for future client packet elytra fly
